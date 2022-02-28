@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -11,7 +13,7 @@ import javax.swing.JOptionPane;
  * @author Juan Carlos Estevez Vargas
  */
 public class ProveedorDAO {
-    
+
     Connection cn;
     PreparedStatement pst;
     ResultSet rs;
@@ -45,5 +47,45 @@ public class ProveedorDAO {
                 System.err.println(e.toString());
             }
         }
+    }
+
+    /**
+     * Obtiene los proveedores almacenados en la base de datos.
+     *
+     * @return lista con todos los proveedores obtenidos de la base de datos.
+     */
+    public List listarProveedores() {
+        List<Proveedor> listaProveedores = new ArrayList<>();
+        String sql = "SELECT * FROM PROVEEDOR";
+
+        try {
+            cn = Conexion.conectar();
+            pst = cn.prepareStatement(sql);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Proveedor proveedor = new Proveedor();
+                proveedor.setId(rs.getInt("ID"));
+                proveedor.setRut(rs.getInt("RUT"));
+                proveedor.setNombre(rs.getString("NOMBRE"));
+                proveedor.setTelefono(rs.getInt("TELEFONO"));
+                proveedor.setDireccion(rs.getString("DIRECCION"));
+                proveedor.setRazonSocial(rs.getString("RAZON_SOCIAL"));
+                listaProveedores.add(proveedor);
+            }
+
+        } catch (SQLException e) {
+            System.err.println(e.toString());
+        } finally {
+            try {
+                rs.close();
+                pst.close();
+                cn.close();
+            } catch (SQLException e) {
+                System.err.println("Error al cerrar los objetos en ProveedorDAO " + e.toString());
+            }
+        }
+
+        return listaProveedores;
     }
 }
