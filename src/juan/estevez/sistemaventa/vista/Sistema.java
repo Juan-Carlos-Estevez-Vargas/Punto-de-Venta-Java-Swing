@@ -22,6 +22,7 @@ public class Sistema extends javax.swing.JFrame {
     public Sistema() {
         initComponents();
         this.setLocationRelativeTo(null);
+        this.txtIdCliente.setVisible(false);
     }
 
     /**
@@ -458,9 +459,9 @@ public class Sistema extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tableClientes);
         if (tableClientes.getColumnModel().getColumnCount() > 0) {
-            tableClientes.getColumnModel().getColumn(0).setPreferredWidth(50);
-            tableClientes.getColumnModel().getColumn(1).setPreferredWidth(100);
-            tableClientes.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tableClientes.getColumnModel().getColumn(0).setPreferredWidth(20);
+            tableClientes.getColumnModel().getColumn(1).setPreferredWidth(50);
+            tableClientes.getColumnModel().getColumn(2).setPreferredWidth(150);
             tableClientes.getColumnModel().getColumn(3).setPreferredWidth(80);
             tableClientes.getColumnModel().getColumn(4).setPreferredWidth(80);
         }
@@ -475,6 +476,11 @@ public class Sistema extends javax.swing.JFrame {
 
         btnEditarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/Actualizar (2).png"))); // NOI18N
         btnEditarCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEditarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarClienteActionPerformed(evt);
+            }
+        });
 
         btnEliminarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/eliminar.png"))); // NOI18N
         btnEliminarCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -486,6 +492,11 @@ public class Sistema extends javax.swing.JFrame {
 
         btnNuevoCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/nuevo.png"))); // NOI18N
         btnNuevoCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnNuevoCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoClienteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -1054,6 +1065,37 @@ public class Sistema extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnEliminarClienteActionPerformed
+
+    private void btnEditarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarClienteActionPerformed
+        if ("".equals(txtIdCliente.getText())) {
+            JOptionPane.showMessageDialog(null, "Seleccione una fila");
+        } else {
+
+            if (!"".equals(txtDniRutCliente.getText())
+                    || !"".equals(txtNombreCliente.getText())
+                    || !"".equals(txtTelefonoCliente.getText())
+                    || !"".equals(txtDireccionCliente.getText())) {
+
+                cliente.setId(Integer.parseInt(txtIdCliente.getText()));
+                cliente.setDni(Integer.parseInt(txtDniRutCliente.getText()));
+                cliente.setNombre(txtNombreCliente.getText());
+                cliente.setTelefono(Integer.parseInt(txtTelefonoCliente.getText()));
+                cliente.setDireccion(txtDireccionCliente.getText());
+                cliente.setRazonSocial(txtRazonSocialCliente.getText());
+
+                clienteDAO.modificarCliente(cliente);
+                this.limpiarTabla();
+                this.limpiarCliente();
+                this.listarClientes();
+            } else {
+                JOptionPane.showMessageDialog(null, "Algunos campos están vacíos.");
+            }
+        }
+    }//GEN-LAST:event_btnEditarClienteActionPerformed
+
+    private void btnNuevoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoClienteActionPerformed
+        this.limpiarCliente();
+    }//GEN-LAST:event_btnNuevoClienteActionPerformed
 
     /**
      * @param args the command line arguments

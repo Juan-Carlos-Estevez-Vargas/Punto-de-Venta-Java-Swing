@@ -88,13 +88,13 @@ public class ClienteDAO {
 
     /**
      * Elimina un cliente de la base de datos.
-     * 
+     *
      * @param id por el cual se eliminará el cliente.
      * @return true si se eliminó el cliente y false si no se eliminó.
      */
     public boolean eliminarCliente(int id) {
         String sql = "DELETE FROM CLIENTES WHERE ID = ?";
-        
+
         try {
             cn = Conexion.conectar();
             pst = cn.prepareStatement(sql);
@@ -103,6 +103,32 @@ public class ClienteDAO {
             return true;
         } catch (SQLException e) {
             System.err.println("Error el eliminar cliente en Cliente DAO " + e.toString());
+            return false;
+        } finally {
+            try {
+                pst.close();
+                cn.close();
+            } catch (SQLException e) {
+                System.err.println("Error al cerrar los objetos en ClienteDAO " + e.toString());
+            }
+        }
+    }
+
+    public boolean modificarCliente(Cliente cliente) {
+        String sql = "UPDATE CLIENTES SET DNI = ?, NOMBRE = ?, TELEFONO = ?, DIRECCION = ?, RAZON_SOCIAL = ? WHERE ID = ?";
+        try {
+            cn = Conexion.conectar();
+            pst = cn.prepareStatement(sql);
+            pst.setInt(1, cliente.getDni());
+            pst.setString(2, cliente.getNombre());
+            pst.setInt(3, cliente.getTelefono());
+            pst.setString(4, cliente.getDireccion());
+            pst.setString(5, cliente.getRazonSocial());
+            pst.setInt(6, cliente.getId());
+            pst.execute();
+            return true;
+        } catch (SQLException e) {
+            System.err.println("Error el modificar cliente en ClienteDAO " + e.toString());
             return false;
         } finally {
             try {
