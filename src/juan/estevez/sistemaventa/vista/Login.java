@@ -1,17 +1,44 @@
 package juan.estevez.sistemaventa.vista;
 
+import javax.swing.JOptionPane;
+import juan.estevez.sistemaventa.modelo.LoginDAO;
+import juan.estevez.sistemaventa.modelo.Loginn;
+
 /**
  *
  * @author Juan Carlos Estevez Vargas
  */
 public class Login extends javax.swing.JFrame {
 
+    Loginn login = new Loginn();
+    LoginDAO loginDAO = new LoginDAO();
+
     /**
-     * Creates new form Login
+     * Creates new form Loginn
      */
     public Login() {
         initComponents();
         this.setLocationRelativeTo(null);
+    }
+
+    /**
+     * Se encarga de validar el correo y contraseña del login
+     */
+    public void validar() {
+        String correo = txtCorreo.getText();
+        String password = String.valueOf(txtPassword.getPassword());
+        
+        if (!"".equals(correo) || !"".equals(password)) {
+            login = loginDAO.log(correo, password);
+
+            if (login.getCorreo() != null && login.getPassword() != null) {
+                Sistema sistema = new Sistema();
+                sistema.setVisible(true);
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Correo y/o Password erróneos");
+            }
+        }
     }
 
     /**
@@ -181,7 +208,7 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
-        // TODO add your handling code here:
+        this.validar();
     }//GEN-LAST:event_btnIniciarActionPerformed
 
     /**
