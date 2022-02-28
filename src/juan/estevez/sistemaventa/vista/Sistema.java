@@ -5,6 +5,8 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import juan.estevez.sistemaventa.modelo.Cliente;
 import juan.estevez.sistemaventa.modelo.ClienteDAO;
+import juan.estevez.sistemaventa.modelo.Proveedor;
+import juan.estevez.sistemaventa.modelo.ProveedorDAO;
 
 /**
  *
@@ -15,6 +17,8 @@ public class Sistema extends javax.swing.JFrame {
     Cliente cliente = new Cliente();
     ClienteDAO clienteDAO = new ClienteDAO();
     DefaultTableModel modelo = new DefaultTableModel();
+    Proveedor proveedor = new Proveedor();
+    ProveedorDAO proveedorDAO = new ProveedorDAO();
 
     /**
      * Creates new form Sistema
@@ -601,6 +605,11 @@ public class Sistema extends javax.swing.JFrame {
 
         btnGuardarProveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/GuardarTodo.png"))); // NOI18N
         btnGuardarProveedor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnGuardarProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarProveedorActionPerformed(evt);
+            }
+        });
 
         btnEditarProveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/Actualizar (2).png"))); // NOI18N
         btnEditarProveedor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -1096,6 +1105,29 @@ public class Sistema extends javax.swing.JFrame {
     private void btnNuevoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoClienteActionPerformed
         this.limpiarCliente();
     }//GEN-LAST:event_btnNuevoClienteActionPerformed
+
+    private void btnGuardarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarProveedorActionPerformed
+        if (!"".equals(txtDniRutProveedor.getText())
+                || !"".equals(txtNombreProveedor.getText())
+                || !"".equals(txtTelefonoProveedor.getText())
+                || !"".equals(txtDireccionProveedor.getText())) {
+
+            proveedor.setRut(Integer.parseInt(txtDniRutProveedor.getText()));
+            proveedor.setNombre(txtNombreProveedor.getText());
+            proveedor.setTelefono(Integer.parseInt(txtTelefonoProveedor.getText()));
+            proveedor.setDireccion(txtDireccionProveedor.getText());
+            proveedor.setRazonSocial(txtRazonSocialProveedor.getText());
+
+            proveedorDAO.registrarProveedor(proveedor);
+            JOptionPane.showMessageDialog(null, "Proveedor Registrado");
+
+            //this.limpiarTabla();
+            //this.listarClientes();
+            //this.limpiarCliente();
+        } else {
+            JOptionPane.showMessageDialog(null, "Los campos están vacíos");
+        }
+    }//GEN-LAST:event_btnGuardarProveedorActionPerformed
 
     /**
      * @param args the command line arguments
