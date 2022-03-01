@@ -1014,6 +1014,9 @@
                   <Color id="Hand Cursor"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarProveedorActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnNuevoProveedor">
               <Properties>
@@ -1095,6 +1098,9 @@
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tableProveedoresMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>

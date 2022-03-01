@@ -642,6 +642,11 @@ public class Sistema extends javax.swing.JFrame {
 
         btnEliminarProveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/eliminar.png"))); // NOI18N
         btnEliminarProveedor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEliminarProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarProveedorActionPerformed(evt);
+            }
+        });
 
         btnNuevoProveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/nuevo.png"))); // NOI18N
         btnNuevoProveedor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -655,6 +660,11 @@ public class Sistema extends javax.swing.JFrame {
                 "ID", "DNI/RUT", "NOMBRE", "TELÉFONO", "DIRECCIÓN", "RAZÓN SOCIAL"
             }
         ));
+        tableProveedores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableProveedoresMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tableProveedores);
         if (tableProveedores.getColumnModel().getColumnCount() > 0) {
             tableProveedores.getColumnModel().getColumn(0).setPreferredWidth(20);
@@ -1092,7 +1102,6 @@ public class Sistema extends javax.swing.JFrame {
             int pregunta = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar el registro?");
 
             if (pregunta == 0) {
-                int idCliente = Integer.parseInt(txtIdCliente.getText());
                 clienteDAO.eliminarCliente(Integer.parseInt(txtIdCliente.getText()));
 
                 this.limpiarTabla();
@@ -1102,6 +1111,11 @@ public class Sistema extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnEliminarClienteActionPerformed
 
+    /**
+     * Actualiza un cliente en específico.
+     * 
+     * @param evt 
+     */
     private void btnEditarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarClienteActionPerformed
         if ("".equals(txtIdCliente.getText())) {
             JOptionPane.showMessageDialog(null, "Seleccione una fila");
@@ -1129,10 +1143,20 @@ public class Sistema extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnEditarClienteActionPerformed
 
+    /**
+     * Limpiar los txt del cliente.
+     * 
+     * @param evt 
+     */
     private void btnNuevoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoClienteActionPerformed
         this.limpiarCliente();
     }//GEN-LAST:event_btnNuevoClienteActionPerformed
 
+    /**
+     * Almacena un proveedor en la base de datos.
+     * 
+     * @param evt 
+     */
     private void btnGuardarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarProveedorActionPerformed
         if (!"".equals(txtDniRutProveedor.getText())
                 || !"".equals(txtNombreProveedor.getText())
@@ -1149,8 +1173,8 @@ public class Sistema extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Proveedor Registrado");
 
             this.limpiarTabla();
-            //this.listarClientes();
-            //this.limpiarCliente();
+            this.listarProveedor();
+            this.limpiarProveedor();
         } else {
             JOptionPane.showMessageDialog(null, "Los campos están vacíos");
         }
@@ -1167,6 +1191,40 @@ public class Sistema extends javax.swing.JFrame {
         this.listarProveedor();
         jTabbedPane1.setSelectedIndex(2);
     }//GEN-LAST:event_btnProveedorActionPerformed
+
+    /**
+     * Selecciona un registro de la tabla clickeado por el usuario.
+     * 
+     * @param evt 
+     */
+    private void tableProveedoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProveedoresMouseClicked
+        int fila = tableProveedores.rowAtPoint(evt.getPoint());
+        txtIdProveedor.setText(tableProveedores.getValueAt(fila, 0).toString());
+        txtDniRutProveedor.setText(tableProveedores.getValueAt(fila, 1).toString());
+        txtNombreProveedor.setText(tableProveedores.getValueAt(fila, 2).toString());
+        txtTelefonoProveedor.setText(tableProveedores.getValueAt(fila, 3).toString());
+        txtDireccionProveedor.setText(tableProveedores.getValueAt(fila, 4).toString());
+        txtRazonSocialProveedor.setText(tableProveedores.getValueAt(fila, 5).toString());
+    }//GEN-LAST:event_tableProveedoresMouseClicked
+
+    /**
+     * Elimina un usuario en específico.
+     * 
+     * @param evt 
+     */
+    private void btnEliminarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarProveedorActionPerformed
+        if (!"".equals(txtIdProveedor.getText())) {
+            int pregunta = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar el registro?");
+
+            if (pregunta == 0) {
+                proveedorDAO.eliminarProveedor(Integer.parseInt(txtIdProveedor.getText()));
+
+                this.limpiarTabla();
+                this.listarProveedor();
+                this.limpiarProveedor();
+            }
+        }
+    }//GEN-LAST:event_btnEliminarProveedorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1334,6 +1392,18 @@ public class Sistema extends javax.swing.JFrame {
         this.txtTelefonoCliente.setText("");
         this.txtDireccionCliente.setText("");
         this.txtRazonSocialCliente.setText("");
+    }
+    
+     /**
+     * Limpia los txt del formulario proveedor.
+     */
+    private void limpiarProveedor() {
+        this.txtIdProveedor.setText("");
+        this.txtDniRutProveedor.setText("");
+        this.txtNombreProveedor.setText("");
+        this.txtTelefonoProveedor.setText("");
+        this.txtDireccionProveedor.setText("");
+        this.txtRazonSocialProveedor.setText("");
     }
 
 }
