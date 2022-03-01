@@ -116,4 +116,36 @@ public class ProveedorDAO {
             }
         }
     }
+    
+    /**
+     * Actualiza un proveedor directamente de la base de datos.
+     * 
+     * @param proveedor a actualizar
+     * @return true si se actualizó, false si no se actualizó.
+     */
+    public boolean modificarProveedor(Proveedor proveedor) {
+        String sql = "UPDATE PROVEEDOR SET RUT = ?, NOMBRE = ?, TELEFONO = ?, DIRECCION = ?, RAZON_SOCIAL = ? WHERE ID = ?";
+        try {
+            cn = Conexion.conectar();
+            pst = cn.prepareStatement(sql);
+            pst.setInt(1, proveedor.getRut());
+            pst.setString(2, proveedor.getNombre());
+            pst.setInt(3, proveedor.getTelefono());
+            pst.setString(4, proveedor.getDireccion());
+            pst.setString(5, proveedor.getRazonSocial());
+            pst.setInt(6, proveedor.getId());
+            pst.execute();
+            return true;
+        } catch (SQLException e) {
+            System.err.println("Error el modificar proveedor en ProveedorDAO " + e.toString());
+            return false;
+        } finally {
+            try {
+                pst.close();
+                cn.close();
+            } catch (SQLException e) {
+                System.err.println("Error al cerrar los objetos en ProveedorDAO " + e.toString());
+            }
+        }
+    }
 }

@@ -114,6 +114,12 @@ public class ClienteDAO {
         }
     }
 
+    /**
+     * Actualiza un cliente directamente de la base de datos.
+     * 
+     * @param cliente a actualizar
+     * @return true si se actualizó, false si no se actualizó.
+     */
     public boolean modificarCliente(Cliente cliente) {
         String sql = "UPDATE CLIENTES SET DNI = ?, NOMBRE = ?, TELEFONO = ?, DIRECCION = ?, RAZON_SOCIAL = ? WHERE ID = ?";
         try {

@@ -639,6 +639,11 @@ public class Sistema extends javax.swing.JFrame {
 
         btnEditarProveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/Actualizar (2).png"))); // NOI18N
         btnEditarProveedor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEditarProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarProveedorActionPerformed(evt);
+            }
+        });
 
         btnEliminarProveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/eliminar.png"))); // NOI18N
         btnEliminarProveedor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -650,6 +655,11 @@ public class Sistema extends javax.swing.JFrame {
 
         btnNuevoProveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/nuevo.png"))); // NOI18N
         btnNuevoProveedor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnNuevoProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoProveedorActionPerformed(evt);
+            }
+        });
 
         tableProveedores.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         tableProveedores.setModel(new javax.swing.table.DefaultTableModel(
@@ -1113,8 +1123,8 @@ public class Sistema extends javax.swing.JFrame {
 
     /**
      * Actualiza un cliente en específico.
-     * 
-     * @param evt 
+     *
+     * @param evt
      */
     private void btnEditarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarClienteActionPerformed
         if ("".equals(txtIdCliente.getText())) {
@@ -1145,8 +1155,8 @@ public class Sistema extends javax.swing.JFrame {
 
     /**
      * Limpiar los txt del cliente.
-     * 
-     * @param evt 
+     *
+     * @param evt
      */
     private void btnNuevoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoClienteActionPerformed
         this.limpiarCliente();
@@ -1154,8 +1164,8 @@ public class Sistema extends javax.swing.JFrame {
 
     /**
      * Almacena un proveedor en la base de datos.
-     * 
-     * @param evt 
+     *
+     * @param evt
      */
     private void btnGuardarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarProveedorActionPerformed
         if (!"".equals(txtDniRutProveedor.getText())
@@ -1194,8 +1204,8 @@ public class Sistema extends javax.swing.JFrame {
 
     /**
      * Selecciona un registro de la tabla clickeado por el usuario.
-     * 
-     * @param evt 
+     *
+     * @param evt
      */
     private void tableProveedoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProveedoresMouseClicked
         int fila = tableProveedores.rowAtPoint(evt.getPoint());
@@ -1209,8 +1219,8 @@ public class Sistema extends javax.swing.JFrame {
 
     /**
      * Elimina un usuario en específico.
-     * 
-     * @param evt 
+     *
+     * @param evt
      */
     private void btnEliminarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarProveedorActionPerformed
         if (!"".equals(txtIdProveedor.getText())) {
@@ -1225,6 +1235,46 @@ public class Sistema extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnEliminarProveedorActionPerformed
+
+    /**
+     * Actualiza un proveedor en específico.
+     *
+     * @param evt
+     */
+    private void btnEditarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarProveedorActionPerformed
+        if ("".equals(txtIdProveedor.getText())) {
+            JOptionPane.showMessageDialog(null, "Seleccione una fila");
+        } else {
+            if (!"".equals(txtDniRutProveedor.getText())
+                    || !"".equals(txtNombreProveedor.getText())
+                    || !"".equals(txtTelefonoProveedor.getText())
+                    || !"".equals(txtDireccionProveedor.getText())) {
+
+                proveedor.setId(Integer.parseInt(txtIdProveedor.getText()));
+                proveedor.setRut(Integer.parseInt(txtDniRutProveedor.getText()));
+                proveedor.setNombre(txtNombreProveedor.getText());
+                proveedor.setTelefono(Integer.parseInt(txtTelefonoProveedor.getText()));
+                proveedor.setDireccion(txtDireccionProveedor.getText());
+                proveedor.setRazonSocial(txtRazonSocialProveedor.getText());
+
+                proveedorDAO.modificarProveedor(proveedor);
+                this.limpiarTabla();
+                this.limpiarProveedor();
+                this.listarProveedor();
+            } else {
+                JOptionPane.showMessageDialog(null, "Algunos campos están vacíos.");
+            }
+        }
+    }//GEN-LAST:event_btnEditarProveedorActionPerformed
+
+    /**
+     * Limpia el formulario de proveedores.
+     * 
+     * @param evt 
+     */
+    private void btnNuevoProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoProveedorActionPerformed
+        this.limpiarProveedor();
+    }//GEN-LAST:event_btnNuevoProveedorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1393,8 +1443,8 @@ public class Sistema extends javax.swing.JFrame {
         this.txtDireccionCliente.setText("");
         this.txtRazonSocialCliente.setText("");
     }
-    
-     /**
+
+    /**
      * Limpia los txt del formulario proveedor.
      */
     private void limpiarProveedor() {
