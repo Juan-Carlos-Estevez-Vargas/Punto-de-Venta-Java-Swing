@@ -4,6 +4,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import juan.estevez.sistemaventa.modelo.*;
+import juan.estevez.sistemaventa.reportes.Excel;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**
@@ -326,6 +327,11 @@ public class Sistema extends javax.swing.JFrame {
         txtCodigoVenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCodigoVentaActionPerformed(evt);
+            }
+        });
+        txtCodigoVenta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCodigoVentaKeyPressed(evt);
             }
         });
 
@@ -868,6 +874,11 @@ public class Sistema extends javax.swing.JFrame {
 
         btnExcelProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/excel.png"))); // NOI18N
         btnExcelProducto.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnExcelProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcelProductoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -1413,6 +1424,32 @@ public class Sistema extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnEditarProductoActionPerformed
+
+    private void btnExcelProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelProductoActionPerformed
+        Excel.reporte();
+    }//GEN-LAST:event_btnExcelProductoActionPerformed
+
+    private void txtCodigoVentaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoVentaKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            if (!"".equals(txtCodigoVenta.getText())) {
+                producto = productoDAO.buscarProducto(txtCodigoVenta.getText());
+                if (producto.getNombre() != null) {
+                    txtDescripcionVenta.setText(producto.getNombre());
+                    txtPrecioVenta.setText(String.valueOf(producto.getPrecio()));
+                    txtStockDisponibleVenta.setText(String.valueOf(producto.getStock()));
+                    txtCantidadVenta.requestFocus();
+                } else {
+                    txtDescripcionVenta.setText("");
+                    txtPrecioVenta.setText("");
+                    txtStockDisponibleVenta.setText("");
+                    txtCodigoVenta.requestFocus();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Ingrese el código del producto");
+                txtCodigoVenta.requestFocus();
+            }
+        }
+    }//GEN-LAST:event_txtCodigoVentaKeyPressed
 
     /**
      * @param args the command line arguments
