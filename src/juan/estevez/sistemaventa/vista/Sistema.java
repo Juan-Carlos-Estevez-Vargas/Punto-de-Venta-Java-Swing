@@ -11,7 +11,7 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
  * @author Juan Carlos Estevez Vargas
  */
 public class Sistema extends javax.swing.JFrame {
-    
+
     Cliente cliente = new Cliente();
     ClienteDAO clienteDAO = new ClienteDAO();
     DefaultTableModel modelo = new DefaultTableModel();
@@ -44,7 +44,7 @@ public class Sistema extends javax.swing.JFrame {
         List<Cliente> listarClientes = clienteDAO.listarClientes();
         modelo = (DefaultTableModel) tableClientes.getModel();
         Object[] objeto = new Object[6];
-        
+
         for (int i = 0; i < listarClientes.size(); i++) {
             objeto[0] = listarClientes.get(i).getId();
             objeto[1] = listarClientes.get(i).getDni();
@@ -52,7 +52,7 @@ public class Sistema extends javax.swing.JFrame {
             objeto[3] = listarClientes.get(i).getTelefono();
             objeto[4] = listarClientes.get(i).getDireccion();
             objeto[5] = listarClientes.get(i).getRazonSocial();
-            
+
             modelo.addRow(objeto);
         }
         tableClientes.setModel(modelo);
@@ -65,7 +65,7 @@ public class Sistema extends javax.swing.JFrame {
         List<Proveedor> listarProveedores = proveedorDAO.listarProveedores();
         modelo = (DefaultTableModel) tableProveedores.getModel();
         Object[] objeto = new Object[6];
-        
+
         for (int i = 0; i < listarProveedores.size(); i++) {
             objeto[0] = listarProveedores.get(i).getId();
             objeto[1] = listarProveedores.get(i).getRut();
@@ -73,7 +73,7 @@ public class Sistema extends javax.swing.JFrame {
             objeto[3] = listarProveedores.get(i).getTelefono();
             objeto[4] = listarProveedores.get(i).getDireccion();
             objeto[5] = listarProveedores.get(i).getRazonSocial();
-            
+
             modelo.addRow(objeto);
         }
         tableProveedores.setModel(modelo);
@@ -86,7 +86,7 @@ public class Sistema extends javax.swing.JFrame {
         List<Producto> listarProductos = productoDAO.listarProductos();
         modelo = (DefaultTableModel) tableProductos.getModel();
         Object[] objeto = new Object[6];
-        
+
         for (int i = 0; i < listarProductos.size(); i++) {
             objeto[0] = listarProductos.get(i).getId();
             objeto[1] = listarProductos.get(i).getCodigo();
@@ -94,7 +94,7 @@ public class Sistema extends javax.swing.JFrame {
             objeto[3] = listarProductos.get(i).getProveedor();
             objeto[4] = listarProductos.get(i).getStock();
             objeto[5] = listarProductos.get(i).getPrecio();
-            
+
             modelo.addRow(objeto);
         }
         tableProductos.setModel(modelo);
@@ -825,9 +825,19 @@ public class Sistema extends javax.swing.JFrame {
 
         btnEditarProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/Actualizar (2).png"))); // NOI18N
         btnEditarProducto.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEditarProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarProductoActionPerformed(evt);
+            }
+        });
 
         btnEliminarProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/eliminar.png"))); // NOI18N
         btnEliminarProducto.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEliminarProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarProductoActionPerformed(evt);
+            }
+        });
 
         btnNuevoProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/nuevo.png"))); // NOI18N
         btnNuevoProducto.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -841,6 +851,11 @@ public class Sistema extends javax.swing.JFrame {
                 "ID", "CÓDIGO", "DESCRIPCIÓN", "PROVEEDOR", "CANTIDAD", "PRECIO"
             }
         ));
+        tableProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableProductosMouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(tableProductos);
         if (tableProductos.getColumnModel().getColumnCount() > 0) {
             tableProductos.getColumnModel().getColumn(0).setPreferredWidth(20);
@@ -1100,16 +1115,16 @@ public class Sistema extends javax.swing.JFrame {
                 || !"".equals(txtNombreCliente.getText())
                 || !"".equals(txtTelefonoCliente.getText())
                 || !"".equals(txtDireccionCliente.getText())) {
-            
+
             cliente.setDni(Integer.parseInt(txtDniRutCliente.getText()));
             cliente.setNombre(txtNombreCliente.getText());
             cliente.setTelefono(Integer.parseInt(txtTelefonoCliente.getText()));
             cliente.setDireccion(txtDireccionCliente.getText());
             cliente.setRazonSocial(txtRazonSocialCliente.getText());
-            
+
             clienteDAO.registrarCliente(cliente);
             JOptionPane.showMessageDialog(null, "Cliente Registrado");
-            
+
             this.limpiarTabla();
             this.listarClientes();
             this.limpiarCliente();
@@ -1153,10 +1168,10 @@ public class Sistema extends javax.swing.JFrame {
     private void btnEliminarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarClienteActionPerformed
         if (!"".equals(txtIdCliente.getText())) {
             int pregunta = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar el registro?");
-            
+
             if (pregunta == 0) {
                 clienteDAO.eliminarCliente(Integer.parseInt(txtIdCliente.getText()));
-                
+
                 this.limpiarTabla();
                 this.listarClientes();
                 this.limpiarCliente();
@@ -1173,19 +1188,19 @@ public class Sistema extends javax.swing.JFrame {
         if ("".equals(txtIdCliente.getText())) {
             JOptionPane.showMessageDialog(null, "Seleccione una fila");
         } else {
-            
+
             if (!"".equals(txtDniRutCliente.getText())
                     || !"".equals(txtNombreCliente.getText())
                     || !"".equals(txtTelefonoCliente.getText())
                     || !"".equals(txtDireccionCliente.getText())) {
-                
+
                 cliente.setId(Integer.parseInt(txtIdCliente.getText()));
                 cliente.setDni(Integer.parseInt(txtDniRutCliente.getText()));
                 cliente.setNombre(txtNombreCliente.getText());
                 cliente.setTelefono(Integer.parseInt(txtTelefonoCliente.getText()));
                 cliente.setDireccion(txtDireccionCliente.getText());
                 cliente.setRazonSocial(txtRazonSocialCliente.getText());
-                
+
                 clienteDAO.modificarCliente(cliente);
                 this.limpiarTabla();
                 this.limpiarCliente();
@@ -1215,16 +1230,16 @@ public class Sistema extends javax.swing.JFrame {
                 || !"".equals(txtNombreProveedor.getText())
                 || !"".equals(txtTelefonoProveedor.getText())
                 || !"".equals(txtDireccionProveedor.getText())) {
-            
+
             proveedor.setRut(Integer.parseInt(txtDniRutProveedor.getText()));
             proveedor.setNombre(txtNombreProveedor.getText());
             proveedor.setTelefono(Integer.parseInt(txtTelefonoProveedor.getText()));
             proveedor.setDireccion(txtDireccionProveedor.getText());
             proveedor.setRazonSocial(txtRazonSocialProveedor.getText());
-            
+
             proveedorDAO.registrarProveedor(proveedor);
             JOptionPane.showMessageDialog(null, "Proveedor Registrado");
-            
+
             this.limpiarTabla();
             this.listarProveedor();
             this.limpiarProveedor();
@@ -1268,10 +1283,10 @@ public class Sistema extends javax.swing.JFrame {
     private void btnEliminarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarProveedorActionPerformed
         if (!"".equals(txtIdProveedor.getText())) {
             int pregunta = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar el registro?");
-            
+
             if (pregunta == 0) {
                 proveedorDAO.eliminarProveedor(Integer.parseInt(txtIdProveedor.getText()));
-                
+
                 this.limpiarTabla();
                 this.listarProveedor();
                 this.limpiarProveedor();
@@ -1292,14 +1307,14 @@ public class Sistema extends javax.swing.JFrame {
                     || !"".equals(txtNombreProveedor.getText())
                     || !"".equals(txtTelefonoProveedor.getText())
                     || !"".equals(txtDireccionProveedor.getText())) {
-                
+
                 proveedor.setId(Integer.parseInt(txtIdProveedor.getText()));
                 proveedor.setRut(Integer.parseInt(txtDniRutProveedor.getText()));
                 proveedor.setNombre(txtNombreProveedor.getText());
                 proveedor.setTelefono(Integer.parseInt(txtTelefonoProveedor.getText()));
                 proveedor.setDireccion(txtDireccionProveedor.getText());
                 proveedor.setRazonSocial(txtRazonSocialProveedor.getText());
-                
+
                 proveedorDAO.modificarProveedor(proveedor);
                 this.limpiarTabla();
                 this.limpiarProveedor();
@@ -1330,16 +1345,16 @@ public class Sistema extends javax.swing.JFrame {
                 || !"".equals(txtPrecioProducto.getText())
                 || !"".equals(cbxProveedorProducto.getSelectedItem())
                 || !"".equals(txtCantidadProducto.getText())) {
-            
+
             producto.setCodigo(txtCodigoProducto.getText());
             producto.setNombre(txtDescripcionProducto.getText());
             producto.setProveedor(cbxProveedorProducto.getSelectedItem().toString());
             producto.setStock(Integer.parseInt(txtCantidadProducto.getText()));
             producto.setPrecio(Double.parseDouble(txtPrecioProducto.getText()));
-            
+
             productoDAO.registrarProducto(producto);
             JOptionPane.showMessageDialog(null, "Proveedor Registrado");
-            
+
             this.limpiarTabla();
             this.listarProductos();
             this.limpiarProducto();
@@ -1347,6 +1362,57 @@ public class Sistema extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Los campos están vacíos");
         }
     }//GEN-LAST:event_btnGuardarProductoActionPerformed
+
+    private void tableProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProductosMouseClicked
+        int fila = tableProductos.rowAtPoint(evt.getPoint());
+        txtIdProducto.setText(tableProductos.getValueAt(fila, 0).toString());
+        txtCodigoProducto.setText(tableProductos.getValueAt(fila, 1).toString());
+        txtDescripcionProducto.setText(tableProductos.getValueAt(fila, 2).toString());
+        cbxProveedorProducto.setSelectedItem(tableProductos.getValueAt(fila, 3).toString());
+        txtCantidadProducto.setText(tableProductos.getValueAt(fila, 4).toString());
+        txtPrecioProducto.setText(tableProductos.getValueAt(fila, 5).toString());
+    }//GEN-LAST:event_tableProductosMouseClicked
+
+    private void btnEliminarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarProductoActionPerformed
+        if (!"".equals(txtIdProducto.getText())) {
+            int pregunta = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar el registro?");
+
+            if (pregunta == 0) {
+                productoDAO.eliminarProducto(Integer.parseInt(txtIdProducto.getText()));
+
+                this.limpiarTabla();
+                this.listarProductos();
+                this.limpiarProducto();
+            }
+        }
+    }//GEN-LAST:event_btnEliminarProductoActionPerformed
+
+    private void btnEditarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarProductoActionPerformed
+        if ("".equals(txtIdProducto.getText())) {
+            JOptionPane.showMessageDialog(null, "Seleccione una fila");
+        } else {
+            if (!"".equals(txtCodigoProducto.getText())
+                    || !"".equals(txtDescripcionProducto.getText())
+                    || !"".equals(cbxProveedorProducto.getSelectedItem().toString())
+                    || !"".equals(txtPrecioProducto.getText())
+                    || !"".equals(txtCantidadProducto.getText())) {
+
+                producto.setId(Integer.parseInt(txtIdProducto.getText()));
+                producto.setCodigo(txtCodigoProducto.getText());
+                producto.setNombre(txtDescripcionProducto.getText());
+                producto.setProveedor(cbxProveedorProducto.getSelectedItem().toString());
+                producto.setStock(Integer.parseInt(txtCantidadProducto.getText()));
+                producto.setPrecio(Double.parseDouble(txtPrecioProducto.getText()));
+
+                productoDAO.modificarProducto(producto);
+                this.limpiarTabla();
+                this.limpiarProducto();
+                this.listarProductos();
+            } else {
+                JOptionPane.showMessageDialog(null, "Algunos campos están vacíos.");
+            }
+        }
+    }//GEN-LAST:event_btnEditarProductoActionPerformed
 
     /**
      * @param args the command line arguments

@@ -112,4 +112,65 @@ public class ProductoDAO {
 
         return listaProductos;
     }
+    
+     
+    /**
+     * Elimina un producto de la base de datos.
+     *
+     * @param id por el cual se eliminará el producto.
+     * @return true si se eliminó el producto y false si no se eliminó.
+     */
+    public boolean eliminarProducto(int id) {
+        String sql = "DELETE FROM PRODUCTO WHERE ID = ?";
+
+        try {
+            cn = Conexion.conectar();
+            pst = cn.prepareStatement(sql);
+            pst.setInt(1, id);
+            pst.execute();
+            return true;
+        } catch (SQLException e) {
+            System.err.println("Error el eliminar producto en productoDAO " + e.toString());
+            return false;
+        } finally {
+            try {
+                pst.close();
+                cn.close();
+            } catch (SQLException e) {
+                System.err.println("Error al cerrar los objetos en productoDAO " + e.toString());
+            }
+        }
+    }
+    
+    /**
+     * Actualiza un producto directamente de la base de datos.
+     * 
+     * @param producto a actualizar
+     * @return true si se actualizó, false si no se actualizó.
+     */
+    public boolean modificarProducto(Producto producto) {
+        String sql = "UPDATE PRODUCTO SET CODIGO = ?, DESCRIPCION = ?, PROVEEDOR = ?, STOCK = ?, PRECIO = ? WHERE ID = ?";
+        try {
+            cn = Conexion.conectar();
+            pst = cn.prepareStatement(sql);
+            pst.setString(1, producto.getCodigo());
+            pst.setString(2, producto.getNombre());
+            pst.setString(3, producto.getProveedor());
+            pst.setInt(4, producto.getStock());
+            pst.setDouble(5, producto.getPrecio());
+            pst.setInt(6, producto.getId());
+            pst.execute();
+            return true;
+        } catch (SQLException e) {
+            System.err.println("Error el modificar producto en productoDAO " + e.toString());
+            return false;
+        } finally {
+            try {
+                pst.close();
+                cn.close();
+            } catch (SQLException e) {
+                System.err.println("Error al cerrar los objetos en ProductoDAO " + e.toString());
+            }
+        }
+    }
 }
