@@ -1,5 +1,6 @@
 package juan.estevez.sistemaventa.vista;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -20,6 +21,7 @@ public class Sistema extends javax.swing.JFrame {
     ProveedorDAO proveedorDAO = new ProveedorDAO();
     Producto producto = new Producto();
     ProductoDAO productoDAO = new ProductoDAO();
+    int item;
 
     /**
      * Creates new form Sistema
@@ -332,6 +334,12 @@ public class Sistema extends javax.swing.JFrame {
         txtCodigoVenta.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtCodigoVentaKeyPressed(evt);
+            }
+        });
+
+        txtCantidadVenta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCantidadVentaKeyPressed(evt);
             }
         });
 
@@ -1450,6 +1458,45 @@ public class Sistema extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_txtCodigoVentaKeyPressed
+
+    private void txtCantidadVentaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadVentaKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            if (!"".equals(txtCantidadVenta.getText())) {
+                String codigoProducto = txtCantidadVenta.getText();
+                String descripcion = txtDescripcionVenta.getText();
+                int cantidad = Integer.parseInt(txtCantidadVenta.getText());
+                double precio = Double.parseDouble(txtPrecioVenta.getText());
+                double totalVenta = cantidad * precio;
+                int stockDisponible = Integer.parseInt(txtStockDisponibleVenta.getText());
+                if (stockDisponible >= cantidad) {
+                    item = item + 1;
+                    modelo = (DefaultTableModel) tableVenta.getModel();
+                    ArrayList lista = new ArrayList();
+                    lista.add(item);
+                    lista.add(codigoProducto);
+                    lista.add(descripcion);
+                    lista.add(cantidad);
+                    lista.add(precio);
+                    lista.add(totalVenta);
+
+                    Object[] objeto = new Object[5];
+                    objeto[0] = lista.get(1);
+                    objeto[1] = lista.get(2);
+                    objeto[2] = lista.get(3);
+                    objeto[3] = lista.get(4);
+                    objeto[4] = lista.get(5);
+
+                    modelo.addRow(objeto);
+                    tableVenta.setModel(modelo);
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Stock no disponible.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Ingrese la cantidad.");
+            }
+        }
+    }//GEN-LAST:event_txtCantidadVentaKeyPressed
 
     /**
      * @param args the command line arguments
