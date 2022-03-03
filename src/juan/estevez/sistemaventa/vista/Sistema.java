@@ -22,6 +22,7 @@ public class Sistema extends javax.swing.JFrame {
     Producto producto = new Producto();
     ProductoDAO productoDAO = new ProductoDAO();
     int item;
+    double totalPagar = 0.00;
 
     /**
      * Creates new form Sistema
@@ -325,6 +326,11 @@ public class Sistema extends javax.swing.JFrame {
         jLabel7.setText("Stock Disponible");
 
         btnEliminarVenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/eliminar.png"))); // NOI18N
+        btnEliminarVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarVentaActionPerformed(evt);
+            }
+        });
 
         txtCodigoVenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -368,6 +374,12 @@ public class Sistema extends javax.swing.JFrame {
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel9.setText("NOMBRE");
+
+        txtDniRutVenta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtDniRutVentaKeyPressed(evt);
+            }
+        });
 
         txtNombreClienteVenta.setEditable(false);
 
@@ -1447,9 +1459,7 @@ public class Sistema extends javax.swing.JFrame {
                     txtStockDisponibleVenta.setText(String.valueOf(producto.getStock()));
                     txtCantidadVenta.requestFocus();
                 } else {
-                    txtDescripcionVenta.setText("");
-                    txtPrecioVenta.setText("");
-                    txtStockDisponibleVenta.setText("");
+                    this.limpiarVenta();
                     txtCodigoVenta.requestFocus();
                 }
             } else {
@@ -1471,6 +1481,14 @@ public class Sistema extends javax.swing.JFrame {
                 if (stockDisponible >= cantidad) {
                     item = item + 1;
                     modelo = (DefaultTableModel) tableVenta.getModel();
+
+                    for (int i = 0; i < tableVenta.getRowCount(); i++) {
+                        if (tableVenta.getValueAt(i, 1).equals(txtDescripcionVenta.getText())) {
+                            JOptionPane.showMessageDialog(null, "El producto ya está registrado.");
+                            return;
+                        }
+                    }
+
                     ArrayList lista = new ArrayList();
                     lista.add(item);
                     lista.add(codigoProducto);
@@ -1488,6 +1506,9 @@ public class Sistema extends javax.swing.JFrame {
 
                     modelo.addRow(objeto);
                     tableVenta.setModel(modelo);
+                    this.totalPagar();
+                    this.limpiarVenta();
+                    txtCodigoVenta.requestFocus();
 
                 } else {
                     JOptionPane.showMessageDialog(null, "Stock no disponible.");
@@ -1497,6 +1518,30 @@ public class Sistema extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_txtCantidadVentaKeyPressed
+
+    private void btnEliminarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarVentaActionPerformed
+        modelo = (DefaultTableModel) tableVenta.getModel();
+        modelo.removeRow(tableVenta.getSelectedRow());
+        this.totalPagar();
+        txtCodigoVenta.requestFocus();
+    }//GEN-LAST:event_btnEliminarVentaActionPerformed
+
+    private void txtDniRutVentaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDniRutVentaKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            if (!"".equals(txtDniRutVenta.getText())) {
+                cliente = clienteDAO.buscarCliente(Integer.parseInt(txtDniRutVenta.getText()));
+                if (cliente.getNombre() != null) {
+                    txtNombreClienteVenta.setText(cliente.getNombre());
+                    txtTelefonoClienteVenta.setText(String.valueOf(cliente.getTelefono()));
+                    txtDireccionClienteVenta.setText(cliente.getDireccion());
+                    txtRazonSocialClienteVenta.setText(cliente.getRazonSocial());
+                } else {
+                    this.limpiarClienteVenta();
+                    JOptionPane.showMessageDialog(null, "El cliente no está registrado");
+                }
+            }
+        }
+    }//GEN-LAST:event_txtDniRutVentaKeyPressed
 
     /**
      * @param args the command line arguments
@@ -1689,4 +1734,31 @@ public class Sistema extends javax.swing.JFrame {
         this.txtPrecioProducto.setText("");
         this.cbxProveedorProducto.setSelectedItem("");
     }
+
+    private void totalPagar() {
+        totalPagar = 0.00;
+        int numeroFilas = tableVenta.getRowCount();
+        for (int i = 0; i < numeroFilas; i++) {
+            double calcular = Double.parseDouble(String.valueOf(tableVenta.getModel().getValueAt(i, 4)));
+            totalPagar += calcular;
+        }
+        labelTotalVenta.setText(String.format("%.2f", totalPagar));
+    }
+
+    private void limpiarVenta() {
+        txtCodigoVenta.setText("");
+        txtDescripcionVenta.setText("");
+        txtPrecioVenta.setText("");
+        txtCantidadVenta.setText("");
+        txtStockDisponibleVenta.setText("");
+    }
+
+    private void limpiarClienteVenta() {
+        txtDniRutVenta.setText("");
+        txtNombreClienteVenta.setText("");
+        txtTelefonoClienteVenta.setText("");
+        txtDireccionClienteVenta.setText("");
+        txtRazonSocialClienteVenta.setText("");
+    }
+
 }
