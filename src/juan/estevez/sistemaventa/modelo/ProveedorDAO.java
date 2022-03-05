@@ -1,11 +1,7 @@
 package juan.estevez.sistemaventa.modelo;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.*;
+import java.util.*;
 import javax.swing.JOptionPane;
 
 /**
@@ -37,14 +33,14 @@ public class ProveedorDAO {
             pst.execute();
             return true;
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.toString());
+            JOptionPane.showMessageDialog(null, "Error al registrar proveedor " + e.toString());
             return false;
         } finally {
             try {
                 pst.close();
                 cn.close();
             } catch (SQLException e) {
-                System.err.println(e.toString());
+                System.err.println("Error al cerrar los objetos en ProveedorDAO " + e.toString());
             }
         }
     }
@@ -75,7 +71,7 @@ public class ProveedorDAO {
             }
 
         } catch (SQLException e) {
-            System.err.println(e.toString());
+            System.err.println("Error al listar proveedores en ProveedorDAO " + e.toString());
         } finally {
             try {
                 rs.close();
@@ -88,7 +84,7 @@ public class ProveedorDAO {
 
         return listaProveedores;
     }
-    
+
     /**
      * Elimina un proveedor de la base de datos.
      *
@@ -116,10 +112,10 @@ public class ProveedorDAO {
             }
         }
     }
-    
+
     /**
      * Actualiza un proveedor directamente de la base de datos.
-     * 
+     *
      * @param proveedor a actualizar
      * @return true si se actualizó, false si no se actualizó.
      */

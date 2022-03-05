@@ -34,7 +34,7 @@ public class ClienteDAO {
             pst.execute();
             return true;
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.toString());
+            JOptionPane.showMessageDialog(null, "Error al insertar cliente en ClienteDAO " + e.toString());
             return false;
         } finally {
             try {
@@ -72,7 +72,7 @@ public class ClienteDAO {
             }
 
         } catch (SQLException e) {
-            System.err.println(e.toString());
+            System.err.println("Error al listar clientes en ClienteDAO " + e.toString());
         } finally {
             try {
                 rs.close();
@@ -102,7 +102,7 @@ public class ClienteDAO {
             pst.execute();
             return true;
         } catch (SQLException e) {
-            System.err.println("Error el eliminar cliente en Cliente DAO " + e.toString());
+            System.err.println("Error el eliminar cliente en ClienteDAO " + e.toString());
             return false;
         } finally {
             try {
@@ -116,7 +116,7 @@ public class ClienteDAO {
 
     /**
      * Actualiza un cliente directamente de la base de datos.
-     * 
+     *
      * @param cliente a actualizar
      * @return true si se actualizó, false si no se actualizó.
      */
@@ -145,7 +145,13 @@ public class ClienteDAO {
             }
         }
     }
-    
+
+    /**
+     * Busca un cliente en específico mediante su identificador primario.
+     *
+     * @param dni por el cuál se buscará el cliente.
+     * @return cliente encontrado.
+     */
     public Cliente buscarCliente(int dni) {
         Cliente cliente = new Cliente();
         String sql = "SELECT * FROM CLIENTES WHERE DNI = ?";
@@ -155,12 +161,22 @@ public class ClienteDAO {
             pst.setInt(1, dni);
             rs = pst.executeQuery();
             if (rs.next()) {
+                cliente.setDni(rs.getInt("DNI"));
                 cliente.setNombre(rs.getString("NOMBRE"));
                 cliente.setTelefono(rs.getInt("TELEFONO"));
                 cliente.setDireccion(rs.getString("DIRECCION"));
                 cliente.setRazonSocial(rs.getString("RAZON_SOCIAL"));
             }
         } catch (SQLException e) {
+            System.err.println("Error el consultar cliente en ClienteDAO " + e.toString());
+        } finally {
+            try {
+                rs.close();
+                pst.close();
+                cn.close();
+            } catch (SQLException e) {
+                System.err.println("Error al cerrar los objetos en ClienteDAO " + e.toString());
+            }
         }
         return cliente;
     }

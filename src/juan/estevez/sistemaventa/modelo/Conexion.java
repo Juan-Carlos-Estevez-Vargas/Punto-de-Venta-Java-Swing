@@ -28,14 +28,5 @@ public class Conexion {
         }
         return con;
     }
-    /* public static Connection conectar() {
-        try {
-            Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/punto_venta_java", "root", "");
-            return cn;
-        } catch (SQLException ex) {
-            System.out.println("Error en la conexion local" + ex);
-        }
-        return (null);
-    }*/
 
 }

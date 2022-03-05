@@ -2,9 +2,10 @@ package juan.estevez.sistemaventa.modelo;
 
 /**
  *
- * @author User
+ * @author Juan Carlos Estevez Vargas
  */
 public class Detalle {
+
     private int id, cantidad, idVenta;
     private String codigoProducto;
     private double precio;
@@ -59,6 +60,5 @@ public class Detalle {
     public void setPrecio(double precio) {
         this.precio = precio;
     }
-    
-    
+
 }

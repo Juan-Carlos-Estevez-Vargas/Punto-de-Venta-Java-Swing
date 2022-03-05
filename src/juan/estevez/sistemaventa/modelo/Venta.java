@@ -2,10 +2,10 @@ package juan.estevez.sistemaventa.modelo;
 
 /**
  *
- * @author User
+ * @author Juan Carlos Estevez Vargas
  */
 public class Venta {
- 
+
     private int id;
     private String cliente, vendedor;
     private double total;
@@ -51,6 +51,5 @@ public class Venta {
     public void setTotal(double total) {
         this.total = total;
     }
-    
-    
+
 }

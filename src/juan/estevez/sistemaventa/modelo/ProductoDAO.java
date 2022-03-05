@@ -38,41 +38,47 @@ public class ProductoDAO {
             pst.execute();
             return true;
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.toString());
+            JOptionPane.showMessageDialog(null, "Error al registrar producto " + e.toString());
             return false;
         } finally {
             try {
                 pst.close();
                 cn.close();
             } catch (SQLException e) {
-                System.err.println(e.toString());
+                System.err.println("Error al cerras los objetos en ProductoDAO " + e.toString());
             }
         }
     }
-    
+
+    /**
+     * Consulta el nombre de los proveedores de la base de datos.
+     *
+     * @param proveedor de tipo JComboBox al cuál se le seteará la lista de
+     * proveedores
+     */
     public void consultarProveedor(JComboBox proveedor) {
         String sql = "SELECT NOMBRE FROM PROVEEDOR";
         try {
             cn = Conexion.conectar();
             pst = cn.prepareStatement(sql);
             rs = pst.executeQuery();
-            
+
             while (rs.next()) {
                 proveedor.addItem(rs.getString("NOMBRE"));
             }
         } catch (SQLException e) {
-            System.err.println(e.toString());
+            System.err.println("Error al consultar proveedores en ProductoDAO " + e.toString());
         } finally {
             try {
                 rs.close();
                 pst.close();
                 cn.close();
             } catch (SQLException e) {
-                System.err.println(e.toString());
+                System.err.println("Error al cerras los objetos en ProductoDAO " + e.toString());
             }
         }
     }
-    
+
     /**
      * Obtiene los productos almacenados en la base de datos.
      *
@@ -99,7 +105,7 @@ public class ProductoDAO {
             }
 
         } catch (SQLException e) {
-            System.err.println(e.toString());
+            System.err.println("Error al listar los productos en ProductoDAO " + e.toString());
         } finally {
             try {
                 rs.close();
@@ -112,8 +118,7 @@ public class ProductoDAO {
 
         return listaProductos;
     }
-    
-     
+
     /**
      * Elimina un producto de la base de datos.
      *
@@ -141,10 +146,10 @@ public class ProductoDAO {
             }
         }
     }
-    
+
     /**
      * Actualiza un producto directamente de la base de datos.
-     * 
+     *
      * @param producto a actualizar
      * @return true si se actualizó, false si no se actualizó.
      */
@@ -173,8 +178,14 @@ public class ProductoDAO {
             }
         }
     }
-    
-    public Producto buscarProducto(String codigoProducto){
+
+    /**
+     * Busca un producto en específico de la base de datos.
+     *
+     * @param codigoProducto por el cual se buscará el producto.
+     * @return producto encontrado.
+     */
+    public Producto buscarProducto(String codigoProducto) {
         Producto producto = new Producto();
         String sql = "SELECT * FROM PRODUCTO WHERE CODIGO = ?";
         try {
@@ -186,9 +197,18 @@ public class ProductoDAO {
                 producto.setNombre(rs.getString("DESCRIPCION"));
                 producto.setPrecio(rs.getDouble("PRECIO"));
                 producto.setStock(rs.getInt("STOCK"));
-                
+
             }
         } catch (SQLException e) {
+            System.err.println("Error el buscar producto en productoDAO " + e.toString());
+        } finally {
+            try {
+                rs.close();
+                pst.close();
+                cn.close();
+            } catch (SQLException e) {
+                System.err.println("Error al cerrar los objetos en ProductoDAO " + e.toString());
+            }
         }
         return producto;
     }

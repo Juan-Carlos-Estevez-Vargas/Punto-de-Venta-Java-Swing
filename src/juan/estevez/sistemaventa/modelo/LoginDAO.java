@@ -38,7 +38,7 @@ public class LoginDAO {
             }
 
         } catch (SQLException e) {
-            System.err.println(e.toString());
+            System.err.println("Error en el login de la aplicación " + e.toString());
         } finally {
             try {
                 rs.close();
