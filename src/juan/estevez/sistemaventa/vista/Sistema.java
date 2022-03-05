@@ -1196,7 +1196,7 @@ public class Sistema extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClientesActionPerformed
 
     /**
-     * Selecciona un registro de la tabla clickeado por el usuario.
+     * Selecciona un registro de la tabla clientes clickeado por el usuario.
      *
      * @param evt
      */
@@ -1211,7 +1211,7 @@ public class Sistema extends javax.swing.JFrame {
     }//GEN-LAST:event_tableClientesMouseClicked
 
     /**
-     * Elimina un cliente seleccionado dela tabla.
+     * Elimina un cliente seleccionado de la tabla clientes.
      *
      * @param evt
      */
@@ -1262,7 +1262,7 @@ public class Sistema extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditarClienteActionPerformed
 
     /**
-     * Limpiar los txt del cliente.
+     * Limpiar el formulario del cliente.
      *
      * @param evt
      */
@@ -1311,7 +1311,7 @@ public class Sistema extends javax.swing.JFrame {
     }//GEN-LAST:event_btnProveedorActionPerformed
 
     /**
-     * Selecciona un registro de la tabla clickeado por el usuario.
+     * Selecciona un registro de la tabla proveedores clickeado por el usuario.
      *
      * @param evt
      */
@@ -1413,6 +1413,11 @@ public class Sistema extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnGuardarProductoActionPerformed
 
+    /**
+     * Selecciona un registro de la tabla productos clickeado por el usuario.
+     *
+     * @param evt
+     */
     private void tableProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProductosMouseClicked
         int fila = tableProductos.rowAtPoint(evt.getPoint());
         txtIdProducto.setText(tableProductos.getValueAt(fila, 0).toString());
@@ -1423,6 +1428,11 @@ public class Sistema extends javax.swing.JFrame {
         txtPrecioProducto.setText(tableProductos.getValueAt(fila, 5).toString());
     }//GEN-LAST:event_tableProductosMouseClicked
 
+    /**
+     * Elimina un producto del sistema.
+     *
+     * @param evt
+     */
     private void btnEliminarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarProductoActionPerformed
         if (!"".equals(txtIdProducto.getText())) {
             int pregunta = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar el registro?");
@@ -1437,6 +1447,11 @@ public class Sistema extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnEliminarProductoActionPerformed
 
+    /**
+     * Edita un producto existente en el sistema.
+     *
+     * @param evt
+     */
     private void btnEditarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarProductoActionPerformed
         if ("".equals(txtIdProducto.getText())) {
             JOptionPane.showMessageDialog(null, "Seleccione una fila");
@@ -1464,10 +1479,23 @@ public class Sistema extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnEditarProductoActionPerformed
 
+    /**
+     * Genera reporte en pdf de los productos existentes en el sistema.
+     *
+     * @param evt
+     */
     private void btnExcelProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelProductoActionPerformed
         Excel.reporte();
     }//GEN-LAST:event_btnExcelProductoActionPerformed
 
+    /**
+     * Realiza un seteo de campos según un código ingresado, cuando el usuario
+     * escribe un código de algún producto y presiona la tecla ENTER,
+     * automáticamente setea sus valores para que el usuario después ingrese la
+     * cantidad.
+     *
+     * @param evt
+     */
     private void txtCodigoVentaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoVentaKeyPressed
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
             if (!"".equals(txtCodigoVenta.getText())) {
@@ -1488,6 +1516,12 @@ public class Sistema extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtCodigoVentaKeyPressed
 
+    /**
+     * Cuando el usuario escribe la cantidad y presiona la tecla ENTER, el
+     * producto se registra en la venta y se posiciona en la tabla venta.
+     *
+     * @param evt
+     */
     private void txtCantidadVentaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadVentaKeyPressed
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
             if (!"".equals(txtCantidadVenta.getText())) {
@@ -1538,6 +1572,11 @@ public class Sistema extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtCantidadVentaKeyPressed
 
+    /**
+     * Elimina un producto seleccionado de la table de la venta.
+     *
+     * @param evt
+     */
     private void btnEliminarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarVentaActionPerformed
         modelo = (DefaultTableModel) tableVenta.getModel();
         modelo.removeRow(tableVenta.getSelectedRow());
@@ -1545,6 +1584,12 @@ public class Sistema extends javax.swing.JFrame {
         txtCodigoVenta.requestFocus();
     }//GEN-LAST:event_btnEliminarVentaActionPerformed
 
+    /**
+     * Cuando el usuario ingrese un dni de algún cliente y presione la tecla
+     * ENTER, se setean sus valores para generarle la venta a dicho cliente.
+     *
+     * @param evt
+     */
     private void txtDniRutVentaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDniRutVentaKeyPressed
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
             if (!"".equals(txtDniRutVenta.getText())) {
@@ -1562,6 +1607,12 @@ public class Sistema extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtDniRutVentaKeyPressed
 
+    /**
+     * Genera la venta y su detalle de venta junto con los productos que el
+     * cliente vaya a comprar.
+     *
+     * @param evt
+     */
     private void btnGenerarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarVentaActionPerformed
         this.registrarVenta();
         this.registrarDetalleVenta();
@@ -1760,6 +1811,9 @@ public class Sistema extends javax.swing.JFrame {
         this.cbxProveedorProducto.setSelectedItem("");
     }
 
+    /**
+     * Calcula el total a pagar de los productos registrados por el cliente.
+     */
     private void totalPagar() {
         totalPagar = 0.00;
         int numeroFilas = tableVenta.getRowCount();
@@ -1770,6 +1824,9 @@ public class Sistema extends javax.swing.JFrame {
         labelTotalVenta.setText(String.format("%.2f", totalPagar));
     }
 
+    /**
+     * Limpia el formulario de la venta.
+     */
     private void limpiarVenta() {
         txtCodigoVenta.setText("");
         txtDescripcionVenta.setText("");
@@ -1778,6 +1835,9 @@ public class Sistema extends javax.swing.JFrame {
         txtStockDisponibleVenta.setText("");
     }
 
+    /**
+     * Limpia los txt del cliente ingresado en el panel de ventas.
+     */
     private void limpiarClienteVenta() {
         txtDniRutVenta.setText("");
         txtNombreClienteVenta.setText("");
@@ -1785,7 +1845,10 @@ public class Sistema extends javax.swing.JFrame {
         txtDireccionClienteVenta.setText("");
         txtRazonSocialClienteVenta.setText("");
     }
-    
+
+    /**
+     * Registra la venta en la base de datos.
+     */
     private void registrarVenta() {
         String cliente = txtNombreClienteVenta.getText();
         String vendedor = labelVendedor.getText();
@@ -1795,19 +1858,22 @@ public class Sistema extends javax.swing.JFrame {
         venta.setTotal(totalVenta);
         ventaDao.registrarVenta(venta);
     }
-    
+
+    /**
+     * Registra el detalle de venta en el sistema.
+     */
     private void registrarDetalleVenta() {
         for (int i = 0; i < tableVenta.getRowCount(); i++) {
             String codigoProducto = tableVenta.getValueAt(i, 0).toString();
             int cantidad = Integer.parseInt(tableVenta.getValueAt(i, 2).toString());
             double precio = Double.parseDouble(tableVenta.getValueAt(i, 3).toString());
             int id = 1;
-            
+
             this.detalleVenta.setCodigoProducto(codigoProducto);
             this.detalleVenta.setCantidad(cantidad);
             this.detalleVenta.setPrecio(precio);
             this.detalleVenta.setId(id);
-            
+
             ventaDao.registrarDetalleVenta(detalleVenta);
         }
     }
