@@ -23,6 +23,7 @@ public class Sistema extends javax.swing.JFrame {
     ProductoDAO productoDAO = new ProductoDAO();
     Venta venta = new Venta();
     VentaDAO ventaDao = new VentaDAO();
+    Detalle detalleVenta = new Detalle();
     int item;
     double totalPagar = 0.00;
 
@@ -1563,6 +1564,7 @@ public class Sistema extends javax.swing.JFrame {
 
     private void btnGenerarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarVentaActionPerformed
         this.registrarVenta();
+        this.registrarDetalleVenta();
     }//GEN-LAST:event_btnGenerarVentaActionPerformed
 
     /**
@@ -1792,6 +1794,22 @@ public class Sistema extends javax.swing.JFrame {
         venta.setVendedor(vendedor);
         venta.setTotal(totalVenta);
         ventaDao.registrarVenta(venta);
+    }
+    
+    private void registrarDetalleVenta() {
+        for (int i = 0; i < tableVenta.getRowCount(); i++) {
+            String codigoProducto = tableVenta.getValueAt(i, 0).toString();
+            int cantidad = Integer.parseInt(tableVenta.getValueAt(i, 2).toString());
+            double precio = Double.parseDouble(tableVenta.getValueAt(i, 3).toString());
+            int id = 1;
+            
+            this.detalleVenta.setCodigoProducto(codigoProducto);
+            this.detalleVenta.setCantidad(cantidad);
+            this.detalleVenta.setPrecio(precio);
+            this.detalleVenta.setId(id);
+            
+            ventaDao.registrarDetalleVenta(detalleVenta);
+        }
     }
 
 }
