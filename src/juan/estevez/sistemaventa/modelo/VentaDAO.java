@@ -11,6 +11,7 @@ public class VentaDAO {
 
     Connection cn;
     PreparedStatement pst;
+    ResultSet rs;
     int response;
 
     /**
@@ -70,5 +71,36 @@ public class VentaDAO {
             }
         }
         return response;
+    }
+
+    /**
+     * Consulta el id máximo de la tabla ventas.
+     *
+     * @return id obtenido.
+     */
+    public int idVenta() {
+        int id = 1;
+        String sql = "SELECT MAX(ID) FROM VENTAS";
+
+        try {
+            cn = Conexion.conectar();
+            pst = cn.prepareStatement(sql);
+            rs = pst.executeQuery();
+
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al obtener ID_VENTA en VentaDAO " + e.toString());
+        } finally {
+            try {
+                rs.close();
+                pst.close();
+                cn.close();
+            } catch (SQLException e) {
+                System.err.println("Error al cerrar los objetos en VentaDAO " + e.toString());
+            }
+        }
+        return id;
     }
 }

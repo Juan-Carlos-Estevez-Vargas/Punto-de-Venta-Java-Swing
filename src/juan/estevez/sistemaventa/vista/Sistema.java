@@ -40,6 +40,7 @@ public class Sistema extends javax.swing.JFrame {
         this.txtRazonSocialClienteVenta.setVisible(false);
         this.txtIdProveedor.setVisible(false);
         this.txtIdProducto.setVisible(false);
+        this.txtIdVenta.setVisible(false);
         AutoCompleteDecorator.decorate(cbxProveedorProducto);
         this.productoDAO.consultarProveedor(cbxProveedorProducto);
     }
@@ -234,6 +235,11 @@ public class Sistema extends javax.swing.JFrame {
         btnNuevaVenta.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnNuevaVenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/Nventa.png"))); // NOI18N
         btnNuevaVenta.setText("Nueva Venta");
+        btnNuevaVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevaVentaActionPerformed(evt);
+            }
+        });
 
         btnClientes.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/Clientes.png"))); // NOI18N
@@ -1533,7 +1539,7 @@ public class Sistema extends javax.swing.JFrame {
                 int stockDisponible = Integer.parseInt(txtStockDisponibleVenta.getText());
                 if (stockDisponible >= cantidad) {
                     item = item + 1;
-                    modelo = (DefaultTableModel) tableVenta.getModel();
+                    DefaultTableModel modeloTemporal = (DefaultTableModel) tableVenta.getModel();
 
                     for (int i = 0; i < tableVenta.getRowCount(); i++) {
                         if (tableVenta.getValueAt(i, 1).equals(txtDescripcionVenta.getText())) {
@@ -1557,8 +1563,8 @@ public class Sistema extends javax.swing.JFrame {
                     objeto[3] = lista.get(4);
                     objeto[4] = lista.get(5);
 
-                    modelo.addRow(objeto);
-                    tableVenta.setModel(modelo);
+                    modeloTemporal.addRow(objeto);
+                    tableVenta.setModel(modeloTemporal);
                     this.totalPagar();
                     this.limpiarVenta();
                     txtCodigoVenta.requestFocus();
@@ -1617,6 +1623,11 @@ public class Sistema extends javax.swing.JFrame {
         this.registrarVenta();
         this.registrarDetalleVenta();
     }//GEN-LAST:event_btnGenerarVentaActionPerformed
+
+    private void btnNuevaVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaVentaActionPerformed
+        this.jTabbedPane1.setSelectedIndex(0);
+        this.limpiarVenta();
+    }//GEN-LAST:event_btnNuevaVentaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1833,6 +1844,7 @@ public class Sistema extends javax.swing.JFrame {
         txtPrecioVenta.setText("");
         txtCantidadVenta.setText("");
         txtStockDisponibleVenta.setText("");
+        txtIdVenta.setText("");
     }
 
     /**
@@ -1863,16 +1875,17 @@ public class Sistema extends javax.swing.JFrame {
      * Registra el detalle de venta en el sistema.
      */
     private void registrarDetalleVenta() {
+        int id = ventaDao.idVenta();
+        
         for (int i = 0; i < tableVenta.getRowCount(); i++) {
             String codigoProducto = tableVenta.getValueAt(i, 0).toString();
             int cantidad = Integer.parseInt(tableVenta.getValueAt(i, 2).toString());
             double precio = Double.parseDouble(tableVenta.getValueAt(i, 3).toString());
-            int id = 1;
 
+            this.detalleVenta.setId(id);
             this.detalleVenta.setCodigoProducto(codigoProducto);
             this.detalleVenta.setCantidad(cantidad);
-            this.detalleVenta.setPrecio(precio);
-            this.detalleVenta.setId(id);
+            this.detalleVenta.setPrecio(precio);     
 
             ventaDao.registrarDetalleVenta(detalleVenta);
         }
