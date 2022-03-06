@@ -24,6 +24,7 @@ public class Sistema extends javax.swing.JFrame {
     Venta venta = new Venta();
     VentaDAO ventaDao = new VentaDAO();
     Detalle detalleVenta = new Detalle();
+    DefaultTableModel modeloTemporal = new DefaultTableModel();
     int item;
     double totalPagar = 0.00;
 
@@ -1539,7 +1540,7 @@ public class Sistema extends javax.swing.JFrame {
                 int stockDisponible = Integer.parseInt(txtStockDisponibleVenta.getText());
                 if (stockDisponible >= cantidad) {
                     item = item + 1;
-                    DefaultTableModel modeloTemporal = (DefaultTableModel) tableVenta.getModel();
+                    modeloTemporal = (DefaultTableModel) tableVenta.getModel();
 
                     for (int i = 0; i < tableVenta.getRowCount(); i++) {
                         if (tableVenta.getValueAt(i, 1).equals(txtDescripcionVenta.getText())) {
@@ -1622,6 +1623,9 @@ public class Sistema extends javax.swing.JFrame {
     private void btnGenerarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarVentaActionPerformed
         this.registrarVenta();
         this.registrarDetalleVenta();
+        this.actualizarStock();
+        this.limpiarTableVenta();
+        this.limpiarClienteVenta();
     }//GEN-LAST:event_btnGenerarVentaActionPerformed
 
     private void btnNuevaVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaVentaActionPerformed
@@ -1657,10 +1661,8 @@ public class Sistema extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Sistema().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Sistema().setVisible(true);
         });
     }
 
@@ -1876,7 +1878,7 @@ public class Sistema extends javax.swing.JFrame {
      */
     private void registrarDetalleVenta() {
         int id = ventaDao.idVenta();
-        
+
         for (int i = 0; i < tableVenta.getRowCount(); i++) {
             String codigoProducto = tableVenta.getValueAt(i, 0).toString();
             int cantidad = Integer.parseInt(tableVenta.getValueAt(i, 2).toString());
@@ -1885,9 +1887,36 @@ public class Sistema extends javax.swing.JFrame {
             this.detalleVenta.setId(id);
             this.detalleVenta.setCodigoProducto(codigoProducto);
             this.detalleVenta.setCantidad(cantidad);
-            this.detalleVenta.setPrecio(precio);     
+            this.detalleVenta.setPrecio(precio);
 
             ventaDao.registrarDetalleVenta(detalleVenta);
+        }
+    }
+
+    /**
+     * Actualiza el stock disponible de cada producto después de realizar una
+     * venta.
+     */
+    private void actualizarStock() {
+        for (int i = 0; i < tableVenta.getRowCount(); i++) {
+            String codigoProducto = tableVenta.getValueAt(i, 0).toString();
+            int cantidadProducto = Integer.parseInt(tableVenta.getValueAt(i, 2).toString());
+            producto = productoDAO.buscarProducto(codigoProducto);
+            int stockActual = producto.getStock() - cantidadProducto;
+
+            this.ventaDao.actualizarStock(stockActual, codigoProducto);
+        }
+    }
+
+    /**
+     * Limpia la tabla venta donde se encuentran los productos de la venta.
+     */
+    private void limpiarTableVenta() {
+        this.modeloTemporal = (DefaultTableModel) tableVenta.getModel();
+        int filas = tableVenta.getRowCount();
+
+        for (int i = 0; i < filas; i++) {
+            modeloTemporal.removeRow(0);
         }
     }
 
