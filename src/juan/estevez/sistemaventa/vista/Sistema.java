@@ -7,6 +7,8 @@ import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.File;
@@ -57,7 +59,6 @@ public class Sistema extends javax.swing.JFrame {
         this.txtIdVenta.setVisible(false);
         AutoCompleteDecorator.decorate(cbxProveedorProducto);
         this.productoDAO.consultarProveedor(cbxProveedorProducto);
-        this.pdf();
     }
 
     /**
@@ -1638,6 +1639,7 @@ public class Sistema extends javax.swing.JFrame {
         this.registrarVenta();
         this.registrarDetalleVenta();
         this.actualizarStock();
+        this.pdf();
         this.limpiarTableVenta();
         this.limpiarClienteVenta();
     }//GEN-LAST:event_btnGenerarVentaActionPerformed
@@ -1935,6 +1937,9 @@ public class Sistema extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Genera reporte en pdf de la venta realizada.
+     */
     private void pdf() {
         try {
             FileOutputStream archivo;
@@ -1967,8 +1972,77 @@ public class Sistema extends javax.swing.JFrame {
             encabezado.addCell("");
             encabezado.addCell("Rut: " + Rut + "\nNombre: " + nombre + "\nTeléfono: " + telefono + "\nDirección: " + direccion + "\nRazón Social: " + razpnSocial);
             encabezado.addCell(fecha);
-
             documento.add(encabezado);
+
+            Paragraph cliente = new Paragraph();
+            cliente.add(Chunk.NEWLINE);
+            cliente.add("Datos de los clientes \n\n");
+            documento.add(cliente);
+
+            PdfPTable tablaClientes = new PdfPTable(4);
+            tablaClientes.setWidthPercentage(100);
+            tablaClientes.getDefaultCell().setBorder(0);
+            float[] columnaCliente = new float[]{20f, 50f, 30f, 40f};
+            tablaClientes.setWidths(columnaCliente);
+            tablaClientes.setHorizontalAlignment(Element.ALIGN_LEFT);
+
+            PdfPCell celdaRutCliente = new PdfPCell(new Phrase("DNI/RUT", negrita));
+            PdfPCell celdaNombreCliente = new PdfPCell(new Phrase("Nombre", negrita));
+            PdfPCell celdaTelefonoCliente = new PdfPCell(new Phrase("Teléfono", negrita));
+            PdfPCell celdaDireccionCliente = new PdfPCell(new Phrase("Dirección", negrita));
+
+            celdaRutCliente.setBorder(0);
+            celdaNombreCliente.setBorder(0);
+            celdaTelefonoCliente.setBorder(0);
+            celdaDireccionCliente.setBorder(0);
+
+            tablaClientes.addCell(celdaRutCliente);
+            tablaClientes.addCell(celdaNombreCliente);
+            tablaClientes.addCell(celdaTelefonoCliente);
+            tablaClientes.addCell(celdaDireccionCliente);
+
+            tablaClientes.addCell(txtDniRutVenta.getText());
+            tablaClientes.addCell(txtNombreClienteVenta.getText());
+            tablaClientes.addCell(txtTelefonoClienteVenta.getText());
+            tablaClientes.addCell(txtDireccionClienteVenta.getText());
+            documento.add(tablaClientes);
+
+            // Productos
+            PdfPTable tablaProductos = new PdfPTable(4);
+            tablaProductos.setWidthPercentage(100);
+            tablaProductos.getDefaultCell().setBorder(0);
+            float[] columnaProducto = new float[]{20f, 50f, 25f, 30f};
+            tablaProductos.setWidths(columnaProducto);
+            tablaProductos.setHorizontalAlignment(Element.ALIGN_LEFT);
+
+            PdfPCell celdaCantidadProducto = new PdfPCell(new Phrase("Cantidad", negrita));
+            PdfPCell celdaDescripciónProducto = new PdfPCell(new Phrase("Descripción", negrita));
+            PdfPCell celdaPrecioUnitario = new PdfPCell(new Phrase("Precio U.", negrita));
+            PdfPCell celdaPrecioTotal = new PdfPCell(new Phrase("Precio T.", negrita));
+
+            celdaCantidadProducto.setBorder(0);
+            celdaDescripciónProducto.setBorder(0);
+            celdaPrecioUnitario.setBorder(0);
+            celdaPrecioTotal.setBorder(0);
+            
+            celdaCantidadProducto.setBackgroundColor(BaseColor.GRAY);
+            celdaDescripciónProducto.setBackgroundColor(BaseColor.GRAY);
+            celdaPrecioUnitario.setBackgroundColor(BaseColor.GRAY);
+            celdaPrecioTotal.setBackgroundColor(BaseColor.GRAY);
+
+            tablaProductos.addCell(celdaCantidadProducto);
+            tablaProductos.addCell(celdaDescripciónProducto);
+            tablaProductos.addCell(celdaPrecioUnitario);
+            tablaProductos.addCell(celdaPrecioTotal);
+
+            for (int i = 0; i < tableVenta.getRowCount(); i++) {
+                tablaProductos.addCell(tableVenta.getValueAt(i, 2).toString());
+                tablaProductos.addCell(tableVenta.getValueAt(i, 1).toString());
+                tablaProductos.addCell(tableVenta.getValueAt(i, 3).toString());
+                tablaProductos.addCell(tableVenta.getValueAt(i, 4).toString());
+            }
+
+            documento.add(tablaProductos);
 
             documento.close();
             archivo.close();
