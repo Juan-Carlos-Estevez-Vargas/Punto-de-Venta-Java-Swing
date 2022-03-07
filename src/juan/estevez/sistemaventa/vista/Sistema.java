@@ -1,6 +1,19 @@
 package juan.estevez.sistemaventa.vista;
 
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -44,6 +57,7 @@ public class Sistema extends javax.swing.JFrame {
         this.txtIdVenta.setVisible(false);
         AutoCompleteDecorator.decorate(cbxProveedorProducto);
         this.productoDAO.consultarProveedor(cbxProveedorProducto);
+        this.pdf();
     }
 
     /**
@@ -1902,6 +1916,7 @@ public class Sistema extends javax.swing.JFrame {
             String codigoProducto = tableVenta.getValueAt(i, 0).toString();
             int cantidadProducto = Integer.parseInt(tableVenta.getValueAt(i, 2).toString());
             producto = productoDAO.buscarProducto(codigoProducto);
+            System.out.println("x" + producto.toString());
             int stockActual = producto.getStock() - cantidadProducto;
 
             this.ventaDao.actualizarStock(stockActual, codigoProducto);
@@ -1917,6 +1932,47 @@ public class Sistema extends javax.swing.JFrame {
 
         for (int i = 0; i < filas; i++) {
             modeloTemporal.removeRow(0);
+        }
+    }
+
+    private void pdf() {
+        try {
+            FileOutputStream archivo;
+            File file = new File("src/juan/estevez/sistemaventa/reportes/reporteVenta.pdf");
+            archivo = new FileOutputStream(file);
+
+            Document documento = new Document();
+            PdfWriter.getInstance(documento, archivo);
+            documento.open();
+            Image img = Image.getInstance("src/juan/estevez/sistemaventa/img/logo_pdf.png");
+
+            Paragraph fecha = new Paragraph();
+            Font negrita = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD, BaseColor.BLUE);
+            fecha.add(Chunk.NEWLINE);
+            Date date = new Date();
+            fecha.add("Factura N°1\n" + "Fecha: " + new SimpleDateFormat("dd-MM-yyyy").format(date) + "\n\n");
+
+            PdfPTable encabezado = new PdfPTable(4);
+            encabezado.setWidthPercentage(100);
+            encabezado.getDefaultCell().setBorder(0);
+            float[] columnaEncabezado = new float[]{20f, 40f, 70f, 40f};
+            encabezado.setWidths(columnaEncabezado);
+            encabezado.setHorizontalAlignment(Element.ALIGN_LEFT);
+            encabezado.addCell(img);
+            String Rut = "567898765";
+            String nombre = "Estevez corp";
+            String telefono = "9887";
+            String direccion = "direccion";
+            String razpnSocial = "razon";
+            encabezado.addCell("");
+            encabezado.addCell("Rut: " + Rut + "\nNombre: " + nombre + "\nTeléfono: " + telefono + "\nDirección: " + direccion + "\nRazón Social: " + razpnSocial);
+            encabezado.addCell(fecha);
+
+            documento.add(encabezado);
+
+            documento.close();
+            archivo.close();
+        } catch (Exception e) {
         }
     }
 
