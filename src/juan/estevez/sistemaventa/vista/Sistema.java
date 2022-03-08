@@ -3,6 +3,7 @@ package juan.estevez.sistemaventa.vista;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
@@ -11,8 +12,10 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,6 +42,7 @@ public class Sistema extends javax.swing.JFrame {
     Venta venta = new Venta();
     VentaDAO ventaDao = new VentaDAO();
     Detalle detalleVenta = new Detalle();
+    ConfiguracionDatosEmpresa configuracionDatosEmpresa = new ConfiguracionDatosEmpresa();
     DefaultTableModel modeloTemporal = new DefaultTableModel();
     int item;
     double totalPagar = 0.00;
@@ -122,6 +126,16 @@ public class Sistema extends javax.swing.JFrame {
             modelo.addRow(objeto);
         }
         tableProductos.setModel(modelo);
+    }
+
+    public void listarDatosEmpresa() {
+        configuracionDatosEmpresa = productoDAO.buscarDatos();
+        txtIdEmpresa.setText(String.valueOf(configuracionDatosEmpresa.getId()));
+        txtRutEmpresa.setText(String.valueOf(configuracionDatosEmpresa.getRut()));
+        txtNombreEmpresa.setText(configuracionDatosEmpresa.getNombre());
+        txtTelefonoEmpresa.setText(String.valueOf(configuracionDatosEmpresa.getTelefono()));
+        txtDireccionEmpresa.setText(configuracionDatosEmpresa.getDireccion());
+        txtRazonSocialEmpresa.setText(configuracionDatosEmpresa.getRazonSocial());
     }
 
     /**
@@ -233,15 +247,16 @@ public class Sistema extends javax.swing.JFrame {
         jLabel27 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
-        jTextField18 = new javax.swing.JTextField();
-        jTextField23 = new javax.swing.JTextField();
-        jTextField24 = new javax.swing.JTextField();
+        txtRutEmpresa = new javax.swing.JTextField();
+        txtNombreEmpresa = new javax.swing.JTextField();
+        txtTelefonoEmpresa = new javax.swing.JTextField();
         jLabel30 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
-        jTextField25 = new javax.swing.JTextField();
-        jTextField26 = new javax.swing.JTextField();
-        jButton23 = new javax.swing.JButton();
+        txtRazonSocialEmpresa = new javax.swing.JTextField();
+        txtDireccionEmpresa = new javax.swing.JTextField();
+        btnActualizarDatosEmpresa = new javax.swing.JButton();
         jLabel32 = new javax.swing.JLabel();
+        txtIdEmpresa = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -291,6 +306,11 @@ public class Sistema extends javax.swing.JFrame {
         btnConfiguracion.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnConfiguracion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/config.png"))); // NOI18N
         btnConfiguracion.setText("Configuración");
+        btnConfiguracion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfiguracionActionPerformed(evt);
+            }
+        });
 
         jLabel3.setBackground(new java.awt.Color(51, 51, 255));
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/logo.png"))); // NOI18N
@@ -1085,9 +1105,9 @@ public class Sistema extends javax.swing.JFrame {
         jLabel31.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel31.setText("RAZÓN SOCIAL");
 
-        jButton23.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/Actualizar (2).png"))); // NOI18N
-        jButton23.setText("Actualizar");
+        btnActualizarDatosEmpresa.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnActualizarDatosEmpresa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/Actualizar (2).png"))); // NOI18N
+        btnActualizarDatosEmpresa.setText("Actualizar");
 
         jLabel32.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel32.setText("DATOS DE LA EMPRESA");
@@ -1099,58 +1119,66 @@ public class Sistema extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(54, 54, 54)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jTextField26)
-                        .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel30))
-                    .addComponent(jLabel27))
-                .addGap(56, 56, 56)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel31)
-                        .addComponent(jTextField23)
-                        .addComponent(jTextField25, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel28))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel29)
-                    .addComponent(jTextField24, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(47, 47, 47))
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(349, 349, 349)
-                        .addComponent(jButton23))
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addGap(295, 295, 295)
+                                .addComponent(btnActualizarDatosEmpresa))
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addComponent(txtIdEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(198, 198, 198)
+                                .addComponent(jLabel32)))
+                        .addContainerGap(373, Short.MAX_VALUE))
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(313, 313, 313)
-                        .addComponent(jLabel32)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtDireccionEmpresa)
+                                .addComponent(txtRutEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel30))
+                            .addComponent(jLabel27))
+                        .addGap(56, 56, 56)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel31)
+                                .addComponent(txtNombreEmpresa)
+                                .addComponent(txtRazonSocialEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel28))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel29)
+                            .addComponent(txtTelefonoEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(47, 47, 47))))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addGap(44, 44, 44)
-                .addComponent(jLabel32)
-                .addGap(47, 47, 47)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(62, 62, 62)
+                        .addComponent(txtIdEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(43, 43, 43)
+                        .addComponent(jLabel32)))
+                .addGap(39, 39, 39)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel27)
                     .addComponent(jLabel29)
                     .addComponent(jLabel28))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtRutEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNombreEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTelefonoEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(46, 46, 46)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel30)
                     .addComponent(jLabel31))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtRazonSocialEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDireccionEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
-                .addComponent(jButton23)
+                .addComponent(btnActualizarDatosEmpresa)
                 .addGap(56, 56, 56))
         );
 
@@ -1649,6 +1677,12 @@ public class Sistema extends javax.swing.JFrame {
         this.limpiarVenta();
     }//GEN-LAST:event_btnNuevaVentaActionPerformed
 
+    private void btnConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfiguracionActionPerformed
+        this.txtIdEmpresa.setVisible(false);
+        this.jTabbedPane1.setSelectedIndex(5);
+        this.listarDatosEmpresa();
+    }//GEN-LAST:event_btnConfiguracionActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1683,6 +1717,7 @@ public class Sistema extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActualizarDatosEmpresa;
     private javax.swing.JButton btnClientes;
     private javax.swing.JButton btnConfiguracion;
     private javax.swing.JButton btnEditarCliente;
@@ -1706,7 +1741,6 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JButton btnProveedor;
     private javax.swing.JButton btnVentas;
     private javax.swing.JComboBox<String> cbxProveedorProducto;
-    private javax.swing.JButton jButton23;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
@@ -1751,11 +1785,6 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField18;
-    private javax.swing.JTextField jTextField23;
-    private javax.swing.JTextField jTextField24;
-    private javax.swing.JTextField jTextField25;
-    private javax.swing.JTextField jTextField26;
     private javax.swing.JLabel labelTotalVenta;
     private javax.swing.JLabel labelVendedor;
     private javax.swing.JTable tableClientes;
@@ -1771,26 +1800,32 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JTextField txtDescripcionVenta;
     private javax.swing.JTextField txtDireccionCliente;
     private javax.swing.JTextField txtDireccionClienteVenta;
+    private javax.swing.JTextField txtDireccionEmpresa;
     private javax.swing.JTextField txtDireccionProveedor;
     private javax.swing.JTextField txtDniRutCliente;
     private javax.swing.JTextField txtDniRutProveedor;
     private javax.swing.JTextField txtDniRutVenta;
     private javax.swing.JTextField txtIdCliente;
+    private javax.swing.JTextField txtIdEmpresa;
     private javax.swing.JTextField txtIdProducto;
     private javax.swing.JTextField txtIdProductoVenta;
     private javax.swing.JTextField txtIdProveedor;
     private javax.swing.JTextField txtIdVenta;
     private javax.swing.JTextField txtNombreCliente;
     private javax.swing.JTextField txtNombreClienteVenta;
+    private javax.swing.JTextField txtNombreEmpresa;
     private javax.swing.JTextField txtNombreProveedor;
     private javax.swing.JTextField txtPrecioProducto;
     private javax.swing.JTextField txtPrecioVenta;
     private javax.swing.JTextField txtRazonSocialCliente;
     private javax.swing.JTextField txtRazonSocialClienteVenta;
+    private javax.swing.JTextField txtRazonSocialEmpresa;
     private javax.swing.JTextField txtRazonSocialProveedor;
+    private javax.swing.JTextField txtRutEmpresa;
     private javax.swing.JTextField txtStockDisponibleVenta;
     private javax.swing.JTextField txtTelefonoCliente;
     private javax.swing.JTextField txtTelefonoClienteVenta;
+    private javax.swing.JTextField txtTelefonoEmpresa;
     private javax.swing.JTextField txtTelefonoProveedor;
     // End of variables declaration//GEN-END:variables
 
@@ -1942,8 +1977,9 @@ public class Sistema extends javax.swing.JFrame {
      */
     private void pdf() {
         try {
+            int idVenta = ventaDao.idVenta();
             FileOutputStream archivo;
-            File file = new File("src/juan/estevez/sistemaventa/reportes/reporteVenta.pdf");
+            File file = new File("src/juan/estevez/sistemaventa/reportes/reporteVenta" + idVenta + ".pdf");
             archivo = new FileOutputStream(file);
 
             Document documento = new Document();
@@ -1955,7 +1991,7 @@ public class Sistema extends javax.swing.JFrame {
             Font negrita = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD, BaseColor.BLUE);
             fecha.add(Chunk.NEWLINE);
             Date date = new Date();
-            fecha.add("Factura N°1\n" + "Fecha: " + new SimpleDateFormat("dd-MM-yyyy").format(date) + "\n\n");
+            fecha.add("Factura N" + idVenta + "\n" + "Fecha: " + new SimpleDateFormat("dd-MM-yyyy").format(date) + "\n\n");
 
             PdfPTable encabezado = new PdfPTable(4);
             encabezado.setWidthPercentage(100);
@@ -1964,11 +2000,11 @@ public class Sistema extends javax.swing.JFrame {
             encabezado.setWidths(columnaEncabezado);
             encabezado.setHorizontalAlignment(Element.ALIGN_LEFT);
             encabezado.addCell(img);
-            String Rut = "567898765";
-            String nombre = "Estevez corp";
-            String telefono = "9887";
-            String direccion = "direccion";
-            String razpnSocial = "razon";
+            String Rut = txtRutEmpresa.getText();
+            String nombre = txtNombreEmpresa.getText();
+            String telefono = txtTelefonoEmpresa.getText();
+            String direccion = txtDireccionEmpresa.getText();
+            String razpnSocial = txtRazonSocialEmpresa.getText();
             encabezado.addCell("");
             encabezado.addCell("Rut: " + Rut + "\nNombre: " + nombre + "\nTeléfono: " + telefono + "\nDirección: " + direccion + "\nRazón Social: " + razpnSocial);
             encabezado.addCell(fecha);
@@ -2024,7 +2060,7 @@ public class Sistema extends javax.swing.JFrame {
             celdaDescripciónProducto.setBorder(0);
             celdaPrecioUnitario.setBorder(0);
             celdaPrecioTotal.setBorder(0);
-            
+
             celdaCantidadProducto.setBackgroundColor(BaseColor.GRAY);
             celdaDescripciónProducto.setBackgroundColor(BaseColor.GRAY);
             celdaPrecioUnitario.setBackgroundColor(BaseColor.GRAY);
@@ -2044,9 +2080,30 @@ public class Sistema extends javax.swing.JFrame {
 
             documento.add(tablaProductos);
 
+            Paragraph info = new Paragraph();
+            info.add(Chunk.NEWLINE);
+            info.add("Total a Pagar " + totalPagar);
+            info.setAlignment(Element.ALIGN_RIGHT);
+            documento.add(info);
+
+            Paragraph firma = new Paragraph();
+            firma.add(Chunk.NEWLINE);
+            firma.add("Cancelación y Firma\n\n");
+            firma.add("_______________________");
+            firma.setAlignment(Element.ALIGN_CENTER);
+            documento.add(firma);
+
+            Paragraph mensaje = new Paragraph();
+            mensaje.add(Chunk.NEWLINE);
+            mensaje.add("Gracias por su compra");
+            mensaje.setAlignment(Element.ALIGN_CENTER);
+            documento.add(mensaje);
+
             documento.close();
             archivo.close();
-        } catch (Exception e) {
+            Desktop.getDesktop().open(file);
+        } catch (DocumentException | IOException e) {
+            System.err.println(e.toString());
         }
     }
 

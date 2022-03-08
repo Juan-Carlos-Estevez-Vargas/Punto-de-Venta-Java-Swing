@@ -212,4 +212,33 @@ public class ProductoDAO {
         }
         return producto;
     }
+    
+    public ConfiguracionDatosEmpresa buscarDatos() {
+        ConfiguracionDatosEmpresa configuracionDatosEmpresa = new ConfiguracionDatosEmpresa();
+        String sql = "SELECT * FROM CONFIGURACION";
+        try {
+            cn = Conexion.conectar();
+            pst = cn.prepareStatement(sql);
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                configuracionDatosEmpresa.setId(rs.getInt("ID"));
+                configuracionDatosEmpresa.setRut(rs.getInt("RUT"));
+                configuracionDatosEmpresa.setNombre(rs.getString("NOMBRE"));
+                configuracionDatosEmpresa.setTelefono(rs.getInt("TELEFONO"));
+                configuracionDatosEmpresa.setDireccion(rs.getString("DIRECCION"));
+                configuracionDatosEmpresa.setRazonSocial(rs.getString("RAZON_SOCIAL"));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error el buscar producto en productoDAO " + e.toString());
+        } finally {
+            try {
+                rs.close();
+                pst.close();
+                cn.close();
+            } catch (SQLException e) {
+                System.err.println("Error al cerrar los objetos en ProductoDAO " + e.toString());
+            }
+        }
+        return configuracionDatosEmpresa;
+    }
 }
