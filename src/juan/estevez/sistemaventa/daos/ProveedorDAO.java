@@ -1,8 +1,9 @@
-package juan.estevez.sistemaventa.modelo;
+package juan.estevez.sistemaventa.daos;
 
 import java.sql.*;
 import java.util.*;
-import javax.swing.JOptionPane;
+import javax.swing.*;
+import juan.estevez.sistemaventa.modelo.*;
 
 /**
  *
@@ -33,7 +34,7 @@ public class ProveedorDAO {
             pst.execute();
             return true;
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al registrar proveedor " + e.toString());
+            JOptionPane.showMessageDialog(null, "Error al registrar proveedor en proveedorDAO" + e.toString());
             return false;
         } finally {
             try {

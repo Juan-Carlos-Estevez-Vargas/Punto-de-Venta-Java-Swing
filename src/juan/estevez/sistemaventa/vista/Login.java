@@ -1,7 +1,7 @@
 package juan.estevez.sistemaventa.vista;
 
 import javax.swing.JOptionPane;
-import juan.estevez.sistemaventa.modelo.LoginDAO;
+import juan.estevez.sistemaventa.daos.LoginDAO;
 import juan.estevez.sistemaventa.modelo.Loginn;
 
 /**
@@ -239,10 +239,8 @@ public class Login extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Login().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Login().setVisible(true);
         });
     }
 

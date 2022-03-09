@@ -1,6 +1,7 @@
-package juan.estevez.sistemaventa.modelo;
+package juan.estevez.sistemaventa.daos;
 
 import java.sql.*;
+import juan.estevez.sistemaventa.modelo.*;
 
 /**
  *

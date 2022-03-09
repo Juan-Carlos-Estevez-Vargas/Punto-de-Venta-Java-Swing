@@ -1,13 +1,9 @@
-package juan.estevez.sistemaventa.modelo;
+package juan.estevez.sistemaventa.daos;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
+import java.sql.*;
+import java.util.*;
+import javax.swing.*;
+import juan.estevez.sistemaventa.modelo.*;
 
 /**
  *
@@ -212,59 +208,34 @@ public class ProductoDAO {
         }
         return producto;
     }
-    
-    public ConfiguracionDatosEmpresa buscarDatos() {
-        ConfiguracionDatosEmpresa configuracionDatosEmpresa = new ConfiguracionDatosEmpresa();
-        String sql = "SELECT * FROM CONFIGURACION";
+
+    /**
+     * Actualiza el stock disponible del producto en la base de datos.
+     *
+     * @param cantidad nueva a setearle al producto.
+     * @param codigoProducto al cuál se le actualizará el stock.
+     * @return true si se realizó la actualización, false si no.
+     */
+    public boolean actualizarStock(int cantidad, String codigoProducto) {
+        String sql = "UPDATE PRODUCTO SET STOCK = ? WHERE CODIGO = ?";
         try {
             cn = Conexion.conectar();
             pst = cn.prepareStatement(sql);
-            rs = pst.executeQuery();
-            if (rs.next()) {
-                configuracionDatosEmpresa.setId(rs.getInt("ID"));
-                configuracionDatosEmpresa.setRut(rs.getInt("RUT"));
-                configuracionDatosEmpresa.setNombre(rs.getString("NOMBRE"));
-                configuracionDatosEmpresa.setTelefono(rs.getInt("TELEFONO"));
-                configuracionDatosEmpresa.setDireccion(rs.getString("DIRECCION"));
-                configuracionDatosEmpresa.setRazonSocial(rs.getString("RAZON_SOCIAL"));
-            }
-        } catch (SQLException e) {
-            System.err.println("Error el buscar producto en productoDAO " + e.toString());
-        } finally {
-            try {
-                rs.close();
-                pst.close();
-                cn.close();
-            } catch (SQLException e) {
-                System.err.println("Error al cerrar los objetos en ProductoDAO " + e.toString());
-            }
-        }
-        return configuracionDatosEmpresa;
-    }
-    
-    public boolean modificarDatosEmpresa(ConfiguracionDatosEmpresa configuracionDatosEmpresa) {
-        String sql = "UPDATE CONFIGURACION SET RUT = ?, NOMBRE = ?, TELEFONO = ?, DIRECCION = ?, RAZON_SOCIAL = ? WHERE ID = ?";
-        try {
-            cn = Conexion.conectar();
-            pst = cn.prepareStatement(sql);
-            pst.setInt(1, configuracionDatosEmpresa.getRut());
-            pst.setString(2, configuracionDatosEmpresa.getNombre());
-            pst.setInt(3, configuracionDatosEmpresa.getTelefono());
-            pst.setString(4, configuracionDatosEmpresa.getDireccion());
-            pst.setString(5, configuracionDatosEmpresa.getRazonSocial());
-            pst.setInt(6, configuracionDatosEmpresa.getId());
+            pst.setInt(1, cantidad);
+            pst.setString(2, codigoProducto);
             pst.execute();
             return true;
         } catch (SQLException e) {
-            System.err.println("Error el modificar producto en productoDAO " + e.toString());
+            System.err.println("Error al actualizar Stock en VentaDAO " + e.toString());
             return false;
         } finally {
             try {
                 pst.close();
                 cn.close();
             } catch (SQLException e) {
-                System.err.println("Error al cerrar los objetos en ProductoDAO " + e.toString());
+                System.err.println("Error al cerrar los objetos en VentaDAO " + e.toString());
             }
         }
     }
+
 }

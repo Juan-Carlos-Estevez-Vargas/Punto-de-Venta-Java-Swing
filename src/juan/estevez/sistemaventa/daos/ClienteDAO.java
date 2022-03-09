@@ -1,9 +1,9 @@
-package juan.estevez.sistemaventa.modelo;
+package juan.estevez.sistemaventa.daos;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JOptionPane;
+import java.util.*;
+import javax.swing.*;
+import juan.estevez.sistemaventa.modelo.*;
 
 /**
  *

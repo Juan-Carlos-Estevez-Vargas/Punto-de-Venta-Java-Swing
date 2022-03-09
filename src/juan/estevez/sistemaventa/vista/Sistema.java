@@ -1,29 +1,23 @@
 package juan.estevez.sistemaventa.vista;
 
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Chunk;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
-import java.awt.Desktop;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-import juan.estevez.sistemaventa.modelo.*;
+import javax.swing.*;
+import javax.swing.table.*;
+import juan.estevez.sistemaventa.daos.ClienteDAO;
+import juan.estevez.sistemaventa.daos.ConfiguracionDatosEmpresaDAO;
+import juan.estevez.sistemaventa.daos.ProductoDAO;
+import juan.estevez.sistemaventa.daos.ProveedorDAO;
+import juan.estevez.sistemaventa.daos.VentaDAO;
+import juan.estevez.sistemaventa.modelo.Cliente;
+import juan.estevez.sistemaventa.modelo.ConfiguracionDatosEmpresa;
+import juan.estevez.sistemaventa.modelo.Detalle;
+import juan.estevez.sistemaventa.modelo.Eventos;
+import juan.estevez.sistemaventa.modelo.Producto;
+import juan.estevez.sistemaventa.modelo.Proveedor;
+import juan.estevez.sistemaventa.modelo.Venta;
 import juan.estevez.sistemaventa.reportes.Excel;
+import juan.estevez.sistemaventa.reportes.ReporteVentaPDF;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**
@@ -31,7 +25,7 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
  * @author Juan Carlos Estevez Vargas
  */
 public class Sistema extends javax.swing.JFrame {
-    
+
     Cliente cliente = new Cliente();
     ClienteDAO clienteDAO = new ClienteDAO();
     DefaultTableModel modelo = new DefaultTableModel();
@@ -44,7 +38,9 @@ public class Sistema extends javax.swing.JFrame {
     Detalle detalleVenta = new Detalle();
     Eventos evento = new Eventos();
     ConfiguracionDatosEmpresa configuracionDatosEmpresa = new ConfiguracionDatosEmpresa();
+    ConfiguracionDatosEmpresaDAO configuracionDatosEmpresaDAO = new ConfiguracionDatosEmpresaDAO();
     DefaultTableModel modeloTemporal = new DefaultTableModel();
+    ReporteVentaPDF reporteVentaPDF = new ReporteVentaPDF();
     int item;
     double totalPagar = 0.00;
 
@@ -73,7 +69,7 @@ public class Sistema extends javax.swing.JFrame {
         List<Cliente> listarClientes = clienteDAO.listarClientes();
         modelo = (DefaultTableModel) tableClientes.getModel();
         Object[] objeto = new Object[6];
-        
+
         for (int i = 0; i < listarClientes.size(); i++) {
             objeto[0] = listarClientes.get(i).getId();
             objeto[1] = listarClientes.get(i).getDni();
@@ -81,7 +77,7 @@ public class Sistema extends javax.swing.JFrame {
             objeto[3] = listarClientes.get(i).getTelefono();
             objeto[4] = listarClientes.get(i).getDireccion();
             objeto[5] = listarClientes.get(i).getRazonSocial();
-            
+
             modelo.addRow(objeto);
         }
         tableClientes.setModel(modelo);
@@ -94,7 +90,7 @@ public class Sistema extends javax.swing.JFrame {
         List<Proveedor> listarProveedores = proveedorDAO.listarProveedores();
         modelo = (DefaultTableModel) tableProveedores.getModel();
         Object[] objeto = new Object[6];
-        
+
         for (int i = 0; i < listarProveedores.size(); i++) {
             objeto[0] = listarProveedores.get(i).getId();
             objeto[1] = listarProveedores.get(i).getRut();
@@ -102,7 +98,7 @@ public class Sistema extends javax.swing.JFrame {
             objeto[3] = listarProveedores.get(i).getTelefono();
             objeto[4] = listarProveedores.get(i).getDireccion();
             objeto[5] = listarProveedores.get(i).getRazonSocial();
-            
+
             modelo.addRow(objeto);
         }
         tableProveedores.setModel(modelo);
@@ -115,7 +111,7 @@ public class Sistema extends javax.swing.JFrame {
         List<Producto> listarProductos = productoDAO.listarProductos();
         modelo = (DefaultTableModel) tableProductos.getModel();
         Object[] objeto = new Object[6];
-        
+
         for (int i = 0; i < listarProductos.size(); i++) {
             objeto[0] = listarProductos.get(i).getId();
             objeto[1] = listarProductos.get(i).getCodigo();
@@ -123,14 +119,17 @@ public class Sistema extends javax.swing.JFrame {
             objeto[3] = listarProductos.get(i).getProveedor();
             objeto[4] = listarProductos.get(i).getStock();
             objeto[5] = listarProductos.get(i).getPrecio();
-            
+
             modelo.addRow(objeto);
         }
         tableProductos.setModel(modelo);
     }
-    
+
+    /**
+     * Lista los datos de la empresa en el formulario de configuración.
+     */
     public void listarDatosEmpresa() {
-        configuracionDatosEmpresa = productoDAO.buscarDatos();
+        configuracionDatosEmpresa = configuracionDatosEmpresaDAO.buscarDatosEmpresa();
         txtIdEmpresa.setText(String.valueOf(configuracionDatosEmpresa.getId()));
         txtRutEmpresa.setText(String.valueOf(configuracionDatosEmpresa.getRut()));
         txtNombreEmpresa.setText(configuracionDatosEmpresa.getNombre());
@@ -831,6 +830,9 @@ public class Sistema extends javax.swing.JFrame {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtTelefonoProveedorKeyPressed(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTelefonoProveedorKeyTyped(evt);
+            }
         });
 
         txtNombreProveedor.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -1293,7 +1295,7 @@ public class Sistema extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * Redirige al panel de productos y lista los mismos.
+     * Redirige al panel de productos, limpia y lista los mismos.
      *
      * @param evt
      */
@@ -1305,7 +1307,6 @@ public class Sistema extends javax.swing.JFrame {
     }//GEN-LAST:event_btnProductosActionPerformed
 
     private void txtCodigoVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoVentaActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtCodigoVentaActionPerformed
 
     /**
@@ -1318,16 +1319,16 @@ public class Sistema extends javax.swing.JFrame {
                 || !"".equals(txtNombreCliente.getText())
                 || !"".equals(txtTelefonoCliente.getText())
                 || !"".equals(txtDireccionCliente.getText())) {
-            
+
             cliente.setDni(Integer.parseInt(txtDniRutCliente.getText()));
             cliente.setNombre(txtNombreCliente.getText());
             cliente.setTelefono(Integer.parseInt(txtTelefonoCliente.getText()));
             cliente.setDireccion(txtDireccionCliente.getText());
             cliente.setRazonSocial(txtRazonSocialCliente.getText());
-            
+
             clienteDAO.registrarCliente(cliente);
             JOptionPane.showMessageDialog(null, "Cliente Registrado");
-            
+
             this.limpiarTabla();
             this.listarClientes();
             this.limpiarCliente();
@@ -1371,10 +1372,10 @@ public class Sistema extends javax.swing.JFrame {
     private void btnEliminarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarClienteActionPerformed
         if (!"".equals(txtIdCliente.getText())) {
             int pregunta = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar el registro?");
-            
+
             if (pregunta == 0) {
                 clienteDAO.eliminarCliente(Integer.parseInt(txtIdCliente.getText()));
-                
+
                 this.limpiarTabla();
                 this.listarClientes();
                 this.limpiarCliente();
@@ -1391,19 +1392,19 @@ public class Sistema extends javax.swing.JFrame {
         if ("".equals(txtIdCliente.getText())) {
             JOptionPane.showMessageDialog(null, "Seleccione una fila");
         } else {
-            
+
             if (!"".equals(txtDniRutCliente.getText())
                     || !"".equals(txtNombreCliente.getText())
                     || !"".equals(txtTelefonoCliente.getText())
                     || !"".equals(txtDireccionCliente.getText())) {
-                
+
                 cliente.setId(Integer.parseInt(txtIdCliente.getText()));
                 cliente.setDni(Integer.parseInt(txtDniRutCliente.getText()));
                 cliente.setNombre(txtNombreCliente.getText());
                 cliente.setTelefono(Integer.parseInt(txtTelefonoCliente.getText()));
                 cliente.setDireccion(txtDireccionCliente.getText());
                 cliente.setRazonSocial(txtRazonSocialCliente.getText());
-                
+
                 clienteDAO.modificarCliente(cliente);
                 this.limpiarTabla();
                 this.limpiarCliente();
@@ -1433,16 +1434,16 @@ public class Sistema extends javax.swing.JFrame {
                 || !"".equals(txtNombreProveedor.getText())
                 || !"".equals(txtTelefonoProveedor.getText())
                 || !"".equals(txtDireccionProveedor.getText())) {
-            
+
             proveedor.setRut(Integer.parseInt(txtDniRutProveedor.getText()));
             proveedor.setNombre(txtNombreProveedor.getText());
             proveedor.setTelefono(Integer.parseInt(txtTelefonoProveedor.getText()));
             proveedor.setDireccion(txtDireccionProveedor.getText());
             proveedor.setRazonSocial(txtRazonSocialProveedor.getText());
-            
+
             proveedorDAO.registrarProveedor(proveedor);
             JOptionPane.showMessageDialog(null, "Proveedor Registrado");
-            
+
             this.limpiarTabla();
             this.listarProveedor();
             this.limpiarProveedor();
@@ -1486,10 +1487,10 @@ public class Sistema extends javax.swing.JFrame {
     private void btnEliminarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarProveedorActionPerformed
         if (!"".equals(txtIdProveedor.getText())) {
             int pregunta = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar el registro?");
-            
+
             if (pregunta == 0) {
                 proveedorDAO.eliminarProveedor(Integer.parseInt(txtIdProveedor.getText()));
-                
+
                 this.limpiarTabla();
                 this.listarProveedor();
                 this.limpiarProveedor();
@@ -1510,14 +1511,14 @@ public class Sistema extends javax.swing.JFrame {
                     || !"".equals(txtNombreProveedor.getText())
                     || !"".equals(txtTelefonoProveedor.getText())
                     || !"".equals(txtDireccionProveedor.getText())) {
-                
+
                 proveedor.setId(Integer.parseInt(txtIdProveedor.getText()));
                 proveedor.setRut(Integer.parseInt(txtDniRutProveedor.getText()));
                 proveedor.setNombre(txtNombreProveedor.getText());
                 proveedor.setTelefono(Integer.parseInt(txtTelefonoProveedor.getText()));
                 proveedor.setDireccion(txtDireccionProveedor.getText());
                 proveedor.setRazonSocial(txtRazonSocialProveedor.getText());
-                
+
                 proveedorDAO.modificarProveedor(proveedor);
                 this.limpiarTabla();
                 this.limpiarProveedor();
@@ -1548,16 +1549,16 @@ public class Sistema extends javax.swing.JFrame {
                 || !"".equals(txtPrecioProducto.getText())
                 || !"".equals(cbxProveedorProducto.getSelectedItem())
                 || !"".equals(txtCantidadProducto.getText())) {
-            
+
             producto.setCodigo(txtCodigoProducto.getText());
             producto.setNombre(txtDescripcionProducto.getText());
             producto.setProveedor(cbxProveedorProducto.getSelectedItem().toString());
             producto.setStock(Integer.parseInt(txtCantidadProducto.getText()));
             producto.setPrecio(Double.parseDouble(txtPrecioProducto.getText()));
-            
+
             productoDAO.registrarProducto(producto);
             JOptionPane.showMessageDialog(null, "Proveedor Registrado");
-            
+
             this.limpiarTabla();
             this.listarProductos();
             this.limpiarProducto();
@@ -1589,10 +1590,10 @@ public class Sistema extends javax.swing.JFrame {
     private void btnEliminarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarProductoActionPerformed
         if (!"".equals(txtIdProducto.getText())) {
             int pregunta = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar el registro?");
-            
+
             if (pregunta == 0) {
                 productoDAO.eliminarProducto(Integer.parseInt(txtIdProducto.getText()));
-                
+
                 this.limpiarTabla();
                 this.listarProductos();
                 this.limpiarProducto();
@@ -1614,14 +1615,14 @@ public class Sistema extends javax.swing.JFrame {
                     || !"".equals(cbxProveedorProducto.getSelectedItem().toString())
                     || !"".equals(txtPrecioProducto.getText())
                     || !"".equals(txtCantidadProducto.getText())) {
-                
+
                 producto.setId(Integer.parseInt(txtIdProducto.getText()));
                 producto.setCodigo(txtCodigoProducto.getText());
                 producto.setNombre(txtDescripcionProducto.getText());
                 producto.setProveedor(cbxProveedorProducto.getSelectedItem().toString());
                 producto.setStock(Integer.parseInt(txtCantidadProducto.getText()));
                 producto.setPrecio(Double.parseDouble(txtPrecioProducto.getText()));
-                
+
                 productoDAO.modificarProducto(producto);
                 this.limpiarTabla();
                 this.limpiarProducto();
@@ -1633,7 +1634,7 @@ public class Sistema extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditarProductoActionPerformed
 
     /**
-     * Genera reporte en pdf de los productos existentes en el sistema.
+     * Genera reporte en excel de los productos existentes en el sistema.
      *
      * @param evt
      */
@@ -1687,14 +1688,14 @@ public class Sistema extends javax.swing.JFrame {
                 if (stockDisponible >= cantidad) {
                     item = item + 1;
                     modeloTemporal = (DefaultTableModel) tableVenta.getModel();
-                    
+
                     for (int i = 0; i < tableVenta.getRowCount(); i++) {
                         if (tableVenta.getValueAt(i, 1).equals(txtDescripcionVenta.getText())) {
                             JOptionPane.showMessageDialog(null, "El producto ya está registrado.");
                             return;
                         }
                     }
-                    
+
                     ArrayList lista = new ArrayList();
                     lista.add(item);
                     lista.add(codigoProducto);
@@ -1702,20 +1703,20 @@ public class Sistema extends javax.swing.JFrame {
                     lista.add(cantidad);
                     lista.add(precio);
                     lista.add(totalVenta);
-                    
+
                     Object[] objeto = new Object[5];
                     objeto[0] = lista.get(1);
                     objeto[1] = lista.get(2);
                     objeto[2] = lista.get(3);
                     objeto[3] = lista.get(4);
                     objeto[4] = lista.get(5);
-                    
+
                     modeloTemporal.addRow(objeto);
                     tableVenta.setModel(modeloTemporal);
                     this.totalPagar();
                     this.limpiarVenta();
                     txtCodigoVenta.requestFocus();
-                    
+
                 } else {
                     JOptionPane.showMessageDialog(null, "Stock no disponible.");
                 }
@@ -1772,7 +1773,11 @@ public class Sistema extends javax.swing.JFrame {
                 this.registrarVenta();
                 this.registrarDetalleVenta();
                 this.actualizarStock();
-                this.pdf();
+                this.reporteVentaPDF.pdf(txtRutEmpresa.getText(), txtNombreEmpresa.getText(),
+                        txtTelefonoEmpresa.getText(), txtDireccionEmpresa.getText(),
+                        txtRazonSocialEmpresa.getText(), txtDniRutVenta.getText(),
+                        txtNombreClienteVenta.getText(), txtTelefonoClienteVenta.getText(),
+                        txtDireccionClienteVenta.getText(), tableVenta, totalPagar);
                 this.limpiarTableVenta();
                 this.limpiarClienteVenta();
             } else {
@@ -1785,11 +1790,23 @@ public class Sistema extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnGenerarVentaActionPerformed
 
+    /**
+     * Al presionar sobre el botón, se redirige al panel Nueva Venta y se
+     * limpian sus campos.
+     *
+     * @param evt
+     */
     private void btnNuevaVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaVentaActionPerformed
         this.jTabbedPane1.setSelectedIndex(0);
         this.limpiarVenta();
     }//GEN-LAST:event_btnNuevaVentaActionPerformed
 
+    /**
+     * Al presionar sobre el botón, se redirige al panel de Configuración y se
+     * listan los datos de la empresa.
+     *
+     * @param evt
+     */
     private void btnConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfiguracionActionPerformed
         this.txtIdEmpresa.setVisible(false);
         this.jTabbedPane1.setSelectedIndex(5);
@@ -1797,100 +1814,185 @@ public class Sistema extends javax.swing.JFrame {
     }//GEN-LAST:event_btnConfiguracionActionPerformed
 
     private void txtCodigoVentaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoVentaKeyTyped
-        this.evento.numberKeyPress(evt);
+
     }//GEN-LAST:event_txtCodigoVentaKeyTyped
 
+    /**
+     * Se valida que en este txt solo se puedan escribir números enteros.
+     *
+     * @param evt
+     */
     private void txtCantidadVentaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadVentaKeyTyped
         this.evento.numberKeyPress(evt);
     }//GEN-LAST:event_txtCantidadVentaKeyTyped
 
+    /**
+     * Se valida que en este txt solo se puedan escribir números con punto
+     * decimal.
+     *
+     * @param evt
+     */
     private void txtPrecioVentaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioVentaKeyTyped
         this.evento.numberDecimalKeyPress(evt, txtPrecioVenta);
     }//GEN-LAST:event_txtPrecioVentaKeyTyped
 
+    /**
+     * Se valida que en este txt solo se puedan escribir números enteros.
+     *
+     * @param evt
+     */
     private void txtStockDisponibleVentaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtStockDisponibleVentaKeyTyped
         this.evento.numberKeyPress(evt);
     }//GEN-LAST:event_txtStockDisponibleVentaKeyTyped
 
+    /**
+     * Se valida que en este txt solo se puedan escribir números enteros.
+     *
+     * @param evt
+     */
     private void txtDniRutVentaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDniRutVentaKeyTyped
         this.evento.numberKeyPress(evt);
     }//GEN-LAST:event_txtDniRutVentaKeyTyped
 
+    /**
+     * Se valida que en este txt solo se puedan escribir cadenas de caracteres.
+     *
+     * @param evt
+     */
     private void txtNombreClienteVentaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreClienteVentaKeyTyped
         this.evento.textKeyPress(evt);
     }//GEN-LAST:event_txtNombreClienteVentaKeyTyped
 
+    /**
+     * Se valida que en este txt solo se puedan escribir números enteros.
+     *
+     * @param evt
+     */
     private void txtDniRutClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDniRutClienteKeyTyped
         this.evento.numberKeyPress(evt);
     }//GEN-LAST:event_txtDniRutClienteKeyTyped
 
+    /**
+     * Se valida que en este txt solo se puedan escribir cadenas de caracteres.
+     *
+     * @param evt
+     */
     private void txtNombreClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreClienteKeyTyped
         this.evento.textKeyPress(evt);
     }//GEN-LAST:event_txtNombreClienteKeyTyped
 
+    /**
+     * Se valida que en este txt solo se puedan escribir números enteros.
+     *
+     * @param evt
+     */
     private void txtTelefonoClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoClienteKeyTyped
         this.evento.numberKeyPress(evt);
     }//GEN-LAST:event_txtTelefonoClienteKeyTyped
 
     private void txtDireccionClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDireccionClienteKeyTyped
-        this.evento.textKeyPress(evt);
-        this.evento.numberKeyPress(evt);
+
     }//GEN-LAST:event_txtDireccionClienteKeyTyped
 
+    /**
+     * Se valida que en este txt solo se puedan escribir números enteros.
+     *
+     * @param evt
+     */
     private void txtDniRutProveedorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDniRutProveedorKeyTyped
         this.evento.numberKeyPress(evt);
     }//GEN-LAST:event_txtDniRutProveedorKeyTyped
 
+    /**
+     * Se valida que en este txt solo se puedan escribir cadenas de caracteres.
+     *
+     * @param evt
+     */
     private void txtNombreProveedorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreProveedorKeyTyped
         this.evento.textKeyPress(evt);
     }//GEN-LAST:event_txtNombreProveedorKeyTyped
 
+    /**
+     * Se valida que en este txt solo se puedan escribir números enteros.
+     *
+     * @param evt
+     */
     private void txtTelefonoProveedorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoProveedorKeyPressed
         this.evento.numberKeyPress(evt);
     }//GEN-LAST:event_txtTelefonoProveedorKeyPressed
 
     private void txtCodigoProductoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoProductoKeyTyped
-        this.evento.textKeyPress(evt);
-        this.evento.numberKeyPress(evt);
+
     }//GEN-LAST:event_txtCodigoProductoKeyTyped
 
+    /**
+     * Se valida que en este txt solo se puedan escribir números enteros.
+     *
+     * @param evt
+     */
     private void txtCantidadProductoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadProductoKeyTyped
-        this.evento.textKeyPress(evt);
+        this.evento.numberKeyPress(evt);
     }//GEN-LAST:event_txtCantidadProductoKeyTyped
 
+    /**
+     * Se valida que en este txt solo se puedan escribir números con punto
+     * decimal.
+     *
+     * @param evt
+     */
     private void txtPrecioProductoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioProductoKeyTyped
         this.evento.numberDecimalKeyPress(evt, txtPrecioProducto);
     }//GEN-LAST:event_txtPrecioProductoKeyTyped
 
+    /**
+     * Se valida que en este txt solo se puedan escribir números enteros.
+     *
+     * @param evt
+     */
     private void txtRutEmpresaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRutEmpresaKeyTyped
         this.evento.numberKeyPress(evt);
     }//GEN-LAST:event_txtRutEmpresaKeyTyped
 
+    /**
+     * Se valida que en este txt solo se puedan escribir números enteros.
+     *
+     * @param evt
+     */
     private void txtTelefonoEmpresaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoEmpresaKeyTyped
         this.evento.numberKeyPress(evt);
     }//GEN-LAST:event_txtTelefonoEmpresaKeyTyped
 
+    /**
+     * Se encarga de pasarle los datos de la empresa al método que modifica los
+     * datos de la empresa para luego actualizar dichos datos.
+     *
+     * @param evt
+     */
     private void btnActualizarDatosEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarDatosEmpresaActionPerformed
         if (!"".equals(txtRutEmpresa.getText())
                 || !"".equals(txtNombreEmpresa.getText())
                 || !"".equals(txtTelefonoEmpresa.getText())
                 || !"".equals(txtDireccionEmpresa.getText())) {
-            
+
             configuracionDatosEmpresa.setId(Integer.parseInt(txtIdEmpresa.getText()));
             configuracionDatosEmpresa.setRut(Integer.parseInt(txtRutEmpresa.getText()));
             configuracionDatosEmpresa.setNombre(txtNombreEmpresa.getText());
             configuracionDatosEmpresa.setTelefono(Integer.parseInt(txtTelefonoEmpresa.getText()));
             configuracionDatosEmpresa.setDireccion(txtDireccionEmpresa.getText());
             configuracionDatosEmpresa.setRazonSocial(txtRazonSocialEmpresa.getText());
-            
-            productoDAO.modificarDatosEmpresa(configuracionDatosEmpresa);
-            JOptionPane.showMessageDialog(null, "Melo.");
-            
-            this.limpiarDatosEmpresa();
+
+            configuracionDatosEmpresaDAO.modificarDatosEmpresa(configuracionDatosEmpresa);
+            JOptionPane.showMessageDialog(null, "Datos Actualizados.");
+
+            this.listarDatosEmpresa();
         } else {
             JOptionPane.showMessageDialog(null, "Algunos campos están vacíos.");
         }
     }//GEN-LAST:event_btnActualizarDatosEmpresaActionPerformed
+
+    private void txtTelefonoProveedorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoProveedorKeyTyped
+        this.evento.numberKeyPress(evt);
+    }//GEN-LAST:event_txtTelefonoProveedorKeyTyped
 
     /**
      * @param args the command line arguments
@@ -2138,17 +2240,17 @@ public class Sistema extends javax.swing.JFrame {
      */
     private void registrarDetalleVenta() {
         int id = ventaDao.idVenta();
-        
+
         for (int i = 0; i < tableVenta.getRowCount(); i++) {
             String codigoProducto = tableVenta.getValueAt(i, 0).toString();
             int cantidad = Integer.parseInt(tableVenta.getValueAt(i, 2).toString());
             double precio = Double.parseDouble(tableVenta.getValueAt(i, 3).toString());
-            
+
             this.detalleVenta.setId(id);
             this.detalleVenta.setCodigoProducto(codigoProducto);
             this.detalleVenta.setCantidad(cantidad);
             this.detalleVenta.setPrecio(precio);
-            
+
             ventaDao.registrarDetalleVenta(detalleVenta);
         }
     }
@@ -2164,8 +2266,8 @@ public class Sistema extends javax.swing.JFrame {
             producto = productoDAO.buscarProducto(codigoProducto);
             System.out.println("x" + producto.toString());
             int stockActual = producto.getStock() - cantidadProducto;
-            
-            this.ventaDao.actualizarStock(stockActual, codigoProducto);
+
+            this.productoDAO.actualizarStock(stockActual, codigoProducto);
         }
     }
 
@@ -2175,153 +2277,10 @@ public class Sistema extends javax.swing.JFrame {
     private void limpiarTableVenta() {
         this.modeloTemporal = (DefaultTableModel) tableVenta.getModel();
         int filas = tableVenta.getRowCount();
-        
+
         for (int i = 0; i < filas; i++) {
             modeloTemporal.removeRow(0);
         }
     }
 
-    /**
-     * Genera reporte en pdf de la venta realizada.
-     */
-    private void pdf() {
-        try {
-            int idVenta = ventaDao.idVenta();
-            FileOutputStream archivo;
-            File file = new File("src/juan/estevez/sistemaventa/reportes/reporteVenta" + idVenta + ".pdf");
-            archivo = new FileOutputStream(file);
-            
-            Document documento = new Document();
-            PdfWriter.getInstance(documento, archivo);
-            documento.open();
-            Image img = Image.getInstance("src/juan/estevez/sistemaventa/img/logo_pdf.png");
-            
-            Paragraph fecha = new Paragraph();
-            Font negrita = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD, BaseColor.BLUE);
-            fecha.add(Chunk.NEWLINE);
-            Date date = new Date();
-            fecha.add("Factura N" + idVenta + "\n" + "Fecha: " + new SimpleDateFormat("dd-MM-yyyy").format(date) + "\n\n");
-            
-            PdfPTable encabezado = new PdfPTable(4);
-            encabezado.setWidthPercentage(100);
-            encabezado.getDefaultCell().setBorder(0);
-            float[] columnaEncabezado = new float[]{20f, 40f, 70f, 40f};
-            encabezado.setWidths(columnaEncabezado);
-            encabezado.setHorizontalAlignment(Element.ALIGN_LEFT);
-            encabezado.addCell(img);
-            String Rut = txtRutEmpresa.getText();
-            String nombre = txtNombreEmpresa.getText();
-            String telefono = txtTelefonoEmpresa.getText();
-            String direccion = txtDireccionEmpresa.getText();
-            String razpnSocial = txtRazonSocialEmpresa.getText();
-            encabezado.addCell("");
-            encabezado.addCell("Rut: " + Rut + "\nNombre: " + nombre + "\nTeléfono: " + telefono + "\nDirección: " + direccion + "\nRazón Social: " + razpnSocial);
-            encabezado.addCell(fecha);
-            documento.add(encabezado);
-            
-            Paragraph cliente = new Paragraph();
-            cliente.add(Chunk.NEWLINE);
-            cliente.add("Datos de los clientes \n\n");
-            documento.add(cliente);
-            
-            PdfPTable tablaClientes = new PdfPTable(4);
-            tablaClientes.setWidthPercentage(100);
-            tablaClientes.getDefaultCell().setBorder(0);
-            float[] columnaCliente = new float[]{20f, 50f, 30f, 40f};
-            tablaClientes.setWidths(columnaCliente);
-            tablaClientes.setHorizontalAlignment(Element.ALIGN_LEFT);
-            
-            PdfPCell celdaRutCliente = new PdfPCell(new Phrase("DNI/RUT", negrita));
-            PdfPCell celdaNombreCliente = new PdfPCell(new Phrase("Nombre", negrita));
-            PdfPCell celdaTelefonoCliente = new PdfPCell(new Phrase("Teléfono", negrita));
-            PdfPCell celdaDireccionCliente = new PdfPCell(new Phrase("Dirección", negrita));
-            
-            celdaRutCliente.setBorder(0);
-            celdaNombreCliente.setBorder(0);
-            celdaTelefonoCliente.setBorder(0);
-            celdaDireccionCliente.setBorder(0);
-            
-            tablaClientes.addCell(celdaRutCliente);
-            tablaClientes.addCell(celdaNombreCliente);
-            tablaClientes.addCell(celdaTelefonoCliente);
-            tablaClientes.addCell(celdaDireccionCliente);
-            
-            tablaClientes.addCell(txtDniRutVenta.getText());
-            tablaClientes.addCell(txtNombreClienteVenta.getText());
-            tablaClientes.addCell(txtTelefonoClienteVenta.getText());
-            tablaClientes.addCell(txtDireccionClienteVenta.getText());
-            documento.add(tablaClientes);
-
-            // Productos
-            PdfPTable tablaProductos = new PdfPTable(4);
-            tablaProductos.setWidthPercentage(100);
-            tablaProductos.getDefaultCell().setBorder(0);
-            float[] columnaProducto = new float[]{20f, 50f, 25f, 30f};
-            tablaProductos.setWidths(columnaProducto);
-            tablaProductos.setHorizontalAlignment(Element.ALIGN_LEFT);
-            
-            PdfPCell celdaCantidadProducto = new PdfPCell(new Phrase("Cantidad", negrita));
-            PdfPCell celdaDescripciónProducto = new PdfPCell(new Phrase("Descripción", negrita));
-            PdfPCell celdaPrecioUnitario = new PdfPCell(new Phrase("Precio U.", negrita));
-            PdfPCell celdaPrecioTotal = new PdfPCell(new Phrase("Precio T.", negrita));
-            
-            celdaCantidadProducto.setBorder(0);
-            celdaDescripciónProducto.setBorder(0);
-            celdaPrecioUnitario.setBorder(0);
-            celdaPrecioTotal.setBorder(0);
-            
-            celdaCantidadProducto.setBackgroundColor(BaseColor.GRAY);
-            celdaDescripciónProducto.setBackgroundColor(BaseColor.GRAY);
-            celdaPrecioUnitario.setBackgroundColor(BaseColor.GRAY);
-            celdaPrecioTotal.setBackgroundColor(BaseColor.GRAY);
-            
-            tablaProductos.addCell(celdaCantidadProducto);
-            tablaProductos.addCell(celdaDescripciónProducto);
-            tablaProductos.addCell(celdaPrecioUnitario);
-            tablaProductos.addCell(celdaPrecioTotal);
-            
-            for (int i = 0; i < tableVenta.getRowCount(); i++) {
-                tablaProductos.addCell(tableVenta.getValueAt(i, 2).toString());
-                tablaProductos.addCell(tableVenta.getValueAt(i, 1).toString());
-                tablaProductos.addCell(tableVenta.getValueAt(i, 3).toString());
-                tablaProductos.addCell(tableVenta.getValueAt(i, 4).toString());
-            }
-            
-            documento.add(tablaProductos);
-            
-            Paragraph info = new Paragraph();
-            info.add(Chunk.NEWLINE);
-            info.add("Total a Pagar " + totalPagar);
-            info.setAlignment(Element.ALIGN_RIGHT);
-            documento.add(info);
-            
-            Paragraph firma = new Paragraph();
-            firma.add(Chunk.NEWLINE);
-            firma.add("Cancelación y Firma\n\n");
-            firma.add("_______________________");
-            firma.setAlignment(Element.ALIGN_CENTER);
-            documento.add(firma);
-            
-            Paragraph mensaje = new Paragraph();
-            mensaje.add(Chunk.NEWLINE);
-            mensaje.add("Gracias por su compra");
-            mensaje.setAlignment(Element.ALIGN_CENTER);
-            documento.add(mensaje);
-            
-            documento.close();
-            archivo.close();
-            Desktop.getDesktop().open(file);
-        } catch (DocumentException | IOException e) {
-            System.err.println(e.toString());
-        }
-    }
-    
-    private void limpiarDatosEmpresa() {
-        this.txtRutEmpresa.setText("");
-        this.txtNombreEmpresa.setText("");
-        this.txtTelefonoEmpresa.setText("");
-        this.txtDireccionEmpresa.setText("");
-        this.txtRazonSocialEmpresa.setText("");
-    }
-    
 }

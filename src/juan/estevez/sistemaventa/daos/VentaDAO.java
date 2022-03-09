@@ -1,7 +1,8 @@
-package juan.estevez.sistemaventa.modelo;
+package juan.estevez.sistemaventa.daos;
 
 import java.sql.*;
-import javax.swing.JOptionPane;
+import javax.swing.*;
+import juan.estevez.sistemaventa.modelo.*;
 
 /**
  *
@@ -30,7 +31,7 @@ public class VentaDAO {
             pst.setDouble(3, venta.getTotal());
             pst.execute();
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al resgitrar la venta ");
+            JOptionPane.showMessageDialog(null, "Error al resgitrar la venta en VentaDAO");
             System.err.println(e.toString());
         } finally {
             try {
@@ -104,32 +105,4 @@ public class VentaDAO {
         return id;
     }
 
-    /**
-     * Actualiza el stock disponible del producto en la base de datos.
-     *
-     * @param cantidad nueva a setearle al producto.
-     * @param codigoProducto al cuál se le actualizará el stock.
-     * @return true si se realizó la actualización, false si no.
-     */
-    public boolean actualizarStock(int cantidad, String codigoProducto) {
-        String sql = "UPDATE PRODUCTO SET STOCK = ? WHERE CODIGO = ?";
-        try {
-            cn = Conexion.conectar();
-            pst = cn.prepareStatement(sql);
-            pst.setInt(1, cantidad);
-            pst.setString(2, codigoProducto);
-            pst.execute();
-            return true;
-        } catch (SQLException e) {
-            System.err.println("Error al actualizar Stock en VentaDAO " + e.toString());
-            return false;
-        } finally {
-            try {
-                pst.close();
-                cn.close();
-            } catch (SQLException e) {
-                System.err.println("Error al cerrar los objetos en VentaDAO " + e.toString());
-            }
-        }
-    }
 }
