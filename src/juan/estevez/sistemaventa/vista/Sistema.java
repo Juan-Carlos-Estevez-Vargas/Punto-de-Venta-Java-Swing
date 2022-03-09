@@ -31,7 +31,7 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
  * @author Juan Carlos Estevez Vargas
  */
 public class Sistema extends javax.swing.JFrame {
-
+    
     Cliente cliente = new Cliente();
     ClienteDAO clienteDAO = new ClienteDAO();
     DefaultTableModel modelo = new DefaultTableModel();
@@ -42,6 +42,7 @@ public class Sistema extends javax.swing.JFrame {
     Venta venta = new Venta();
     VentaDAO ventaDao = new VentaDAO();
     Detalle detalleVenta = new Detalle();
+    Eventos evento = new Eventos();
     ConfiguracionDatosEmpresa configuracionDatosEmpresa = new ConfiguracionDatosEmpresa();
     DefaultTableModel modeloTemporal = new DefaultTableModel();
     int item;
@@ -72,7 +73,7 @@ public class Sistema extends javax.swing.JFrame {
         List<Cliente> listarClientes = clienteDAO.listarClientes();
         modelo = (DefaultTableModel) tableClientes.getModel();
         Object[] objeto = new Object[6];
-
+        
         for (int i = 0; i < listarClientes.size(); i++) {
             objeto[0] = listarClientes.get(i).getId();
             objeto[1] = listarClientes.get(i).getDni();
@@ -80,7 +81,7 @@ public class Sistema extends javax.swing.JFrame {
             objeto[3] = listarClientes.get(i).getTelefono();
             objeto[4] = listarClientes.get(i).getDireccion();
             objeto[5] = listarClientes.get(i).getRazonSocial();
-
+            
             modelo.addRow(objeto);
         }
         tableClientes.setModel(modelo);
@@ -93,7 +94,7 @@ public class Sistema extends javax.swing.JFrame {
         List<Proveedor> listarProveedores = proveedorDAO.listarProveedores();
         modelo = (DefaultTableModel) tableProveedores.getModel();
         Object[] objeto = new Object[6];
-
+        
         for (int i = 0; i < listarProveedores.size(); i++) {
             objeto[0] = listarProveedores.get(i).getId();
             objeto[1] = listarProveedores.get(i).getRut();
@@ -101,7 +102,7 @@ public class Sistema extends javax.swing.JFrame {
             objeto[3] = listarProveedores.get(i).getTelefono();
             objeto[4] = listarProveedores.get(i).getDireccion();
             objeto[5] = listarProveedores.get(i).getRazonSocial();
-
+            
             modelo.addRow(objeto);
         }
         tableProveedores.setModel(modelo);
@@ -114,7 +115,7 @@ public class Sistema extends javax.swing.JFrame {
         List<Producto> listarProductos = productoDAO.listarProductos();
         modelo = (DefaultTableModel) tableProductos.getModel();
         Object[] objeto = new Object[6];
-
+        
         for (int i = 0; i < listarProductos.size(); i++) {
             objeto[0] = listarProductos.get(i).getId();
             objeto[1] = listarProductos.get(i).getCodigo();
@@ -122,12 +123,12 @@ public class Sistema extends javax.swing.JFrame {
             objeto[3] = listarProductos.get(i).getProveedor();
             objeto[4] = listarProductos.get(i).getStock();
             objeto[5] = listarProductos.get(i).getPrecio();
-
+            
             modelo.addRow(objeto);
         }
         tableProductos.setModel(modelo);
     }
-
+    
     public void listarDatosEmpresa() {
         configuracionDatosEmpresa = productoDAO.buscarDatos();
         txtIdEmpresa.setText(String.valueOf(configuracionDatosEmpresa.getId()));
@@ -397,15 +398,32 @@ public class Sistema extends javax.swing.JFrame {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtCodigoVentaKeyPressed(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCodigoVentaKeyTyped(evt);
+            }
         });
 
         txtCantidadVenta.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtCantidadVentaKeyPressed(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCantidadVentaKeyTyped(evt);
+            }
         });
 
         txtPrecioVenta.setEditable(false);
+        txtPrecioVenta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPrecioVentaKeyTyped(evt);
+            }
+        });
+
+        txtStockDisponibleVenta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtStockDisponibleVentaKeyTyped(evt);
+            }
+        });
 
         tableVenta.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         tableVenta.setModel(new javax.swing.table.DefaultTableModel(
@@ -435,9 +453,17 @@ public class Sistema extends javax.swing.JFrame {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtDniRutVentaKeyPressed(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDniRutVentaKeyTyped(evt);
+            }
         });
 
         txtNombreClienteVenta.setEditable(false);
+        txtNombreClienteVenta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreClienteVentaKeyTyped(evt);
+            }
+        });
 
         btnGenerarVenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/print.png"))); // NOI18N
         btnGenerarVenta.addActionListener(new java.awt.event.ActionListener() {
@@ -588,6 +614,30 @@ public class Sistema extends javax.swing.JFrame {
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel16.setText("RAZÓN SOCIAL");
+
+        txtDniRutCliente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDniRutClienteKeyTyped(evt);
+            }
+        });
+
+        txtNombreCliente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreClienteKeyTyped(evt);
+            }
+        });
+
+        txtTelefonoCliente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTelefonoClienteKeyTyped(evt);
+            }
+        });
+
+        txtDireccionCliente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDireccionClienteKeyTyped(evt);
+            }
+        });
 
         tableClientes.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         tableClientes.setModel(new javax.swing.table.DefaultTableModel(
@@ -777,6 +827,24 @@ public class Sistema extends javax.swing.JFrame {
             }
         });
 
+        txtTelefonoProveedor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtTelefonoProveedorKeyPressed(evt);
+            }
+        });
+
+        txtNombreProveedor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreProveedorKeyTyped(evt);
+            }
+        });
+
+        txtDniRutProveedor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDniRutProveedorKeyTyped(evt);
+            }
+        });
+
         tableProveedores.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         tableProveedores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -928,6 +996,24 @@ public class Sistema extends javax.swing.JFrame {
 
         btnNuevoProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/nuevo.png"))); // NOI18N
         btnNuevoProducto.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        txtPrecioProducto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPrecioProductoKeyTyped(evt);
+            }
+        });
+
+        txtCantidadProducto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCantidadProductoKeyTyped(evt);
+            }
+        });
+
+        txtCodigoProducto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCodigoProductoKeyTyped(evt);
+            }
+        });
 
         tableProductos.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         tableProductos.setModel(new javax.swing.table.DefaultTableModel(
@@ -1099,6 +1185,18 @@ public class Sistema extends javax.swing.JFrame {
         jLabel29.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel29.setText("TELÉFONO");
 
+        txtRutEmpresa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtRutEmpresaKeyTyped(evt);
+            }
+        });
+
+        txtTelefonoEmpresa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTelefonoEmpresaKeyTyped(evt);
+            }
+        });
+
         jLabel30.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel30.setText("DIRECCIÓN");
 
@@ -1108,6 +1206,11 @@ public class Sistema extends javax.swing.JFrame {
         btnActualizarDatosEmpresa.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnActualizarDatosEmpresa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/Actualizar (2).png"))); // NOI18N
         btnActualizarDatosEmpresa.setText("Actualizar");
+        btnActualizarDatosEmpresa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarDatosEmpresaActionPerformed(evt);
+            }
+        });
 
         jLabel32.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel32.setText("DATOS DE LA EMPRESA");
@@ -1215,16 +1318,16 @@ public class Sistema extends javax.swing.JFrame {
                 || !"".equals(txtNombreCliente.getText())
                 || !"".equals(txtTelefonoCliente.getText())
                 || !"".equals(txtDireccionCliente.getText())) {
-
+            
             cliente.setDni(Integer.parseInt(txtDniRutCliente.getText()));
             cliente.setNombre(txtNombreCliente.getText());
             cliente.setTelefono(Integer.parseInt(txtTelefonoCliente.getText()));
             cliente.setDireccion(txtDireccionCliente.getText());
             cliente.setRazonSocial(txtRazonSocialCliente.getText());
-
+            
             clienteDAO.registrarCliente(cliente);
             JOptionPane.showMessageDialog(null, "Cliente Registrado");
-
+            
             this.limpiarTabla();
             this.listarClientes();
             this.limpiarCliente();
@@ -1268,10 +1371,10 @@ public class Sistema extends javax.swing.JFrame {
     private void btnEliminarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarClienteActionPerformed
         if (!"".equals(txtIdCliente.getText())) {
             int pregunta = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar el registro?");
-
+            
             if (pregunta == 0) {
                 clienteDAO.eliminarCliente(Integer.parseInt(txtIdCliente.getText()));
-
+                
                 this.limpiarTabla();
                 this.listarClientes();
                 this.limpiarCliente();
@@ -1288,19 +1391,19 @@ public class Sistema extends javax.swing.JFrame {
         if ("".equals(txtIdCliente.getText())) {
             JOptionPane.showMessageDialog(null, "Seleccione una fila");
         } else {
-
+            
             if (!"".equals(txtDniRutCliente.getText())
                     || !"".equals(txtNombreCliente.getText())
                     || !"".equals(txtTelefonoCliente.getText())
                     || !"".equals(txtDireccionCliente.getText())) {
-
+                
                 cliente.setId(Integer.parseInt(txtIdCliente.getText()));
                 cliente.setDni(Integer.parseInt(txtDniRutCliente.getText()));
                 cliente.setNombre(txtNombreCliente.getText());
                 cliente.setTelefono(Integer.parseInt(txtTelefonoCliente.getText()));
                 cliente.setDireccion(txtDireccionCliente.getText());
                 cliente.setRazonSocial(txtRazonSocialCliente.getText());
-
+                
                 clienteDAO.modificarCliente(cliente);
                 this.limpiarTabla();
                 this.limpiarCliente();
@@ -1330,16 +1433,16 @@ public class Sistema extends javax.swing.JFrame {
                 || !"".equals(txtNombreProveedor.getText())
                 || !"".equals(txtTelefonoProveedor.getText())
                 || !"".equals(txtDireccionProveedor.getText())) {
-
+            
             proveedor.setRut(Integer.parseInt(txtDniRutProveedor.getText()));
             proveedor.setNombre(txtNombreProveedor.getText());
             proveedor.setTelefono(Integer.parseInt(txtTelefonoProveedor.getText()));
             proveedor.setDireccion(txtDireccionProveedor.getText());
             proveedor.setRazonSocial(txtRazonSocialProveedor.getText());
-
+            
             proveedorDAO.registrarProveedor(proveedor);
             JOptionPane.showMessageDialog(null, "Proveedor Registrado");
-
+            
             this.limpiarTabla();
             this.listarProveedor();
             this.limpiarProveedor();
@@ -1383,10 +1486,10 @@ public class Sistema extends javax.swing.JFrame {
     private void btnEliminarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarProveedorActionPerformed
         if (!"".equals(txtIdProveedor.getText())) {
             int pregunta = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar el registro?");
-
+            
             if (pregunta == 0) {
                 proveedorDAO.eliminarProveedor(Integer.parseInt(txtIdProveedor.getText()));
-
+                
                 this.limpiarTabla();
                 this.listarProveedor();
                 this.limpiarProveedor();
@@ -1407,14 +1510,14 @@ public class Sistema extends javax.swing.JFrame {
                     || !"".equals(txtNombreProveedor.getText())
                     || !"".equals(txtTelefonoProveedor.getText())
                     || !"".equals(txtDireccionProveedor.getText())) {
-
+                
                 proveedor.setId(Integer.parseInt(txtIdProveedor.getText()));
                 proveedor.setRut(Integer.parseInt(txtDniRutProveedor.getText()));
                 proveedor.setNombre(txtNombreProveedor.getText());
                 proveedor.setTelefono(Integer.parseInt(txtTelefonoProveedor.getText()));
                 proveedor.setDireccion(txtDireccionProveedor.getText());
                 proveedor.setRazonSocial(txtRazonSocialProveedor.getText());
-
+                
                 proveedorDAO.modificarProveedor(proveedor);
                 this.limpiarTabla();
                 this.limpiarProveedor();
@@ -1445,16 +1548,16 @@ public class Sistema extends javax.swing.JFrame {
                 || !"".equals(txtPrecioProducto.getText())
                 || !"".equals(cbxProveedorProducto.getSelectedItem())
                 || !"".equals(txtCantidadProducto.getText())) {
-
+            
             producto.setCodigo(txtCodigoProducto.getText());
             producto.setNombre(txtDescripcionProducto.getText());
             producto.setProveedor(cbxProveedorProducto.getSelectedItem().toString());
             producto.setStock(Integer.parseInt(txtCantidadProducto.getText()));
             producto.setPrecio(Double.parseDouble(txtPrecioProducto.getText()));
-
+            
             productoDAO.registrarProducto(producto);
             JOptionPane.showMessageDialog(null, "Proveedor Registrado");
-
+            
             this.limpiarTabla();
             this.listarProductos();
             this.limpiarProducto();
@@ -1486,10 +1589,10 @@ public class Sistema extends javax.swing.JFrame {
     private void btnEliminarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarProductoActionPerformed
         if (!"".equals(txtIdProducto.getText())) {
             int pregunta = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar el registro?");
-
+            
             if (pregunta == 0) {
                 productoDAO.eliminarProducto(Integer.parseInt(txtIdProducto.getText()));
-
+                
                 this.limpiarTabla();
                 this.listarProductos();
                 this.limpiarProducto();
@@ -1511,14 +1614,14 @@ public class Sistema extends javax.swing.JFrame {
                     || !"".equals(cbxProveedorProducto.getSelectedItem().toString())
                     || !"".equals(txtPrecioProducto.getText())
                     || !"".equals(txtCantidadProducto.getText())) {
-
+                
                 producto.setId(Integer.parseInt(txtIdProducto.getText()));
                 producto.setCodigo(txtCodigoProducto.getText());
                 producto.setNombre(txtDescripcionProducto.getText());
                 producto.setProveedor(cbxProveedorProducto.getSelectedItem().toString());
                 producto.setStock(Integer.parseInt(txtCantidadProducto.getText()));
                 producto.setPrecio(Double.parseDouble(txtPrecioProducto.getText()));
-
+                
                 productoDAO.modificarProducto(producto);
                 this.limpiarTabla();
                 this.limpiarProducto();
@@ -1584,14 +1687,14 @@ public class Sistema extends javax.swing.JFrame {
                 if (stockDisponible >= cantidad) {
                     item = item + 1;
                     modeloTemporal = (DefaultTableModel) tableVenta.getModel();
-
+                    
                     for (int i = 0; i < tableVenta.getRowCount(); i++) {
                         if (tableVenta.getValueAt(i, 1).equals(txtDescripcionVenta.getText())) {
                             JOptionPane.showMessageDialog(null, "El producto ya está registrado.");
                             return;
                         }
                     }
-
+                    
                     ArrayList lista = new ArrayList();
                     lista.add(item);
                     lista.add(codigoProducto);
@@ -1599,20 +1702,20 @@ public class Sistema extends javax.swing.JFrame {
                     lista.add(cantidad);
                     lista.add(precio);
                     lista.add(totalVenta);
-
+                    
                     Object[] objeto = new Object[5];
                     objeto[0] = lista.get(1);
                     objeto[1] = lista.get(2);
                     objeto[2] = lista.get(3);
                     objeto[3] = lista.get(4);
                     objeto[4] = lista.get(5);
-
+                    
                     modeloTemporal.addRow(objeto);
                     tableVenta.setModel(modeloTemporal);
                     this.totalPagar();
                     this.limpiarVenta();
                     txtCodigoVenta.requestFocus();
-
+                    
                 } else {
                     JOptionPane.showMessageDialog(null, "Stock no disponible.");
                 }
@@ -1664,12 +1767,22 @@ public class Sistema extends javax.swing.JFrame {
      * @param evt
      */
     private void btnGenerarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarVentaActionPerformed
-        this.registrarVenta();
-        this.registrarDetalleVenta();
-        this.actualizarStock();
-        this.pdf();
-        this.limpiarTableVenta();
-        this.limpiarClienteVenta();
+        if (tableVenta.getRowCount() > 0) {
+            if (!"".equals(txtNombreClienteVenta.getText())) {
+                this.registrarVenta();
+                this.registrarDetalleVenta();
+                this.actualizarStock();
+                this.pdf();
+                this.limpiarTableVenta();
+                this.limpiarClienteVenta();
+            } else {
+                JOptionPane.showMessageDialog(null, "Debe ingresar un cliente");
+                this.txtNombreClienteVenta.requestFocus();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe ingresar al menos un producto");
+            this.txtCodigoVenta.requestFocus();
+        }
     }//GEN-LAST:event_btnGenerarVentaActionPerformed
 
     private void btnNuevaVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaVentaActionPerformed
@@ -1682,6 +1795,102 @@ public class Sistema extends javax.swing.JFrame {
         this.jTabbedPane1.setSelectedIndex(5);
         this.listarDatosEmpresa();
     }//GEN-LAST:event_btnConfiguracionActionPerformed
+
+    private void txtCodigoVentaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoVentaKeyTyped
+        this.evento.numberKeyPress(evt);
+    }//GEN-LAST:event_txtCodigoVentaKeyTyped
+
+    private void txtCantidadVentaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadVentaKeyTyped
+        this.evento.numberKeyPress(evt);
+    }//GEN-LAST:event_txtCantidadVentaKeyTyped
+
+    private void txtPrecioVentaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioVentaKeyTyped
+        this.evento.numberDecimalKeyPress(evt, txtPrecioVenta);
+    }//GEN-LAST:event_txtPrecioVentaKeyTyped
+
+    private void txtStockDisponibleVentaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtStockDisponibleVentaKeyTyped
+        this.evento.numberKeyPress(evt);
+    }//GEN-LAST:event_txtStockDisponibleVentaKeyTyped
+
+    private void txtDniRutVentaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDniRutVentaKeyTyped
+        this.evento.numberKeyPress(evt);
+    }//GEN-LAST:event_txtDniRutVentaKeyTyped
+
+    private void txtNombreClienteVentaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreClienteVentaKeyTyped
+        this.evento.textKeyPress(evt);
+    }//GEN-LAST:event_txtNombreClienteVentaKeyTyped
+
+    private void txtDniRutClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDniRutClienteKeyTyped
+        this.evento.numberKeyPress(evt);
+    }//GEN-LAST:event_txtDniRutClienteKeyTyped
+
+    private void txtNombreClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreClienteKeyTyped
+        this.evento.textKeyPress(evt);
+    }//GEN-LAST:event_txtNombreClienteKeyTyped
+
+    private void txtTelefonoClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoClienteKeyTyped
+        this.evento.numberKeyPress(evt);
+    }//GEN-LAST:event_txtTelefonoClienteKeyTyped
+
+    private void txtDireccionClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDireccionClienteKeyTyped
+        this.evento.textKeyPress(evt);
+        this.evento.numberKeyPress(evt);
+    }//GEN-LAST:event_txtDireccionClienteKeyTyped
+
+    private void txtDniRutProveedorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDniRutProveedorKeyTyped
+        this.evento.numberKeyPress(evt);
+    }//GEN-LAST:event_txtDniRutProveedorKeyTyped
+
+    private void txtNombreProveedorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreProveedorKeyTyped
+        this.evento.textKeyPress(evt);
+    }//GEN-LAST:event_txtNombreProveedorKeyTyped
+
+    private void txtTelefonoProveedorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoProveedorKeyPressed
+        this.evento.numberKeyPress(evt);
+    }//GEN-LAST:event_txtTelefonoProveedorKeyPressed
+
+    private void txtCodigoProductoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoProductoKeyTyped
+        this.evento.textKeyPress(evt);
+        this.evento.numberKeyPress(evt);
+    }//GEN-LAST:event_txtCodigoProductoKeyTyped
+
+    private void txtCantidadProductoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadProductoKeyTyped
+        this.evento.textKeyPress(evt);
+    }//GEN-LAST:event_txtCantidadProductoKeyTyped
+
+    private void txtPrecioProductoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioProductoKeyTyped
+        this.evento.numberDecimalKeyPress(evt, txtPrecioProducto);
+    }//GEN-LAST:event_txtPrecioProductoKeyTyped
+
+    private void txtRutEmpresaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRutEmpresaKeyTyped
+        this.evento.numberKeyPress(evt);
+    }//GEN-LAST:event_txtRutEmpresaKeyTyped
+
+    private void txtTelefonoEmpresaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoEmpresaKeyTyped
+        this.evento.numberKeyPress(evt);
+    }//GEN-LAST:event_txtTelefonoEmpresaKeyTyped
+
+    private void btnActualizarDatosEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarDatosEmpresaActionPerformed
+        if (!"".equals(txtRutEmpresa.getText())
+                || !"".equals(txtNombreEmpresa.getText())
+                || !"".equals(txtTelefonoEmpresa.getText())
+                || !"".equals(txtDireccionEmpresa.getText())) {
+            
+            configuracionDatosEmpresa.setId(Integer.parseInt(txtIdEmpresa.getText()));
+            configuracionDatosEmpresa.setRut(Integer.parseInt(txtRutEmpresa.getText()));
+            configuracionDatosEmpresa.setNombre(txtNombreEmpresa.getText());
+            configuracionDatosEmpresa.setTelefono(Integer.parseInt(txtTelefonoEmpresa.getText()));
+            configuracionDatosEmpresa.setDireccion(txtDireccionEmpresa.getText());
+            configuracionDatosEmpresa.setRazonSocial(txtRazonSocialEmpresa.getText());
+            
+            productoDAO.modificarDatosEmpresa(configuracionDatosEmpresa);
+            JOptionPane.showMessageDialog(null, "Melo.");
+            
+            this.limpiarDatosEmpresa();
+        } else {
+            JOptionPane.showMessageDialog(null, "Algunos campos están vacíos.");
+        }
+    }//GEN-LAST:event_btnActualizarDatosEmpresaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1929,17 +2138,17 @@ public class Sistema extends javax.swing.JFrame {
      */
     private void registrarDetalleVenta() {
         int id = ventaDao.idVenta();
-
+        
         for (int i = 0; i < tableVenta.getRowCount(); i++) {
             String codigoProducto = tableVenta.getValueAt(i, 0).toString();
             int cantidad = Integer.parseInt(tableVenta.getValueAt(i, 2).toString());
             double precio = Double.parseDouble(tableVenta.getValueAt(i, 3).toString());
-
+            
             this.detalleVenta.setId(id);
             this.detalleVenta.setCodigoProducto(codigoProducto);
             this.detalleVenta.setCantidad(cantidad);
             this.detalleVenta.setPrecio(precio);
-
+            
             ventaDao.registrarDetalleVenta(detalleVenta);
         }
     }
@@ -1955,7 +2164,7 @@ public class Sistema extends javax.swing.JFrame {
             producto = productoDAO.buscarProducto(codigoProducto);
             System.out.println("x" + producto.toString());
             int stockActual = producto.getStock() - cantidadProducto;
-
+            
             this.ventaDao.actualizarStock(stockActual, codigoProducto);
         }
     }
@@ -1966,7 +2175,7 @@ public class Sistema extends javax.swing.JFrame {
     private void limpiarTableVenta() {
         this.modeloTemporal = (DefaultTableModel) tableVenta.getModel();
         int filas = tableVenta.getRowCount();
-
+        
         for (int i = 0; i < filas; i++) {
             modeloTemporal.removeRow(0);
         }
@@ -1981,18 +2190,18 @@ public class Sistema extends javax.swing.JFrame {
             FileOutputStream archivo;
             File file = new File("src/juan/estevez/sistemaventa/reportes/reporteVenta" + idVenta + ".pdf");
             archivo = new FileOutputStream(file);
-
+            
             Document documento = new Document();
             PdfWriter.getInstance(documento, archivo);
             documento.open();
             Image img = Image.getInstance("src/juan/estevez/sistemaventa/img/logo_pdf.png");
-
+            
             Paragraph fecha = new Paragraph();
             Font negrita = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD, BaseColor.BLUE);
             fecha.add(Chunk.NEWLINE);
             Date date = new Date();
             fecha.add("Factura N" + idVenta + "\n" + "Fecha: " + new SimpleDateFormat("dd-MM-yyyy").format(date) + "\n\n");
-
+            
             PdfPTable encabezado = new PdfPTable(4);
             encabezado.setWidthPercentage(100);
             encabezado.getDefaultCell().setBorder(0);
@@ -2009,34 +2218,34 @@ public class Sistema extends javax.swing.JFrame {
             encabezado.addCell("Rut: " + Rut + "\nNombre: " + nombre + "\nTeléfono: " + telefono + "\nDirección: " + direccion + "\nRazón Social: " + razpnSocial);
             encabezado.addCell(fecha);
             documento.add(encabezado);
-
+            
             Paragraph cliente = new Paragraph();
             cliente.add(Chunk.NEWLINE);
             cliente.add("Datos de los clientes \n\n");
             documento.add(cliente);
-
+            
             PdfPTable tablaClientes = new PdfPTable(4);
             tablaClientes.setWidthPercentage(100);
             tablaClientes.getDefaultCell().setBorder(0);
             float[] columnaCliente = new float[]{20f, 50f, 30f, 40f};
             tablaClientes.setWidths(columnaCliente);
             tablaClientes.setHorizontalAlignment(Element.ALIGN_LEFT);
-
+            
             PdfPCell celdaRutCliente = new PdfPCell(new Phrase("DNI/RUT", negrita));
             PdfPCell celdaNombreCliente = new PdfPCell(new Phrase("Nombre", negrita));
             PdfPCell celdaTelefonoCliente = new PdfPCell(new Phrase("Teléfono", negrita));
             PdfPCell celdaDireccionCliente = new PdfPCell(new Phrase("Dirección", negrita));
-
+            
             celdaRutCliente.setBorder(0);
             celdaNombreCliente.setBorder(0);
             celdaTelefonoCliente.setBorder(0);
             celdaDireccionCliente.setBorder(0);
-
+            
             tablaClientes.addCell(celdaRutCliente);
             tablaClientes.addCell(celdaNombreCliente);
             tablaClientes.addCell(celdaTelefonoCliente);
             tablaClientes.addCell(celdaDireccionCliente);
-
+            
             tablaClientes.addCell(txtDniRutVenta.getText());
             tablaClientes.addCell(txtNombreClienteVenta.getText());
             tablaClientes.addCell(txtTelefonoClienteVenta.getText());
@@ -2050,55 +2259,55 @@ public class Sistema extends javax.swing.JFrame {
             float[] columnaProducto = new float[]{20f, 50f, 25f, 30f};
             tablaProductos.setWidths(columnaProducto);
             tablaProductos.setHorizontalAlignment(Element.ALIGN_LEFT);
-
+            
             PdfPCell celdaCantidadProducto = new PdfPCell(new Phrase("Cantidad", negrita));
             PdfPCell celdaDescripciónProducto = new PdfPCell(new Phrase("Descripción", negrita));
             PdfPCell celdaPrecioUnitario = new PdfPCell(new Phrase("Precio U.", negrita));
             PdfPCell celdaPrecioTotal = new PdfPCell(new Phrase("Precio T.", negrita));
-
+            
             celdaCantidadProducto.setBorder(0);
             celdaDescripciónProducto.setBorder(0);
             celdaPrecioUnitario.setBorder(0);
             celdaPrecioTotal.setBorder(0);
-
+            
             celdaCantidadProducto.setBackgroundColor(BaseColor.GRAY);
             celdaDescripciónProducto.setBackgroundColor(BaseColor.GRAY);
             celdaPrecioUnitario.setBackgroundColor(BaseColor.GRAY);
             celdaPrecioTotal.setBackgroundColor(BaseColor.GRAY);
-
+            
             tablaProductos.addCell(celdaCantidadProducto);
             tablaProductos.addCell(celdaDescripciónProducto);
             tablaProductos.addCell(celdaPrecioUnitario);
             tablaProductos.addCell(celdaPrecioTotal);
-
+            
             for (int i = 0; i < tableVenta.getRowCount(); i++) {
                 tablaProductos.addCell(tableVenta.getValueAt(i, 2).toString());
                 tablaProductos.addCell(tableVenta.getValueAt(i, 1).toString());
                 tablaProductos.addCell(tableVenta.getValueAt(i, 3).toString());
                 tablaProductos.addCell(tableVenta.getValueAt(i, 4).toString());
             }
-
+            
             documento.add(tablaProductos);
-
+            
             Paragraph info = new Paragraph();
             info.add(Chunk.NEWLINE);
             info.add("Total a Pagar " + totalPagar);
             info.setAlignment(Element.ALIGN_RIGHT);
             documento.add(info);
-
+            
             Paragraph firma = new Paragraph();
             firma.add(Chunk.NEWLINE);
             firma.add("Cancelación y Firma\n\n");
             firma.add("_______________________");
             firma.setAlignment(Element.ALIGN_CENTER);
             documento.add(firma);
-
+            
             Paragraph mensaje = new Paragraph();
             mensaje.add(Chunk.NEWLINE);
             mensaje.add("Gracias por su compra");
             mensaje.setAlignment(Element.ALIGN_CENTER);
             documento.add(mensaje);
-
+            
             documento.close();
             archivo.close();
             Desktop.getDesktop().open(file);
@@ -2106,5 +2315,13 @@ public class Sistema extends javax.swing.JFrame {
             System.err.println(e.toString());
         }
     }
-
+    
+    private void limpiarDatosEmpresa() {
+        this.txtRutEmpresa.setText("");
+        this.txtNombreEmpresa.setText("");
+        this.txtTelefonoEmpresa.setText("");
+        this.txtDireccionEmpresa.setText("");
+        this.txtRazonSocialEmpresa.setText("");
+    }
+    
 }

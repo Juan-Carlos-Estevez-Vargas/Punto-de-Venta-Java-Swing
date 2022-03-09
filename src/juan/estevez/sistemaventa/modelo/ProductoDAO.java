@@ -241,4 +241,30 @@ public class ProductoDAO {
         }
         return configuracionDatosEmpresa;
     }
+    
+    public boolean modificarDatosEmpresa(ConfiguracionDatosEmpresa configuracionDatosEmpresa) {
+        String sql = "UPDATE CONFIGURACION SET RUT = ?, NOMBRE = ?, TELEFONO = ?, DIRECCION = ?, RAZON_SOCIAL = ? WHERE ID = ?";
+        try {
+            cn = Conexion.conectar();
+            pst = cn.prepareStatement(sql);
+            pst.setInt(1, configuracionDatosEmpresa.getRut());
+            pst.setString(2, configuracionDatosEmpresa.getNombre());
+            pst.setInt(3, configuracionDatosEmpresa.getTelefono());
+            pst.setString(4, configuracionDatosEmpresa.getDireccion());
+            pst.setString(5, configuracionDatosEmpresa.getRazonSocial());
+            pst.setInt(6, configuracionDatosEmpresa.getId());
+            pst.execute();
+            return true;
+        } catch (SQLException e) {
+            System.err.println("Error el modificar producto en productoDAO " + e.toString());
+            return false;
+        } finally {
+            try {
+                pst.close();
+                cn.close();
+            } catch (SQLException e) {
+                System.err.println("Error al cerrar los objetos en ProductoDAO " + e.toString());
+            }
+        }
+    }
 }

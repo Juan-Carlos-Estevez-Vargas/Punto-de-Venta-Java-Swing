@@ -428,6 +428,7 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCodigoVentaActionPerformed"/>
                 <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtCodigoVentaKeyPressed"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtCodigoVentaKeyTyped"/>
               </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtDescripcionVenta">
@@ -435,14 +436,21 @@
             <Component class="javax.swing.JTextField" name="txtCantidadVenta">
               <Events>
                 <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtCantidadVentaKeyPressed"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtCantidadVentaKeyTyped"/>
               </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtPrecioVenta">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPrecioVentaKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtStockDisponibleVenta">
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtStockDisponibleVentaKeyTyped"/>
+              </Events>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane1">
               <AuxValues>
@@ -520,12 +528,16 @@
             <Component class="javax.swing.JTextField" name="txtDniRutVenta">
               <Events>
                 <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtDniRutVentaKeyPressed"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtDniRutVentaKeyTyped"/>
               </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtNombreClienteVenta">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNombreClienteVentaKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnGenerarVenta">
               <Properties>
@@ -726,12 +738,24 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtDniRutCliente">
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtDniRutClienteKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtNombreCliente">
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNombreClienteKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtTelefonoCliente">
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtTelefonoClienteKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtDireccionCliente">
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtDireccionClienteKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtRazonSocialCliente">
             </Component>
@@ -1073,10 +1097,19 @@
             <Component class="javax.swing.JTextField" name="txtDireccionProveedor">
             </Component>
             <Component class="javax.swing.JTextField" name="txtTelefonoProveedor">
+              <Events>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtTelefonoProveedorKeyPressed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtNombreProveedor">
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNombreProveedorKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtDniRutProveedor">
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtDniRutProveedorKeyTyped"/>
+              </Events>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane3">
               <AuxValues>
@@ -1342,12 +1375,21 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtPrecioProducto">
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPrecioProductoKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtCantidadProducto">
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtCantidadProductoKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtDescripcionProducto">
             </Component>
             <Component class="javax.swing.JTextField" name="txtCodigoProducto">
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtCodigoProductoKeyTyped"/>
+              </Events>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane4">
               <AuxValues>
@@ -1675,10 +1717,16 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtRutEmpresa">
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtRutEmpresaKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtNombreEmpresa">
             </Component>
             <Component class="javax.swing.JTextField" name="txtTelefonoEmpresa">
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtTelefonoEmpresaKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel30">
               <Properties>
@@ -1710,6 +1758,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Actualizar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnActualizarDatosEmpresaActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel32">
               <Properties>
