@@ -1,6 +1,8 @@
 package juan.estevez.sistemaventa.daos;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 import juan.estevez.sistemaventa.modelo.*;
 
@@ -103,6 +105,40 @@ public class VentaDAO {
             }
         }
         return id;
+    }
+    
+    public List listarVentas() {
+        List<Venta> listaVentas = new ArrayList<>();
+        String sql = "SELECT * FROM VENTAS";
+
+        try {
+            cn = Conexion.conectar();
+            pst = cn.prepareStatement(sql);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Venta venta = new Venta();
+                venta.setId(rs.getInt("ID"));
+                venta.setCliente(rs.getString("CLIENTE"));
+                venta.setVendedor(rs.getString("VENDEDOR"));
+                venta.setTotal(rs.getDouble("TOTAL"));
+                
+                listaVentas.add(venta);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error al listar las ventas en VentaDAO " + e.toString());
+        } finally {
+            try {
+                rs.close();
+                pst.close();
+                cn.close();
+            } catch (SQLException e) {
+                System.err.println("Error al cerrar los objetos en VentaDAO " + e.toString());
+            }
+        }
+
+        return listaVentas;
     }
 
 }

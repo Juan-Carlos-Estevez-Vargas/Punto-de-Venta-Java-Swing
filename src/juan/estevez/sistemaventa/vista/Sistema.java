@@ -1,7 +1,12 @@
 package juan.estevez.sistemaventa.vista;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.*;
 import juan.estevez.sistemaventa.daos.ClienteDAO;
@@ -136,6 +141,22 @@ public class Sistema extends javax.swing.JFrame {
         txtTelefonoEmpresa.setText(String.valueOf(configuracionDatosEmpresa.getTelefono()));
         txtDireccionEmpresa.setText(configuracionDatosEmpresa.getDireccion());
         txtRazonSocialEmpresa.setText(configuracionDatosEmpresa.getRazonSocial());
+    }
+
+    public void listarVentas() {
+        List<Venta> listaVentas = ventaDao.listarVentas();
+        modelo = (DefaultTableModel) tableVentas.getModel();
+        Object[] objeto = new Object[4];
+
+        for (int i = 0; i < listaVentas.size(); i++) {
+            objeto[0] = listaVentas.get(i).getId();
+            objeto[1] = listaVentas.get(i).getCliente();
+            objeto[2] = listaVentas.get(i).getVendedor();
+            objeto[3] = listaVentas.get(i).getTotal();
+
+            modelo.addRow(objeto);
+        }
+        tableVentas.setModel(modelo);
     }
 
     /**
@@ -302,6 +323,11 @@ public class Sistema extends javax.swing.JFrame {
         btnVentas.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/compras.png"))); // NOI18N
         btnVentas.setText("Ventas");
+        btnVentas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVentasActionPerformed(evt);
+            }
+        });
 
         btnConfiguracion.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnConfiguracion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/config.png"))); // NOI18N
@@ -1136,6 +1162,11 @@ public class Sistema extends javax.swing.JFrame {
                 "ID", "CLIENTE", "VENDEDOR", "TOTAL"
             }
         ));
+        tableVentas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableVentasMouseClicked(evt);
+            }
+        });
         jScrollPane5.setViewportView(tableVentas);
         if (tableVentas.getColumnModel().getColumnCount() > 0) {
             tableVentas.getColumnModel().getColumn(0).setPreferredWidth(20);
@@ -1145,6 +1176,11 @@ public class Sistema extends javax.swing.JFrame {
         }
 
         btnPdfVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/pdf.png"))); // NOI18N
+        btnPdfVentas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPdfVentasActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -1993,6 +2029,27 @@ public class Sistema extends javax.swing.JFrame {
     private void txtTelefonoProveedorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoProveedorKeyTyped
         this.evento.numberKeyPress(evt);
     }//GEN-LAST:event_txtTelefonoProveedorKeyTyped
+
+    private void btnVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentasActionPerformed
+        this.jTabbedPane1.setSelectedIndex(4);
+        this.limpiarTabla();
+        this.listarVentas();
+    }//GEN-LAST:event_btnVentasActionPerformed
+
+    private void tableVentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableVentasMouseClicked
+        int filaSeleccionada = tableVentas.rowAtPoint(evt.getPoint());
+        txtIdVenta.setText(tableVentas.getValueAt(filaSeleccionada, 0).toString());
+    }//GEN-LAST:event_tableVentasMouseClicked
+
+    private void btnPdfVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPdfVentasActionPerformed
+        try {
+            int idVenta = Integer.parseInt(txtIdVenta.getText());
+            File file = new File("src/juan/estevez/sistemaventa/reportes/reporteVenta" + idVenta + ".pdf");
+            Desktop.getDesktop().open(file);
+        } catch (IOException ex) {
+            Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnPdfVentasActionPerformed
 
     /**
      * @param args the command line arguments
