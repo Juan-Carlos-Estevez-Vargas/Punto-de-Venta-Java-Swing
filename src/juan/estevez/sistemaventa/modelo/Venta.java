@@ -7,17 +7,26 @@ package juan.estevez.sistemaventa.modelo;
 public class Venta {
 
     private int id;
-    private String cliente, vendedor;
+    private String cliente, vendedor, fecha;
     private double total;
 
     public Venta() {
     }
 
-    public Venta(int id, String cliente, String vendedor, double total) {
+    public Venta(int id, String cliente, String vendedor, double total, String fecha) {
         this.id = id;
         this.cliente = cliente;
         this.vendedor = vendedor;
         this.total = total;
+        this.fecha = fecha;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 
     public int getId() {
