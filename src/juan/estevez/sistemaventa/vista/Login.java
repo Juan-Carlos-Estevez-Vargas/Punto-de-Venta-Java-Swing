@@ -32,7 +32,7 @@ public class Login extends javax.swing.JFrame {
             login = loginDAO.log(correo, password);
 
             if (login.getCorreo() != null && login.getPassword() != null) {
-                Sistema sistema = new Sistema();
+                Sistema sistema = new Sistema(login);
                 sistema.setVisible(true);
                 dispose();
             } else {

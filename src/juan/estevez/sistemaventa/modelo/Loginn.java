@@ -11,15 +11,25 @@ public class Loginn {
     String nombre;
     String correo;
     String password;
+    String rol;
 
     public Loginn() {
     }
 
-    public Loginn(int id, String nombre, String correo, String password) {
+    public Loginn(int id, String nombre, String correo, String password, String rol) {
         this.id = id;
         this.nombre = nombre;
         this.correo = correo;
         this.password = password;
+        this.rol = rol;
+    }
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
     }
 
     public int getId() {

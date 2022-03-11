@@ -12,6 +12,7 @@ import javax.swing.*;
 import javax.swing.table.*;
 import juan.estevez.sistemaventa.daos.ClienteDAO;
 import juan.estevez.sistemaventa.daos.ConfiguracionDatosEmpresaDAO;
+import juan.estevez.sistemaventa.daos.LoginDAO;
 import juan.estevez.sistemaventa.daos.ProductoDAO;
 import juan.estevez.sistemaventa.daos.ProveedorDAO;
 import juan.estevez.sistemaventa.daos.VentaDAO;
@@ -19,6 +20,7 @@ import juan.estevez.sistemaventa.modelo.Cliente;
 import juan.estevez.sistemaventa.modelo.ConfiguracionDatosEmpresa;
 import juan.estevez.sistemaventa.modelo.Detalle;
 import juan.estevez.sistemaventa.modelo.Eventos;
+import juan.estevez.sistemaventa.modelo.Loginn;
 import juan.estevez.sistemaventa.modelo.Producto;
 import juan.estevez.sistemaventa.modelo.Proveedor;
 import juan.estevez.sistemaventa.modelo.Venta;
@@ -58,6 +60,10 @@ public class Sistema extends javax.swing.JFrame {
      */
     public Sistema() {
         initComponents();
+    }
+
+    public Sistema(Loginn login) {
+        initComponents();
         this.setLocationRelativeTo(null);
         this.txtIdCliente.setVisible(false);
         this.txtIdProductoVenta.setVisible(false);
@@ -69,6 +75,13 @@ public class Sistema extends javax.swing.JFrame {
         this.txtIdVenta.setVisible(false);
         AutoCompleteDecorator.decorate(cbxProveedorProducto);
         this.productoDAO.consultarProveedor(cbxProveedorProducto);
+
+        if (login.getRol().equals("Asistente")) {
+            btnProductos.setEnabled(false);
+            labelVendedor.setText(login.getNombre());
+        } else {
+            labelVendedor.setText(login.getNombre());
+        }
     }
 
     /**

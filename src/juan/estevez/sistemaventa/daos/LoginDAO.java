@@ -36,6 +36,7 @@ public class LoginDAO {
                 login.setNombre(rs.getString("NOMBRE"));
                 login.setCorreo(rs.getString("CORREO"));
                 login.setPassword(rs.getString("PASSWORD"));
+                login.setRol(rs.getString("ROL"));
             }
 
         } catch (SQLException e) {
@@ -51,5 +52,21 @@ public class LoginDAO {
         }
 
         return login;
+    }
+    
+    public boolean registrarUsuario(Loginn login) {
+        String sql = "INSERT INTO USUSRIO (NOMBRE, CORREO, PASSWORD, ROL) VALUES (?,?,?,?)";
+        try {
+            conn = Conexion.conectar();
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, login.getNombre());
+            pst.setString(2, login.getCorreo());
+            pst.setString(3, login.getPassword());
+            pst.setString(4, login.getRol());
+            pst.execute();
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
     }
 }
