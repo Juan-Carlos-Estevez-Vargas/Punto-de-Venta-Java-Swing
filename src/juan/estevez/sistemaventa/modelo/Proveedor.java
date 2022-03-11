@@ -6,13 +6,14 @@ package juan.estevez.sistemaventa.modelo;
  */
 public class Proveedor {
 
-    private int id, rut, telefono;
+    private int id;
+    private long rut, telefono;
     private String nombre, direccion, razonSocial;
 
     public Proveedor() {
     }
 
-    public Proveedor(int id, int rut, int telefono, String nombre, String direccion, String razonSocial) {
+    public Proveedor(int id, long rut, long telefono, String nombre, String direccion, String razonSocial) {
         this.id = id;
         this.rut = rut;
         this.telefono = telefono;
@@ -29,19 +30,19 @@ public class Proveedor {
         this.id = id;
     }
 
-    public int getRut() {
+    public long getRut() {
         return rut;
     }
 
-    public void setRut(int rut) {
+    public void setRut(long rut) {
         this.rut = rut;
     }
 
-    public int getTelefono() {
+    public long getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(int telefono) {
+    public void setTelefono(long telefono) {
         this.telefono = telefono;
     }
 

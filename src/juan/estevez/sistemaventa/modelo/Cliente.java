@@ -6,13 +6,14 @@ package juan.estevez.sistemaventa.modelo;
  */
 public class Cliente {
 
-    private int id, dni, telefono;
+    private int id;
+    private long telefono, dni;
     private String nombre, direccion, razonSocial;
 
     public Cliente() {
     }
 
-    public Cliente(int id, int dni, int telefono, String nombre, String direccion, String razonSocial) {
+    public Cliente(int id, long dni, long telefono, String nombre, String direccion, String razonSocial) {
         this.id = id;
         this.dni = dni;
         this.telefono = telefono;
@@ -29,19 +30,19 @@ public class Cliente {
         this.id = id;
     }
 
-    public int getDni() {
+    public long getDni() {
         return dni;
     }
 
-    public void setDni(int dni) {
+    public void setDni(long dni) {
         this.dni = dni;
     }
 
-    public int getTelefono() {
+    public long getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(int telefono) {
+    public void setTelefono(long telefono) {
         this.telefono = telefono;
     }
 

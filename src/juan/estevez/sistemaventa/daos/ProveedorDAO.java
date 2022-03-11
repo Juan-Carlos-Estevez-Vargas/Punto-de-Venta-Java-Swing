@@ -26,9 +26,9 @@ public class ProveedorDAO {
         try {
             cn = Conexion.conectar();
             pst = cn.prepareStatement(sql);
-            pst.setInt(1, proveedor.getRut());
+            pst.setLong(1, proveedor.getRut());
             pst.setString(2, proveedor.getNombre());
-            pst.setInt(3, proveedor.getTelefono());
+            pst.setLong(3, proveedor.getTelefono());
             pst.setString(4, proveedor.getDireccion());
             pst.setString(5, proveedor.getRazonSocial());
             pst.execute();
@@ -63,9 +63,9 @@ public class ProveedorDAO {
             while (rs.next()) {
                 Proveedor proveedor = new Proveedor();
                 proveedor.setId(rs.getInt("ID"));
-                proveedor.setRut(rs.getInt("RUT"));
+                proveedor.setRut(rs.getLong("RUT"));
                 proveedor.setNombre(rs.getString("NOMBRE"));
-                proveedor.setTelefono(rs.getInt("TELEFONO"));
+                proveedor.setTelefono(rs.getLong("TELEFONO"));
                 proveedor.setDireccion(rs.getString("DIRECCION"));
                 proveedor.setRazonSocial(rs.getString("RAZON_SOCIAL"));
                 listaProveedores.add(proveedor);
@@ -125,9 +125,9 @@ public class ProveedorDAO {
         try {
             cn = Conexion.conectar();
             pst = cn.prepareStatement(sql);
-            pst.setInt(1, proveedor.getRut());
+            pst.setLong(1, proveedor.getRut());
             pst.setString(2, proveedor.getNombre());
-            pst.setInt(3, proveedor.getTelefono());
+            pst.setLong(3, proveedor.getTelefono());
             pst.setString(4, proveedor.getDireccion());
             pst.setString(5, proveedor.getRazonSocial());
             pst.setInt(6, proveedor.getId());

@@ -26,9 +26,9 @@ public class ClienteDAO {
         try {
             cn = Conexion.conectar();
             pst = cn.prepareStatement(sql);
-            pst.setInt(1, cliente.getDni());
+            pst.setLong(1, cliente.getDni());
             pst.setString(2, cliente.getNombre());
-            pst.setInt(3, cliente.getTelefono());
+            pst.setLong(3, cliente.getTelefono());
             pst.setString(4, cliente.getDireccion());
             pst.setString(5, cliente.getRazonSocial());
             pst.execute();
@@ -63,9 +63,9 @@ public class ClienteDAO {
             while (rs.next()) {
                 Cliente cliente = new Cliente();
                 cliente.setId(rs.getInt("ID"));
-                cliente.setDni(rs.getInt("DNI"));
+                cliente.setDni(rs.getLong("DNI"));
                 cliente.setNombre(rs.getString("NOMBRE"));
-                cliente.setTelefono(rs.getInt("TELEFONO"));
+                cliente.setTelefono(rs.getLong("TELEFONO"));
                 cliente.setDireccion(rs.getString("DIRECCION"));
                 cliente.setRazonSocial(rs.getString("RAZON_SOCIAL"));
                 listaClientes.add(cliente);
@@ -125,9 +125,9 @@ public class ClienteDAO {
         try {
             cn = Conexion.conectar();
             pst = cn.prepareStatement(sql);
-            pst.setInt(1, cliente.getDni());
+            pst.setLong(1, cliente.getDni());
             pst.setString(2, cliente.getNombre());
-            pst.setInt(3, cliente.getTelefono());
+            pst.setLong(3, cliente.getTelefono());
             pst.setString(4, cliente.getDireccion());
             pst.setString(5, cliente.getRazonSocial());
             pst.setInt(6, cliente.getId());
@@ -161,9 +161,9 @@ public class ClienteDAO {
             pst.setInt(1, dni);
             rs = pst.executeQuery();
             if (rs.next()) {
-                cliente.setDni(rs.getInt("DNI"));
+                cliente.setDni(rs.getLong("DNI"));
                 cliente.setNombre(rs.getString("NOMBRE"));
-                cliente.setTelefono(rs.getInt("TELEFONO"));
+                cliente.setTelefono(rs.getLong("TELEFONO"));
                 cliente.setDireccion(rs.getString("DIRECCION"));
                 cliente.setRazonSocial(rs.getString("RAZON_SOCIAL"));
             }
