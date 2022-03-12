@@ -27,9 +27,9 @@ public class ConfiguracionDatosEmpresaDAO {
             rs = pst.executeQuery();
             if (rs.next()) {
                 configuracionDatosEmpresa.setId(rs.getInt("ID"));
-                configuracionDatosEmpresa.setRut(rs.getInt("RUT"));
+                configuracionDatosEmpresa.setRut(rs.getLong("RUT"));
                 configuracionDatosEmpresa.setNombre(rs.getString("NOMBRE"));
-                configuracionDatosEmpresa.setTelefono(rs.getInt("TELEFONO"));
+                configuracionDatosEmpresa.setTelefono(rs.getLong("TELEFONO"));
                 configuracionDatosEmpresa.setDireccion(rs.getString("DIRECCION"));
                 configuracionDatosEmpresa.setRazonSocial(rs.getString("RAZON_SOCIAL"));
             }
@@ -58,9 +58,9 @@ public class ConfiguracionDatosEmpresaDAO {
         try {
             cn = Conexion.conectar();
             pst = cn.prepareStatement(sql);
-            pst.setInt(1, configuracionDatosEmpresa.getRut());
+            pst.setLong(1, configuracionDatosEmpresa.getRut());
             pst.setString(2, configuracionDatosEmpresa.getNombre());
-            pst.setInt(3, configuracionDatosEmpresa.getTelefono());
+            pst.setLong(3, configuracionDatosEmpresa.getTelefono());
             pst.setString(4, configuracionDatosEmpresa.getDireccion());
             pst.setString(5, configuracionDatosEmpresa.getRazonSocial());
             pst.setInt(6, configuracionDatosEmpresa.getId());

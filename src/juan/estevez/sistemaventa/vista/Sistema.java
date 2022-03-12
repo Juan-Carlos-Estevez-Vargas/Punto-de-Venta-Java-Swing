@@ -215,6 +215,7 @@ public final class Sistema extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         labelVendedor = new javax.swing.JLabel();
         btnClientes1 = new javax.swing.JButton();
+        btnCerrarSesión = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
@@ -322,9 +323,9 @@ public final class Sistema extends javax.swing.JFrame {
         jPanel8 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         tableUsuarios = new javax.swing.JTable();
-        btnRegistrarUsuario = new javax.swing.JButton();
         btnEliminarVenta1 = new javax.swing.JButton();
         txtIdUsuario = new javax.swing.JTextField();
+        btnRegistrarUsuario1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -341,7 +342,7 @@ public final class Sistema extends javax.swing.JFrame {
         });
 
         btnUsuarios.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/Clientes.png"))); // NOI18N
+        btnUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/lupa.png"))); // NOI18N
         btnUsuarios.setText("Usuarios");
         btnUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -450,6 +451,17 @@ public final class Sistema extends javax.swing.JFrame {
         );
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 170, 680));
+
+        btnCerrarSesión.setBackground(new java.awt.Color(0, 51, 255));
+        btnCerrarSesión.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnCerrarSesión.setForeground(new java.awt.Color(255, 255, 255));
+        btnCerrarSesión.setText("Cerrar Sesión");
+        btnCerrarSesión.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarSesiónActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnCerrarSesión, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 150, 140, 37));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/encabezado.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 0, 1070, 180));
@@ -1248,6 +1260,7 @@ public final class Sistema extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("tab4", jPanel5);
 
+        tableVentas.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         tableVentas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -1419,6 +1432,7 @@ public final class Sistema extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("tab6", jPanel7);
 
+        tableUsuarios.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         tableUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -1440,20 +1454,20 @@ public final class Sistema extends javax.swing.JFrame {
             tableUsuarios.getColumnModel().getColumn(3).setPreferredWidth(100);
         }
 
-        btnRegistrarUsuario.setBackground(new java.awt.Color(0, 51, 255));
-        btnRegistrarUsuario.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnRegistrarUsuario.setForeground(new java.awt.Color(255, 255, 255));
-        btnRegistrarUsuario.setText("Registrar Usuario");
-        btnRegistrarUsuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRegistrarUsuarioActionPerformed(evt);
-            }
-        });
-
         btnEliminarVenta1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/eliminar.png"))); // NOI18N
         btnEliminarVenta1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarVenta1ActionPerformed(evt);
+            }
+        });
+
+        btnRegistrarUsuario1.setBackground(new java.awt.Color(0, 51, 255));
+        btnRegistrarUsuario1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnRegistrarUsuario1.setForeground(new java.awt.Color(255, 255, 255));
+        btnRegistrarUsuario1.setText("Registrar Usuario");
+        btnRegistrarUsuario1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarUsuario1ActionPerformed(evt);
             }
         });
 
@@ -1467,11 +1481,11 @@ public final class Sistema extends javax.swing.JFrame {
                         .addGap(49, 49, 49)
                         .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 961, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(197, 197, 197)
+                        .addGap(198, 198, 198)
                         .addComponent(txtIdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(180, 180, 180)
-                        .addComponent(btnRegistrarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(173, 173, 173)
+                        .addComponent(btnRegistrarUsuario1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnEliminarVenta1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(60, Short.MAX_VALUE))
         );
@@ -1479,14 +1493,15 @@ public final class Sistema extends javax.swing.JFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(40, 40, 40)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtIdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(btnRegistrarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
-                        .addComponent(btnEliminarVenta1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnEliminarVenta1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24)
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnRegistrarUsuario1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtIdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("tab7", jPanel8);
@@ -2179,9 +2194,9 @@ public final class Sistema extends javax.swing.JFrame {
                 || !"".equals(txtDireccionEmpresa.getText())) {
 
             configuracionDatosEmpresa.setId(Integer.parseInt(txtIdEmpresa.getText()));
-            configuracionDatosEmpresa.setRut(Integer.parseInt(txtRutEmpresa.getText()));
+            configuracionDatosEmpresa.setRut(Long.parseLong(txtRutEmpresa.getText()));
             configuracionDatosEmpresa.setNombre(txtNombreEmpresa.getText());
-            configuracionDatosEmpresa.setTelefono(Integer.parseInt(txtTelefonoEmpresa.getText()));
+            configuracionDatosEmpresa.setTelefono(Long.parseLong(txtTelefonoEmpresa.getText()));
             configuracionDatosEmpresa.setDireccion(txtDireccionEmpresa.getText());
             configuracionDatosEmpresa.setRazonSocial(txtRazonSocialEmpresa.getText());
 
@@ -2239,11 +2254,15 @@ public final class Sistema extends javax.swing.JFrame {
         txtIdUsuario.setText(tableUsuarios.getValueAt(fila, 0).toString());
     }//GEN-LAST:event_tableUsuariosMouseClicked
 
-    private void btnRegistrarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarUsuarioActionPerformed
-        RegistroUsuarios registroUsuarios = new RegistroUsuarios();
-        registroUsuarios.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnRegistrarUsuarioActionPerformed
+    private void btnCerrarSesiónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesiónActionPerformed
+        int pregunta = JOptionPane.showConfirmDialog(null, "¿Seguro que quiere salir?");
+        if (pregunta == 0) {
+            Login login = new Login();
+            login.setVisible(true);
+            this.dispose();
+        }
+
+    }//GEN-LAST:event_btnCerrarSesiónActionPerformed
 
     private void btnEliminarVenta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarVenta1ActionPerformed
         if (!"".equals(txtIdUsuario.getText())) {
@@ -2261,6 +2280,10 @@ public final class Sistema extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_btnEliminarVenta1ActionPerformed
+
+    private void btnRegistrarUsuario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarUsuario1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRegistrarUsuario1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2297,6 +2320,7 @@ public final class Sistema extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizarDatosEmpresa;
+    private javax.swing.JButton btnCerrarSesión;
     private javax.swing.JButton btnClientes1;
     private javax.swing.JButton btnConfiguracion;
     private javax.swing.JButton btnEditarCliente;
@@ -2320,7 +2344,7 @@ public final class Sistema extends javax.swing.JFrame {
     private javax.swing.JButton btnPdfVentas;
     private javax.swing.JButton btnProductos;
     private javax.swing.JButton btnProveedor;
-    private javax.swing.JButton btnRegistrarUsuario;
+    private javax.swing.JButton btnRegistrarUsuario1;
     private javax.swing.JButton btnUsuarios;
     private javax.swing.JButton btnVentas;
     private javax.swing.JComboBox<String> cbxProveedorProducto;
