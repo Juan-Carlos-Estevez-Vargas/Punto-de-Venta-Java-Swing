@@ -35,6 +35,7 @@ public class UsuarioDAO {
 
             while (rs.next()) {
                 Usuario usuario = new Usuario();
+                usuario.setId(rs.getInt("ID"));
                 usuario.setNombre(rs.getString("NOMBRE"));
                 usuario.setCorreo(rs.getString("CORREO"));
                 usuario.setRol(rs.getString("ROL"));
@@ -54,5 +55,33 @@ public class UsuarioDAO {
         }
 
         return listaUsuarios;
+    }
+    
+    /**
+     * Elimina un cliente de la base de datos.
+     *
+     * @param id por el cual se eliminará el cliente.
+     * @return true si se eliminó el cliente y false si no se eliminó.
+     */
+    public boolean eliminarUsuario(int id) {
+        String sql = "DELETE FROM USUARIO WHERE ID = ?";
+
+        try {
+            cn = Conexion.conectar();
+            pst = cn.prepareStatement(sql);
+            pst.setInt(1, id);
+            pst.execute();
+            return true;
+        } catch (SQLException e) {
+            System.err.println("Error el eliminar usuario en UsuarioDAO " + e.toString());
+            return false;
+        } finally {
+            try {
+                pst.close();
+                cn.close();
+            } catch (SQLException e) {
+                System.err.println("Error al cerrar los objetos en UsuarioDAO " + e.toString());
+            }
+        }
     }
 }

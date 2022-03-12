@@ -1867,7 +1867,9 @@
                               <Component id="jScrollPane6" min="-2" pref="961" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="431" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="197" max="-2" attributes="0"/>
+                              <Component id="txtIdUsuario" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="180" max="-2" attributes="0"/>
                               <Component id="btnRegistrarUsuario" min="-2" pref="146" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="btnEliminarVenta1" min="-2" pref="41" max="-2" attributes="0"/>
@@ -1883,9 +1885,12 @@
                       <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                       <Component id="jScrollPane6" min="-2" pref="312" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="btnRegistrarUsuario" pref="37" max="32767" attributes="0"/>
-                          <Component id="btnEliminarVenta1" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="txtIdUsuario" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="btnRegistrarUsuario" alignment="0" pref="37" max="32767" attributes="0"/>
+                              <Component id="btnEliminarVenta1" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace pref="49" max="32767" attributes="0"/>
                   </Group>
@@ -1903,7 +1908,8 @@
                 <Component class="javax.swing.JTable" name="tableUsuarios">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="3" rowCount="0">
+                      <Table columnCount="4" rowCount="0">
+                        <Column editable="true" title="ID" type="java.lang.Object"/>
                         <Column editable="true" title="CORREO" type="java.lang.Object"/>
                         <Column editable="true" title="NOMBRE" type="java.lang.Object"/>
                         <Column editable="true" title="ROL" type="java.lang.Object"/>
@@ -1911,6 +1917,11 @@
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                       <TableColumnModel selectionModel="0">
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="20" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="100" resizable="true">
                           <Title/>
                           <Editor/>
@@ -1964,6 +1975,8 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarVenta1ActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JTextField" name="txtIdUsuario">
             </Component>
           </SubComponents>
         </Container>

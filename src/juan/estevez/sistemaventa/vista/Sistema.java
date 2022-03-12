@@ -112,12 +112,13 @@ public final class Sistema extends javax.swing.JFrame {
     public void listarUsuarios() {
         List<Usuario> listarUsuarios = usuarioDAO.listarUsuarios();
         modelo = (DefaultTableModel) tableUsuarios.getModel();
-        Object[] objeto = new Object[3];
+        Object[] objeto = new Object[4];
 
         for (int i = 0; i < listarUsuarios.size(); i++) {
-            objeto[0] = listarUsuarios.get(i).getCorreo();
-            objeto[1] = listarUsuarios.get(i).getNombre();
-            objeto[2] = listarUsuarios.get(i).getRol();
+            objeto[0] = listarUsuarios.get(i).getId();
+            objeto[1] = listarUsuarios.get(i).getCorreo();
+            objeto[2] = listarUsuarios.get(i).getNombre();
+            objeto[3] = listarUsuarios.get(i).getRol();
 
             modelo.addRow(objeto);
         }
@@ -323,6 +324,7 @@ public final class Sistema extends javax.swing.JFrame {
         tableUsuarios = new javax.swing.JTable();
         btnRegistrarUsuario = new javax.swing.JButton();
         btnEliminarVenta1 = new javax.swing.JButton();
+        txtIdUsuario = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1422,7 +1424,7 @@ public final class Sistema extends javax.swing.JFrame {
 
             },
             new String [] {
-                "CORREO", "NOMBRE", "ROL"
+                "ID", "CORREO", "NOMBRE", "ROL"
             }
         ));
         tableUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1432,9 +1434,10 @@ public final class Sistema extends javax.swing.JFrame {
         });
         jScrollPane6.setViewportView(tableUsuarios);
         if (tableUsuarios.getColumnModel().getColumnCount() > 0) {
-            tableUsuarios.getColumnModel().getColumn(0).setPreferredWidth(100);
+            tableUsuarios.getColumnModel().getColumn(0).setPreferredWidth(20);
             tableUsuarios.getColumnModel().getColumn(1).setPreferredWidth(100);
             tableUsuarios.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tableUsuarios.getColumnModel().getColumn(3).setPreferredWidth(100);
         }
 
         btnRegistrarUsuario.setBackground(new java.awt.Color(0, 51, 255));
@@ -1464,7 +1467,9 @@ public final class Sistema extends javax.swing.JFrame {
                         .addGap(49, 49, 49)
                         .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 961, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(431, 431, 431)
+                        .addGap(197, 197, 197)
+                        .addComponent(txtIdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(180, 180, 180)
                         .addComponent(btnRegistrarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEliminarVenta1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -1476,9 +1481,11 @@ public final class Sistema extends javax.swing.JFrame {
                 .addGap(40, 40, 40)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnRegistrarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
-                    .addComponent(btnEliminarVenta1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtIdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(btnRegistrarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
+                        .addComponent(btnEliminarVenta1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(49, Short.MAX_VALUE))
         );
 
@@ -2228,7 +2235,8 @@ public final class Sistema extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNuevoProductoActionPerformed
 
     private void tableUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableUsuariosMouseClicked
-        // TODO add your handling code here:
+        int fila = tableUsuarios.rowAtPoint(evt.getPoint());
+        txtIdUsuario.setText(tableUsuarios.getValueAt(fila, 0).toString());
     }//GEN-LAST:event_tableUsuariosMouseClicked
 
     private void btnRegistrarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarUsuarioActionPerformed
@@ -2238,7 +2246,20 @@ public final class Sistema extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistrarUsuarioActionPerformed
 
     private void btnEliminarVenta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarVenta1ActionPerformed
-        // TODO add your handling code here:
+        if (!"".equals(txtIdUsuario.getText())) {
+            int pregunta = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar el registro?");
+
+            if (pregunta == 0) {
+                usuarioDAO.eliminarUsuario(Integer.parseInt(txtIdUsuario.getText()));
+
+                this.limpiarTabla();
+                this.listarUsuarios();
+            }
+        } else {
+
+        }
+
+
     }//GEN-LAST:event_btnEliminarVenta1ActionPerformed
 
     /**
@@ -2377,6 +2398,7 @@ public final class Sistema extends javax.swing.JFrame {
     private javax.swing.JTextField txtIdProducto;
     private javax.swing.JTextField txtIdProductoVenta;
     private javax.swing.JTextField txtIdProveedor;
+    private javax.swing.JTextField txtIdUsuario;
     private javax.swing.JTextField txtIdVenta;
     private javax.swing.JTextField txtNombreCliente;
     private javax.swing.JTextField txtNombreClienteVenta;

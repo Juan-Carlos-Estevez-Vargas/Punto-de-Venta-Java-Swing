@@ -63,7 +63,7 @@
                           <Component id="labelCorreoElectronicoUsuario" min="-2" max="-2" attributes="0"/>
                           <Component id="txtNombreUsuario" pref="263" max="32767" attributes="0"/>
                           <Component id="txtPasswordUsuario" alignment="0" max="32767" attributes="0"/>
-                          <Component id="txtCorreoUsuario1" alignment="0" pref="263" max="32767" attributes="0"/>
+                          <Component id="txtCorreoUsuario" alignment="0" pref="263" max="32767" attributes="0"/>
                       </Group>
                       <Component id="cmbRolUsuario" alignment="0" min="-2" pref="130" max="-2" attributes="0"/>
                   </Group>
@@ -79,7 +79,7 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="labelCorreoElectronicoUsuario" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="txtCorreoUsuario1" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtCorreoUsuario" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   <Component id="labelPasswordUsuario" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -161,7 +161,7 @@
             <Property name="text" type="java.lang.String" value="Nombre"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtCorreoUsuario1">
+        <Component class="javax.swing.JTextField" name="txtCorreoUsuario">
         </Component>
         <Component class="javax.swing.JLabel" name="labelRlUsuario">
           <Properties>

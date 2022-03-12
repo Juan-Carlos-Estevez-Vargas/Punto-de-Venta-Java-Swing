@@ -6,12 +6,14 @@ package juan.estevez.sistemaventa.modelo;
  */
 public class Usuario {
 
+    private int id;
     private String correo, password, nombre, rol;
 
     public Usuario() {
     }
 
-    public Usuario(String correo, String password, String nombre, String rol) {
+    public Usuario(int id, String correo, String password, String nombre, String rol) {
+        this.id = id;
         this.correo = correo;
         this.password = password;
         this.nombre = nombre;
@@ -20,6 +22,14 @@ public class Usuario {
 
     public String getCorreo() {
         return correo;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setCorreo(String correo) {

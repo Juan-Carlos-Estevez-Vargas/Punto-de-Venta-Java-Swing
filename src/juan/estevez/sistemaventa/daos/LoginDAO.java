@@ -55,7 +55,7 @@ public class LoginDAO {
     }
     
     public boolean registrarUsuario(Loginn login) {
-        String sql = "INSERT INTO USUSRIO (NOMBRE, CORREO, PASSWORD, ROL) VALUES (?,?,?,?)";
+        String sql = "INSERT INTO USUARIO (NOMBRE, CORREO, PASSWORD, ROL) VALUES (?,?,?,?)";
         try {
             conn = Conexion.conectar();
             pst = conn.prepareStatement(sql);

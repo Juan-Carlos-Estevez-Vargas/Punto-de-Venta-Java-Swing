@@ -25,7 +25,7 @@ public class RegistroUsuarios extends javax.swing.JFrame {
      * Se encarga de validar el correo y contraseña del login
      */
     public void validar() {
-        String correo = txtNombreUsuario.getText();
+        String correo = txtCorreoUsuario.getText();
         String password = String.valueOf(txtPasswordUsuario.getPassword());
         String nombre = txtNombreUsuario.getText();
         String rol = cmbRolUsuario.getSelectedItem().toString();
@@ -61,7 +61,7 @@ public class RegistroUsuarios extends javax.swing.JFrame {
         txtPasswordUsuario = new javax.swing.JPasswordField();
         btnIniciar = new javax.swing.JButton();
         labelNombreUsuario = new javax.swing.JLabel();
-        txtCorreoUsuario1 = new javax.swing.JTextField();
+        txtCorreoUsuario = new javax.swing.JTextField();
         labelRlUsuario = new javax.swing.JLabel();
         cmbRolUsuario = new javax.swing.JComboBox<>();
         Fondo = new javax.swing.JPanel();
@@ -126,7 +126,7 @@ public class RegistroUsuarios extends javax.swing.JFrame {
                         .addComponent(labelCorreoElectronicoUsuario)
                         .addComponent(txtNombreUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
                         .addComponent(txtPasswordUsuario)
-                        .addComponent(txtCorreoUsuario1, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE))
+                        .addComponent(txtCorreoUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE))
                     .addComponent(cmbRolUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -138,7 +138,7 @@ public class RegistroUsuarios extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(labelCorreoElectronicoUsuario)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtCorreoUsuario1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtCorreoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
                 .addComponent(labelPasswordUsuario)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -237,7 +237,7 @@ public class RegistroUsuarios extends javax.swing.JFrame {
     private javax.swing.JLabel labelPasswordUsuario;
     private javax.swing.JLabel labelRlUsuario;
     private javax.swing.JPanel panelLogin;
-    private javax.swing.JTextField txtCorreoUsuario1;
+    private javax.swing.JTextField txtCorreoUsuario;
     private javax.swing.JTextField txtNombreUsuario;
     private javax.swing.JPasswordField txtPasswordUsuario;
     // End of variables declaration//GEN-END:variables
