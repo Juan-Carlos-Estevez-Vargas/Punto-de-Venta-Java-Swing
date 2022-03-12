@@ -1898,7 +1898,8 @@ public final class Sistema extends javax.swing.JFrame {
     private void txtCantidadVentaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadVentaKeyPressed
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
             if (!"".equals(txtCantidadVenta.getText())) {
-                String codigoProducto = txtCantidadVenta.getText();
+                String codigoProducto = txtCodigoVenta.getText();
+                System.out.println(codigoProducto);
                 String descripcion = txtDescripcionVenta.getText();
                 int cantidad = Integer.parseInt(txtCantidadVenta.getText());
                 double precio = Double.parseDouble(txtPrecioVenta.getText());
@@ -2565,9 +2566,9 @@ public final class Sistema extends javax.swing.JFrame {
     private void actualizarStock() {
         for (int i = 0; i < tableVenta.getRowCount(); i++) {
             String codigoProducto = tableVenta.getValueAt(i, 0).toString();
+            System.out.println("c" + codigoProducto);
             int cantidadProducto = Integer.parseInt(tableVenta.getValueAt(i, 2).toString());
             producto = productoDAO.buscarProducto(codigoProducto);
-            System.out.println("x" + producto.toString());
             int stockActual = producto.getStock() - cantidadProducto;
 
             this.productoDAO.actualizarStock(stockActual, codigoProducto);
