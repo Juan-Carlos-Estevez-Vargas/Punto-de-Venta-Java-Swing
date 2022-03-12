@@ -1,6 +1,5 @@
 package juan.estevez.sistemaventa.vista;
 
-import javax.swing.JOptionPane;
 import juan.estevez.sistemaventa.daos.LoginDAO;
 import juan.estevez.sistemaventa.modelo.Loginn;
 
@@ -22,7 +21,7 @@ public class RegistroUsuarios extends javax.swing.JFrame {
     }
 
     /**
-     * Se encarga de validar el correo y contraseña del login
+     * Se encarga de registrar el usuario y redirigirlo al login principal.
      */
     public void validar() {
         String correo = txtCorreoUsuario.getText();
@@ -38,8 +37,8 @@ public class RegistroUsuarios extends javax.swing.JFrame {
 
             loginDAO.registrarUsuario(login);
 
-            Login login = new Login();
-            login.setVisible(true);
+            Login loginApp = new Login();
+            loginApp.setVisible(true);
             dispose();
         }
     }
@@ -207,15 +206,12 @@ public class RegistroUsuarios extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(RegistroUsuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(RegistroUsuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(RegistroUsuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(RegistroUsuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+
         //</editor-fold>
         //</editor-fold>
 

@@ -193,7 +193,6 @@ public class ProductoDAO {
                 producto.setNombre(rs.getString("DESCRIPCION"));
                 producto.setPrecio(rs.getDouble("PRECIO"));
                 producto.setStock(rs.getInt("STOCK"));
-
             }
         } catch (SQLException e) {
             System.err.println("Error el buscar producto en productoDAO " + e.toString());

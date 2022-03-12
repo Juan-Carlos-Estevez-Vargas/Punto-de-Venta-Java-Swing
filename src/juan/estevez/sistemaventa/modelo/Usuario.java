@@ -2,7 +2,7 @@ package juan.estevez.sistemaventa.modelo;
 
 /**
  *
- * @author User
+ * @author Juan Carlos Estevez Vargas.
  */
 public class Usuario {
 

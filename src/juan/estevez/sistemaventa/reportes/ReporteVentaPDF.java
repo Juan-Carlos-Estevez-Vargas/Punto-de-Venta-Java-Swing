@@ -176,7 +176,7 @@ public class ReporteVentaPDF {
             archivo.close();
             Desktop.getDesktop().open(file);
         } catch (DocumentException | IOException e) {
-            System.err.println(e.toString());
+            System.err.println("Error al generar reporte de la venta en PDf " + e.toString());
         }
     }
 }

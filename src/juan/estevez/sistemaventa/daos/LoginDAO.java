@@ -30,7 +30,6 @@ public class LoginDAO {
             pst.setString(1, correo);
             pst.setString(2, password);
             rs = pst.executeQuery();
-
             if (rs.next()) {
                 login.setId(rs.getInt("ID"));
                 login.setNombre(rs.getString("NOMBRE"));
@@ -38,7 +37,6 @@ public class LoginDAO {
                 login.setPassword(rs.getString("PASSWORD"));
                 login.setRol(rs.getString("ROL"));
             }
-
         } catch (SQLException e) {
             System.err.println("Error en el login de la aplicación " + e.toString());
         } finally {
@@ -50,10 +48,15 @@ public class LoginDAO {
                 System.err.println("Error al cerrar los objetos en LoginDAO " + e.toString());
             }
         }
-
         return login;
     }
-    
+
+    /**
+     * Registra un nuevo usuario en la base de datos.
+     *
+     * @param login con los datos del usuario a registrar.
+     * @return true si se registró el usuario, false si no se registró.
+     */
     public boolean registrarUsuario(Loginn login) {
         String sql = "INSERT INTO USUARIO (NOMBRE, CORREO, PASSWORD, ROL) VALUES (?,?,?,?)";
         try {
@@ -67,6 +70,13 @@ public class LoginDAO {
             return true;
         } catch (SQLException e) {
             return false;
+        } finally {
+            try {
+                pst.close();
+                conn.close();
+            } catch (SQLException e) {
+                System.err.println("Error al cerrar los objetos en LoginDAO " + e.toString());
+            }
         }
     }
 }

@@ -10,7 +10,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.*;
-import javax.swing.text.html.HTMLDocument;
 import juan.estevez.sistemaventa.daos.ClienteDAO;
 import juan.estevez.sistemaventa.daos.ConfiguracionDatosEmpresaDAO;
 import juan.estevez.sistemaventa.daos.ProductoDAO;
@@ -66,6 +65,11 @@ public final class Sistema extends javax.swing.JFrame {
         this.iniciarAplicacion();
     }
 
+    /**
+     * Creates new form Sistema
+     *
+     * @param login a validar sus permisos.
+     */
     public Sistema(Loginn login) {
         this.iniciarAplicacion();
 
@@ -180,6 +184,9 @@ public final class Sistema extends javax.swing.JFrame {
         txtRazonSocialEmpresa.setText(configuracionDatosEmpresa.getRazonSocial());
     }
 
+    /**
+     * Lista las ventas existentes en el sistema.
+     */
     public void listarVentas() {
         List<Venta> listaVentas = ventaDao.listarVentas();
         modelo = (DefaultTableModel) tableVentas.getModel();
@@ -1610,7 +1617,6 @@ public final class Sistema extends javax.swing.JFrame {
         if ("".equals(txtIdCliente.getText())) {
             JOptionPane.showMessageDialog(null, "Seleccione una fila");
         } else {
-
             if (!"".equals(txtDniRutCliente.getText())
                     || !"".equals(txtNombreCliente.getText())
                     || !"".equals(txtTelefonoCliente.getText())
@@ -1905,10 +1911,10 @@ public final class Sistema extends javax.swing.JFrame {
                 double precio = Double.parseDouble(txtPrecioVenta.getText());
                 double totalVenta = cantidad * precio;
                 int stockDisponible = Integer.parseInt(txtStockDisponibleVenta.getText());
+
                 if (stockDisponible >= cantidad) {
                     item = item + 1;
                     modeloTemporal = (DefaultTableModel) tableVenta.getModel();
-
                     for (int i = 0; i < tableVenta.getRowCount(); i++) {
                         if (tableVenta.getValueAt(i, 1).equals(txtDescripcionVenta.getText())) {
                             JOptionPane.showMessageDialog(null, "El producto ya está registrado.");
@@ -1936,7 +1942,6 @@ public final class Sistema extends javax.swing.JFrame {
                     this.totalPagar();
                     this.limpiarVenta();
                     txtCodigoVenta.requestFocus();
-
                 } else {
                     JOptionPane.showMessageDialog(null, "Stock no disponible.");
                 }
@@ -2210,21 +2215,41 @@ public final class Sistema extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnActualizarDatosEmpresaActionPerformed
 
+    /**
+     * Limita al usuario a que solo pueda escribir números enteros.
+     *
+     * @param evt
+     */
     private void txtTelefonoProveedorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoProveedorKeyTyped
         this.evento.numberKeyPress(evt);
     }//GEN-LAST:event_txtTelefonoProveedorKeyTyped
 
+    /**
+     * Redirige al panel de ventas, lista las ventas y limpia el formulario.
+     *
+     * @param evt
+     */
     private void btnVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentasActionPerformed
         this.jTabbedPane1.setSelectedIndex(4);
         this.limpiarTabla();
         this.listarVentas();
     }//GEN-LAST:event_btnVentasActionPerformed
 
+    /**
+     * Recupera el id de la venta seleccionada por el usuario en la tabla.
+     *
+     * @param evt
+     */
     private void tableVentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableVentasMouseClicked
         int filaSeleccionada = tableVentas.rowAtPoint(evt.getPoint());
         txtIdVenta.setText(tableVentas.getValueAt(filaSeleccionada, 0).toString());
     }//GEN-LAST:event_tableVentasMouseClicked
 
+    /**
+     * Abre el reporte de la venta seleccionada en la tabla.
+     *
+     * @param evt
+     */
     private void btnPdfVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPdfVentasActionPerformed
         try {
             int idVenta = Integer.parseInt(txtIdVenta.getText());
@@ -2235,26 +2260,51 @@ public final class Sistema extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnPdfVentasActionPerformed
 
+    /**
+     * Grafica las ventas parametrizadas por la fecha que el usuario suministre.
+     *
+     * @param evt
+     */
     private void btnGraficaVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGraficaVentasActionPerformed
         String fechaReporte = new SimpleDateFormat("dd/MM/yyyy").format(jDateChooserVenta.getDate());
         GraficoVentas.graficar(fechaReporte);
     }//GEN-LAST:event_btnGraficaVentasActionPerformed
 
+    /**
+     * Redirige al panel de clientes, los lista y limpia el formulario.
+     *
+     * @param evt
+     */
     private void btnClientes1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientes1ActionPerformed
         this.limpiarTabla();
         this.listarClientes();
         jTabbedPane1.setSelectedIndex(1);
     }//GEN-LAST:event_btnClientes1ActionPerformed
 
+    /**
+     * Limpia los txt del formulario producto.
+     *
+     * @param evt
+     */
     private void btnNuevoProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoProductoActionPerformed
         this.limpiarProducto();
     }//GEN-LAST:event_btnNuevoProductoActionPerformed
 
+    /**
+     * Recupera el id del usuario seleccionado en la tabala.
+     *
+     * @param evt
+     */
     private void tableUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableUsuariosMouseClicked
         int fila = tableUsuarios.rowAtPoint(evt.getPoint());
         txtIdUsuario.setText(tableUsuarios.getValueAt(fila, 0).toString());
     }//GEN-LAST:event_tableUsuariosMouseClicked
 
+    /**
+     * Cierra la sesión del usuario.
+     *
+     * @param evt
+     */
     private void btnCerrarSesiónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesiónActionPerformed
         int pregunta = JOptionPane.showConfirmDialog(null, "¿Seguro que quiere salir?");
         if (pregunta == 0) {
@@ -2262,13 +2312,16 @@ public final class Sistema extends javax.swing.JFrame {
             login.setVisible(true);
             this.dispose();
         }
-
     }//GEN-LAST:event_btnCerrarSesiónActionPerformed
 
+    /**
+     * Elimina un usuario del sistema.
+     *
+     * @param evt
+     */
     private void btnEliminarVenta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarVenta1ActionPerformed
         if (!"".equals(txtIdUsuario.getText())) {
             int pregunta = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar el registro?");
-
             if (pregunta == 0) {
                 usuarioDAO.eliminarUsuario(Integer.parseInt(txtIdUsuario.getText()));
 
@@ -2276,14 +2329,21 @@ public final class Sistema extends javax.swing.JFrame {
                 this.listarUsuarios();
             }
         } else {
-
+            JOptionPane.showMessageDialog(null, "El usuario no está registrado.");
         }
 
 
     }//GEN-LAST:event_btnEliminarVenta1ActionPerformed
 
+    /**
+     * Redirige al formulario para registrar un nuevo usuario.
+     *
+     * @param evt
+     */
     private void btnRegistrarUsuario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarUsuario1ActionPerformed
-        // TODO add your handling code here:
+        RegistroUsuarios registrarUsuario = new RegistroUsuarios();
+        registrarUsuario.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnRegistrarUsuario1ActionPerformed
 
     /**
@@ -2302,16 +2362,9 @@ public final class Sistema extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Sistema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Sistema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Sistema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Sistema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
@@ -2587,6 +2640,10 @@ public final class Sistema extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Oculta los campos no requeridos e inicia los componentes de la
+     * aplicación.
+     */
     public void iniciarAplicacion() {
         initComponents();
         this.setLocationRelativeTo(null);

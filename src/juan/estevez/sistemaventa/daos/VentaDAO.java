@@ -8,7 +8,7 @@ import juan.estevez.sistemaventa.modelo.*;
 
 /**
  *
- * @author Juan Carlos Estevez Vargas
+ * @author Juan Carlos Estevez Vargas.
  */
 public class VentaDAO {
 
@@ -64,8 +64,7 @@ public class VentaDAO {
             pst.setInt(4, detalle.getIdVenta());
             pst.execute();
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al resgitrar el detalle de venta ");
-            System.err.println(e.toString());
+            System.err.println("Error al resgitrar el detalle de venta en VentaDAO " + e.toString());
         } finally {
             try {
                 pst.close();
@@ -107,7 +106,12 @@ public class VentaDAO {
         }
         return id;
     }
-    
+
+    /**
+     * Consulta la data de las ventas almacenadas en la base de datos.
+     *
+     * @return listado de ventas obtenido.
+     */
     public List listarVentas() {
         List<Venta> listaVentas = new ArrayList<>();
         String sql = "SELECT * FROM VENTAS";
@@ -116,17 +120,14 @@ public class VentaDAO {
             cn = Conexion.conectar();
             pst = cn.prepareStatement(sql);
             rs = pst.executeQuery();
-
             while (rs.next()) {
                 Venta venta = new Venta();
                 venta.setId(rs.getInt("ID"));
                 venta.setCliente(rs.getString("CLIENTE"));
                 venta.setVendedor(rs.getString("VENDEDOR"));
                 venta.setTotal(rs.getDouble("TOTAL"));
-                
                 listaVentas.add(venta);
             }
-
         } catch (SQLException e) {
             System.err.println("Error al listar las ventas en VentaDAO " + e.toString());
         } finally {
@@ -138,7 +139,6 @@ public class VentaDAO {
                 System.err.println("Error al cerrar los objetos en VentaDAO " + e.toString());
             }
         }
-
         return listaVentas;
     }
 

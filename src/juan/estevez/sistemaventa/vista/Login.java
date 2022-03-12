@@ -22,12 +22,12 @@ public class Login extends javax.swing.JFrame {
     }
 
     /**
-     * Se encarga de validar el correo y contraseña del login
+     * Se encarga de validar el correo y contraseña del login e iniciar sesión.
      */
     public void validar() {
         String correo = txtCorreo.getText();
         String password = String.valueOf(txtPassword.getPassword());
-        
+
         if (!"".equals(correo) || !"".equals(password)) {
             login = loginDAO.log(correo, password);
 
@@ -207,6 +207,11 @@ public class Login extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Inicia sesión en la aplicación.
+     *
+     * @param evt
+     */
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
         this.validar();
     }//GEN-LAST:event_btnIniciarActionPerformed
@@ -227,15 +232,11 @@ public class Login extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        
         //</editor-fold>
 
         /* Create and display the form */

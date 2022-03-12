@@ -1,7 +1,6 @@
 package juan.estevez.sistemaventa.modelo;
 
 /**
- * Mapea el inicio de sesión (Usuario).
  *
  * @author Juan Carlos Estevez Vargas
  */

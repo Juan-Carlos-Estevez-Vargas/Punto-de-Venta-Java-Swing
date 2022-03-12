@@ -70,7 +70,6 @@ public class ProveedorDAO {
                 proveedor.setRazonSocial(rs.getString("RAZON_SOCIAL"));
                 listaProveedores.add(proveedor);
             }
-
         } catch (SQLException e) {
             System.err.println("Error al listar proveedores en ProveedorDAO " + e.toString());
         } finally {
@@ -82,7 +81,6 @@ public class ProveedorDAO {
                 System.err.println("Error al cerrar los objetos en ProveedorDAO " + e.toString());
             }
         }
-
         return listaProveedores;
     }
 
@@ -102,7 +100,7 @@ public class ProveedorDAO {
             pst.execute();
             return true;
         } catch (SQLException e) {
-            System.err.println("Error el eliminar proveedor en proveedor DAO " + e.toString());
+            System.err.println("Error el eliminar proveedor en proveedorDAO " + e.toString());
             return false;
         } finally {
             try {

@@ -70,7 +70,6 @@ public class ClienteDAO {
                 cliente.setRazonSocial(rs.getString("RAZON_SOCIAL"));
                 listaClientes.add(cliente);
             }
-
         } catch (SQLException e) {
             System.err.println("Error al listar clientes en ClienteDAO " + e.toString());
         } finally {
@@ -82,7 +81,6 @@ public class ClienteDAO {
                 System.err.println("Error al cerrar los objetos en ClienteDAO " + e.toString());
             }
         }
-
         return listaClientes;
     }
 
