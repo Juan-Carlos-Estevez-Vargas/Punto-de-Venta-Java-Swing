@@ -1,5 +1,5 @@
-# punto-de-venta-basico-java
-Punto de Venta básico desarrollado en el lenguaje de programación Java y una base de datos MySQL;, el sistema emplea una arquitectura MVC y su interfaz gráfica fue realizada con el drag and drop de NetBeans; además, contiene reportes en PDF y excel.
+# Punto de venta
+Punto de Venta básico desarrollado en el lenguaje de programación Java y una base de datos MySQL;, el sistema emplea una arquitectura MVC y su interfaz gráfica fue realizada con el drag and drop de NetBeans; además, contiene reportes en PDF y excel utilizando la librería itext-pdf.
 
 # Mis redes sociales
 
