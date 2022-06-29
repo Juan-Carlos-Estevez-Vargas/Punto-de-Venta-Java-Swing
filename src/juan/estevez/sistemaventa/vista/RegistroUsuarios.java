@@ -21,7 +21,7 @@ public class RegistroUsuarios extends javax.swing.JFrame {
     }
 
     /**
-     * Se encarga de registrar el usuario y redirigirlo al login principal.
+     * Se encarga de validar y registrar el usuario y redirigirlo al login principal.
      */
     public void validar() {
         String correo = txtCorreoUsuario.getText();
@@ -101,6 +101,11 @@ public class RegistroUsuarios extends javax.swing.JFrame {
         labelRlUsuario.setText("Rol");
 
         cmbRolUsuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrador", "Asistente" }));
+        cmbRolUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbRolUsuarioActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelLoginLayout = new javax.swing.GroupLayout(panelLogin);
         panelLogin.setLayout(panelLoginLayout);
@@ -189,6 +194,10 @@ public class RegistroUsuarios extends javax.swing.JFrame {
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
         this.validar();
     }//GEN-LAST:event_btnIniciarActionPerformed
+
+    private void cmbRolUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRolUsuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbRolUsuarioActionPerformed
 
     /**
      * @param args the command line arguments
