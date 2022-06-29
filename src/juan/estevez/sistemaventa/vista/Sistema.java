@@ -338,7 +338,7 @@ public final class Sistema extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(51, 0, 255));
+        jPanel1.setBackground(new java.awt.Color(50, 69, 109));
 
         btnNuevaVenta.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnNuevaVenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/Nventa.png"))); // NOI18N
@@ -470,6 +470,8 @@ public final class Sistema extends javax.swing.JFrame {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/encabezado.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 0, 1070, 180));
+
+        jPanel2.setBackground(new java.awt.Color(115, 135, 181));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("Código");
@@ -729,6 +731,8 @@ public final class Sistema extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("tab1", jPanel2);
 
+        jPanel3.setBackground(new java.awt.Color(115, 135, 181));
+
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel12.setText("DNI/RUT :");
@@ -931,6 +935,8 @@ public final class Sistema extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("tab2", jPanel3);
 
+        jPanel4.setBackground(new java.awt.Color(115, 135, 181));
+
         jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel17.setText("DNI/RUT :");
@@ -1118,6 +1124,8 @@ public final class Sistema extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("tab3", jPanel4);
 
+        jPanel5.setBackground(new java.awt.Color(115, 135, 181));
+
         jLabel22.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel22.setText("CÓDIGO :");
@@ -1302,6 +1310,8 @@ public final class Sistema extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("tab4", jPanel5);
 
+        jPanel6.setBackground(new java.awt.Color(115, 135, 181));
+
         tableVentas.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         tableVentas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1362,6 +1372,8 @@ public final class Sistema extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("tab5", jPanel6);
+
+        jPanel7.setBackground(new java.awt.Color(115, 135, 181));
 
         jLabel27.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel27.setText("RUC");
@@ -1473,6 +1485,8 @@ public final class Sistema extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("tab6", jPanel7);
+
+        jPanel8.setBackground(new java.awt.Color(115, 135, 181));
 
         tableUsuarios.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         tableUsuarios.setModel(new javax.swing.table.DefaultTableModel(
