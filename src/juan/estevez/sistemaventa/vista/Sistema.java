@@ -444,24 +444,27 @@ public final class Sistema extends javax.swing.JFrame {
                     .addComponent(btnConfiguracion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(labelVendedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(labelVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(btnNuevaVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnClientes1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(labelVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnNuevaVenta)
@@ -477,7 +480,7 @@ public final class Sistema extends javax.swing.JFrame {
                         .addComponent(btnVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnConfiguracion, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 170, 600));
@@ -491,7 +494,7 @@ public final class Sistema extends javax.swing.JFrame {
                 btnCerrarSesiónActionPerformed(evt);
             }
         });
-        getContentPane().add(btnCerrarSesión, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 120, 140, 37));
+        getContentPane().add(btnCerrarSesión, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 120, 140, 37));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/encabezado.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 0, 1070, 150));
@@ -1012,6 +1015,11 @@ public final class Sistema extends javax.swing.JFrame {
 
         txtCodigoProducto.setBackground(new java.awt.Color(204, 204, 255));
         txtCodigoProducto.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtCodigoProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodigoProductoActionPerformed(evt);
+            }
+        });
         txtCodigoProducto.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtCodigoProductoKeyTyped(evt);
@@ -1221,6 +1229,7 @@ public final class Sistema extends javax.swing.JFrame {
         jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel28.setText("NOMBRE");
 
+        txtNombreEmpresa.setEditable(false);
         txtNombreEmpresa.setBackground(new java.awt.Color(204, 204, 255));
         txtNombreEmpresa.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
@@ -1230,6 +1239,7 @@ public final class Sistema extends javax.swing.JFrame {
         jLabel29.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel29.setText("TELÉFONO");
 
+        txtTelefonoEmpresa.setEditable(false);
         txtTelefonoEmpresa.setBackground(new java.awt.Color(204, 204, 255));
         txtTelefonoEmpresa.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtTelefonoEmpresa.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -1244,9 +1254,11 @@ public final class Sistema extends javax.swing.JFrame {
         jLabel31.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel31.setText("RAZÓN SOCIAL");
 
+        txtRazonSocialEmpresa.setEditable(false);
         txtRazonSocialEmpresa.setBackground(new java.awt.Color(204, 204, 255));
         txtRazonSocialEmpresa.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
+        txtRutEmpresa.setEditable(false);
         txtRutEmpresa.setBackground(new java.awt.Color(204, 204, 255));
         txtRutEmpresa.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtRutEmpresa.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -1255,6 +1267,7 @@ public final class Sistema extends javax.swing.JFrame {
             }
         });
 
+        txtDireccionEmpresa.setEditable(false);
         txtDireccionEmpresa.setBackground(new java.awt.Color(204, 204, 255));
         txtDireccionEmpresa.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
@@ -1585,8 +1598,8 @@ public final class Sistema extends javax.swing.JFrame {
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/money.png"))); // NOI18N
         jLabel10.setText("TOTAL A PAGAR");
 
-        labelTotalVenta.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        labelTotalVenta.setForeground(new java.awt.Color(204, 204, 255));
+        labelTotalVenta.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        labelTotalVenta.setForeground(new java.awt.Color(0, 204, 0));
         labelTotalVenta.setText("---");
 
         txtDireccionClienteVenta.addActionListener(new java.awt.event.ActionListener() {
@@ -1629,7 +1642,7 @@ public final class Sistema extends javax.swing.JFrame {
                                 .addGap(35, 35, 35)
                                 .addComponent(txtIdProductoVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txtDescripcionVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtCantidadVenta, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1672,9 +1685,9 @@ public final class Sistema extends javax.swing.JFrame {
                                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addComponent(jLabel10)
-                        .addGap(18, 18, 18)
-                        .addComponent(labelTotalVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(34, 34, 34))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labelTotalVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1988,12 +2001,14 @@ public final class Sistema extends javax.swing.JFrame {
      * @param evt
      */
     private void btnGuardarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarProductoActionPerformed
-        if (!"".equals(txtCodigoProducto.getText())
-                || !"".equals(txtDescripcionProducto.getText())
-                || !"".equals(txtPrecioProducto.getText())
-                || !"".equals(cbxProveedorProducto.getSelectedItem())
-                || !"".equals(txtCantidadProducto.getText())) {
-
+        if ("".equals(txtCodigoProducto.getText().trim())
+                && "".equals(txtDescripcionProducto.getText().trim())
+                && "".equals(txtPrecioProducto.getText().trim())
+                && "".equals(cbxProveedorProducto.getSelectedItem())
+                && "".equals(txtCantidadProducto.getText().trim())) {
+            JOptionPane.showMessageDialog(null, "Los campos están vacíos");
+        } else {
+            
             producto.setCodigo(txtCodigoProducto.getText());
             producto.setNombre(txtDescripcionProducto.getText());
             producto.setProveedor(cbxProveedorProducto.getSelectedItem().toString());
@@ -2006,8 +2021,6 @@ public final class Sistema extends javax.swing.JFrame {
             this.limpiarTabla();
             this.listarProductos();
             this.limpiarProducto();
-        } else {
-            JOptionPane.showMessageDialog(null, "Los campos están vacíos");
         }
     }//GEN-LAST:event_btnGuardarProductoActionPerformed
 
@@ -2595,6 +2608,10 @@ public final class Sistema extends javax.swing.JFrame {
     private void txtIdUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdUsuarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtIdUsuarioActionPerformed
+
+    private void txtCodigoProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoProductoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodigoProductoActionPerformed
 
     /**
      * @param args the command line arguments
