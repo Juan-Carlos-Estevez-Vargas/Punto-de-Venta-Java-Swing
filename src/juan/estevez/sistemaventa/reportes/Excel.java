@@ -1,10 +1,12 @@
 package juan.estevez.sistemaventa.reportes;
 
+import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.Desktop;
 import java.io.*;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import juan.estevez.sistemaventa.modelo.Conexion;
 import org.apache.poi.ss.usermodel.*;
@@ -24,10 +26,10 @@ public class Excel {
         Sheet sheet = book.createSheet("Productos");
 
         try {
-            InputStream inputStream = new FileInputStream("/juan/estevez/sistemaventa/img/logo.png");
-            byte[] bytes = IOUtils.toByteArray(inputStream);
-            int imgIndex = book.addPicture(bytes, Workbook.PICTURE_TYPE_PNG);
-            inputStream.close();
+//            InputStream inputStream = new FileInputStream("/juan/estevez/sistemaventa/img/logo.png");
+//            byte[] bytes = IOUtils.toByteArray(inputStream);
+//            int imgIndex = book.addPicture(bytes, Workbook.PICTURE_TYPE_PNG);
+//            inputStream.close();
 
             CreationHelper help = book.getCreationHelper();
             Drawing draw = sheet.createDrawingPatriarch();
@@ -35,8 +37,8 @@ public class Excel {
             ClientAnchor anchor = help.createClientAnchor();
             anchor.setCol1(0);
             anchor.setRow1(1);
-            Picture pict = draw.createPicture(anchor, imgIndex);
-            pict.resize(1, 3);
+//            Picture pict = draw.createPicture(anchor, imgIndex);
+//            pict.resize(1, 3);
 
             CellStyle tituloEstilo = book.createCellStyle();
             tituloEstilo.setAlignment(HorizontalAlignment.CENTER);
@@ -117,7 +119,7 @@ public class Excel {
             sheet.setZoom(150);
             String fileName = "productos";
             String home = System.getProperty("user.home");
-            File file = new File(home + "/Downloads/" + fileName + ".xlsx");
+            File file = new File(home + "/Documents/" +fileName + ".xlsx");
             FileOutputStream fileOut = new FileOutputStream(file);
             book.write(fileOut);
             fileOut.close();

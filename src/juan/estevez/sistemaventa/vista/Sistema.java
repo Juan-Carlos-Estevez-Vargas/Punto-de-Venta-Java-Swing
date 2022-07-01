@@ -1097,8 +1097,7 @@ public final class Sistema extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(261, 261, 261)
-                        .addComponent(txtIdProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(txtIdProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 663, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17))
@@ -1161,11 +1160,10 @@ public final class Sistema extends javax.swing.JFrame {
         });
         jScrollPane5.setViewportView(tableVentas);
         if (tableVentas.getColumnModel().getColumnCount() > 0) {
-            tableVentas.getColumnModel().getColumn(0).setPreferredWidth(100);
-            tableVentas.getColumnModel().getColumn(1).setPreferredWidth(100);
-            tableVentas.getColumnModel().getColumn(2).setPreferredWidth(100);
-            tableVentas.getColumnModel().getColumn(3).setPreferredWidth(60);
-            tableVentas.getColumnModel().getColumn(3).setHeaderValue("TOTAL");
+            tableVentas.getColumnModel().getColumn(0).setPreferredWidth(20);
+            tableVentas.getColumnModel().getColumn(1).setPreferredWidth(200);
+            tableVentas.getColumnModel().getColumn(2).setPreferredWidth(180);
+            tableVentas.getColumnModel().getColumn(3).setPreferredWidth(80);
         }
 
         btnPdfVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/pdf.png"))); // NOI18N
@@ -1771,11 +1769,13 @@ public final class Sistema extends javax.swing.JFrame {
      * @param evt
      */
     private void btnGuardarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarClienteActionPerformed
-        if (!"".equals(txtDniRutCliente.getText())
-                || !"".equals(txtNombreCliente.getText())
-                || !"".equals(txtTelefonoCliente.getText())
-                || !"".equals(txtDireccionCliente.getText())) {
-
+        if ("".equals(txtDireccionCliente.getText())
+                || "".equals(txtNombreCliente.getText())
+                || "".equals(txtDniRutCliente.getText())
+                || "".equals(txtTelefonoCliente.getText())) {
+            JOptionPane.showMessageDialog(null, "Algunos campos están vacíos");
+        } else {
+            
             cliente.setDni(Long.parseLong(txtDniRutCliente.getText()));
             cliente.setNombre(txtNombreCliente.getText());
             cliente.setTelefono(Long.parseLong(txtTelefonoCliente.getText()));
@@ -1788,8 +1788,6 @@ public final class Sistema extends javax.swing.JFrame {
             this.limpiarTabla();
             this.listarClientes();
             this.limpiarCliente();
-        } else {
-            JOptionPane.showMessageDialog(null, "Los campos están vacíos");
         }
     }//GEN-LAST:event_btnGuardarClienteActionPerformed
 
@@ -2002,11 +2000,11 @@ public final class Sistema extends javax.swing.JFrame {
      */
     private void btnGuardarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarProductoActionPerformed
         if ("".equals(txtCodigoProducto.getText().trim())
-                && "".equals(txtDescripcionProducto.getText().trim())
-                && "".equals(txtPrecioProducto.getText().trim())
-                && "".equals(cbxProveedorProducto.getSelectedItem())
-                && "".equals(txtCantidadProducto.getText().trim())) {
-            JOptionPane.showMessageDialog(null, "Los campos están vacíos");
+                || "".equals(txtDescripcionProducto.getText().trim())
+                || "".equals(txtPrecioProducto.getText().trim())
+                || "".equals(cbxProveedorProducto.getSelectedItem())
+                || "".equals(txtCantidadProducto.getText().trim())) {
+            JOptionPane.showMessageDialog(null, "Algunos campos están vacíos");
         } else {
             
             producto.setCodigo(txtCodigoProducto.getText());
