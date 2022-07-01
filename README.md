@@ -6,7 +6,11 @@ Para ejecutar correctamente el proyecto es necesario importar la [base de datos]
 El sistema en cuestión cuanta con dos Roles:
 
 * ### Administrador:
-Este rol en cuestión puede ejecutar todas las operaciones presentes en el sistema de información: (Registrar y administrar clientes, productos, usuarios, etc).
+Este rol en cuestión puede ejecutar todas las operaciones presentes en el sistema de información, las cuales són: 
+* Registrar y administrar clientes, productos, usuarios.
+* Registros y gestión de ventas.
+* Administrar proveedores.
+* Eliminar usuarios y roles.
 
 * ### Asistente:
 El rol de asistente tiene funciones limitadas y restringidas, ya que será quién brinde apoyo al administrador del punto de venta.
