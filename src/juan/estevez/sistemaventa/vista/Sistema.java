@@ -1,5 +1,6 @@
 package juan.estevez.sistemaventa.vista;
 
+import java.awt.Color;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
@@ -72,6 +73,7 @@ public final class Sistema extends javax.swing.JFrame {
      */
     public Sistema(Loginn login) {
         this.iniciarAplicacion();
+        jTabbedPane1.setSelectedIndex(6);
 
         if (login.getRol().equals("Asistente")) {
             btnUsuarios.setEnabled(false);
@@ -1429,12 +1431,9 @@ public final class Sistema extends javax.swing.JFrame {
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
                         .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel11Layout.createSequentialGroup()
-                                .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18))
-                            .addGroup(jPanel11Layout.createSequentialGroup()
-                                .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(19, 19, 19)))
+                            .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtCorreoUsuarioActualizarPerfil)
                             .addComponent(txtNombreUsuarioActualizarPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1560,8 +1559,8 @@ public final class Sistema extends javax.swing.JFrame {
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addGap(74, 74, 74)
-                        .addComponent(txtIdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(256, 256, 256)
+                        .addComponent(txtIdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(315, 315, 315)
                         .addComponent(btnRegistrarUsuario1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnEliminarVenta1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1885,6 +1884,8 @@ public final class Sistema extends javax.swing.JFrame {
         this.limpiarTabla();
         this.listarProductos();
         this.limpiarProducto();
+        this.btnProductos.setBackground(new Color(122, 163, 177));
+        this.limpiarEstilosBotones(this.btnNuevaVenta, this.btnClientes1, this.btnConfiguracion, this.btnProveedor, this.btnUsuarios, this.btnVentas);
     }//GEN-LAST:event_btnProductosActionPerformed
 
     private void txtCodigoVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoVentaActionPerformed
@@ -1928,7 +1929,8 @@ public final class Sistema extends javax.swing.JFrame {
         this.limpiarTabla();
         this.listarUsuarios();
         jTabbedPane1.setSelectedIndex(5);
-
+this.btnUsuarios.setBackground(new Color(122, 163, 177));
+        this.limpiarEstilosBotones(this.btnNuevaVenta, this.btnClientes1, this.btnProductos, this.btnProveedor, this.btnConfiguracion, this.btnVentas);
     }//GEN-LAST:event_btnUsuariosActionPerformed
 
     /**
@@ -2044,6 +2046,8 @@ public final class Sistema extends javax.swing.JFrame {
         this.limpiarTabla();
         this.listarProveedor();
         jTabbedPane1.setSelectedIndex(1);
+        this.btnProveedor.setBackground(new Color(122, 163, 177));
+        this.limpiarEstilosBotones(this.btnNuevaVenta, this.btnClientes1, this.btnProductos, this.btnConfiguracion, this.btnUsuarios, this.btnVentas);
     }//GEN-LAST:event_btnProveedorActionPerformed
 
     /**
@@ -2380,6 +2384,8 @@ public final class Sistema extends javax.swing.JFrame {
      */
     private void btnNuevaVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaVentaActionPerformed
         this.jTabbedPane1.setSelectedIndex(6);
+        this.btnNuevaVenta.setBackground(new Color(122, 163, 177));
+        this.limpiarEstilosBotones(this.btnConfiguracion, this.btnClientes1, this.btnProductos, this.btnProveedor, this.btnUsuarios, this.btnVentas);
         this.limpiarVenta();
     }//GEN-LAST:event_btnNuevaVentaActionPerformed
 
@@ -2393,6 +2399,8 @@ public final class Sistema extends javax.swing.JFrame {
         this.txtIdEmpresa.setVisible(false);
         this.jTabbedPane1.setSelectedIndex(4);
         this.listarDatosEmpresa();
+        this.btnConfiguracion.setBackground(new Color(122, 163, 177));
+        this.limpiarEstilosBotones(this.btnNuevaVenta, this.btnClientes1, this.btnProductos, this.btnProveedor, this.btnUsuarios, this.btnVentas);
     }//GEN-LAST:event_btnConfiguracionActionPerformed
 
     private void txtCodigoVentaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoVentaKeyTyped
@@ -2590,6 +2598,8 @@ public final class Sistema extends javax.swing.JFrame {
         this.jTabbedPane1.setSelectedIndex(3);
         this.limpiarTabla();
         this.listarVentas();
+        this.btnVentas.setBackground(new Color(122, 163, 177));
+        this.limpiarEstilosBotones(this.btnNuevaVenta, this.btnClientes1, this.btnProductos, this.btnProveedor, this.btnUsuarios, this.btnConfiguracion);
     }//GEN-LAST:event_btnVentasActionPerformed
 
     /**
@@ -2635,6 +2645,8 @@ public final class Sistema extends javax.swing.JFrame {
     private void btnClientes1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientes1ActionPerformed
         this.limpiarTabla();
         this.listarClientes();
+        this.btnClientes1.setBackground(new Color(122, 163, 177));
+        this.limpiarEstilosBotones(this.btnNuevaVenta, this.btnConfiguracion, this.btnProductos, this.btnProveedor, this.btnUsuarios, this.btnVentas);
         jTabbedPane1.setSelectedIndex(0);
     }//GEN-LAST:event_btnClientes1ActionPerformed
 
@@ -3067,9 +3079,19 @@ public final class Sistema extends javax.swing.JFrame {
         this.txtRazonSocialClienteVenta.setVisible(false);
         this.txtIdProveedor.setVisible(false);
         this.txtIdProducto.setVisible(false);
+        this.txtIdUsuario.setVisible(false);
         this.txtIdVenta.setVisible(false);
         AutoCompleteDecorator.decorate(cbxProveedorProducto);
         this.productoDAO.consultarProveedor(cbxProveedorProducto);
+    }
+    
+    private void limpiarEstilosBotones(JButton btn1, JButton btn2, JButton btn3, JButton btn4, JButton btn5, JButton btn6) {
+        btn1.setBackground(new Color(187, 187, 187));
+        btn2.setBackground(new Color(187, 187, 187));
+        btn3.setBackground(new Color(187, 187, 187));
+        btn4.setBackground(new Color(187, 187, 187));
+        btn5.setBackground(new Color(187, 187, 187));
+        btn6.setBackground(new Color(187, 187, 187));
     }
 
 }

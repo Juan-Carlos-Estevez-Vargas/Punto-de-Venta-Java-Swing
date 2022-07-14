@@ -1848,15 +1848,10 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="jLabel36" min="-2" pref="104" max="-2" attributes="0"/>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="jLabel37" min="-2" pref="103" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-                                      </Group>
+                                      <Component id="jLabel36" alignment="0" min="-2" pref="104" max="-2" attributes="0"/>
+                                      <Component id="jLabel37" alignment="0" min="-2" pref="103" max="-2" attributes="0"/>
                                   </Group>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="txtCorreoUsuarioActualizarPerfil" alignment="0" max="32767" attributes="0"/>
                                       <Component id="txtNombreUsuarioActualizarPerfil" alignment="0" min="-2" pref="288" max="-2" attributes="0"/>
@@ -2051,8 +2046,8 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
-                              <Component id="txtIdUsuario" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="256" max="-2" attributes="0"/>
+                              <Component id="txtIdUsuario" min="-2" pref="5" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="315" max="-2" attributes="0"/>
                               <Component id="btnRegistrarUsuario1" min="-2" pref="192" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="btnEliminarVenta1" min="-2" pref="41" max="-2" attributes="0"/>
