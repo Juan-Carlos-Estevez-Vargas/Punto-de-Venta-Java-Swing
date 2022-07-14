@@ -163,7 +163,7 @@ public class ReporteVentaPDF {
 
                 Paragraph info = new Paragraph();
                 info.add(Chunk.NEWLINE);
-                info.add("Total a Pagar " + totalPagar);
+                info.add("Total a Pagar $" + totalPagar);
                 info.setAlignment(Element.ALIGN_RIGHT);
                 documento.add(info);
 

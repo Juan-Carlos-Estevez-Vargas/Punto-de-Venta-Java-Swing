@@ -64,6 +64,7 @@ public final class Sistema extends javax.swing.JFrame {
      */
     public Sistema() {
         this.iniciarAplicacion();
+        this.listarDatosEmpresa();
     }
 
     /**
@@ -73,6 +74,7 @@ public final class Sistema extends javax.swing.JFrame {
      */
     public Sistema(Loginn login) {
         this.iniciarAplicacion();
+        this.listarDatosEmpresa();
         jTabbedPane1.setSelectedIndex(6);
 
         if (login.getRol().equals("Asistente")) {
@@ -1753,7 +1755,7 @@ public final class Sistema extends javax.swing.JFrame {
         jLabel10.setText("TOTAL A PAGAR");
 
         labelTotalVenta.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        labelTotalVenta.setForeground(new java.awt.Color(0, 102, 0));
+        labelTotalVenta.setForeground(new java.awt.Color(0, 153, 0));
         labelTotalVenta.setText("---");
 
         txtDireccionClienteVenta.addActionListener(new java.awt.event.ActionListener() {
@@ -2390,6 +2392,8 @@ this.btnUsuarios.setBackground(new Color(122, 163, 177));
                 this.registrarVenta();
                 this.registrarDetalleVenta();
                 this.actualizarStock();
+                System.out.println(txtRutEmpresa.getText() +"\n"+ txtNombreEmpresa.getText()+"\n"+
+                        txtTelefonoEmpresa.getText()+"\n"+ txtDireccionEmpresa.getText());
                 this.reporteVentaPDF.pdf(txtRutEmpresa.getText(), txtNombreEmpresa.getText(),
                         txtTelefonoEmpresa.getText(), txtDireccionEmpresa.getText(),
                         txtRazonSocialEmpresa.getText(), txtDniRutVenta.getText(),
