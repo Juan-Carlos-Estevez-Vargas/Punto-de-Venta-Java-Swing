@@ -1755,7 +1755,7 @@ public final class Sistema extends javax.swing.JFrame {
         jLabel10.setText("TOTAL A PAGAR");
 
         labelTotalVenta.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        labelTotalVenta.setForeground(new java.awt.Color(0, 153, 0));
+        labelTotalVenta.setForeground(new java.awt.Color(153, 204, 255));
         labelTotalVenta.setText("---");
 
         txtDireccionClienteVenta.addActionListener(new java.awt.event.ActionListener() {
@@ -1936,7 +1936,7 @@ public final class Sistema extends javax.swing.JFrame {
                 || "".equals(txtTelefonoCliente.getText())) {
             JOptionPane.showMessageDialog(null, "Algunos campos están vacíos");
         } else {
-            
+
             cliente.setDni(Long.parseLong(txtDniRutCliente.getText()));
             cliente.setNombre(txtNombreCliente.getText());
             cliente.setTelefono(Long.parseLong(txtTelefonoCliente.getText()));
@@ -1962,7 +1962,7 @@ public final class Sistema extends javax.swing.JFrame {
         this.limpiarTabla();
         this.listarUsuarios();
         jTabbedPane1.setSelectedIndex(5);
-this.btnUsuarios.setBackground(new Color(122, 163, 177));
+        this.btnUsuarios.setBackground(new Color(122, 163, 177));
         this.limpiarEstilosBotones(this.btnNuevaVenta, this.btnClientes1, this.btnProductos, this.btnProveedor, this.btnConfiguracion, this.btnVentas);
     }//GEN-LAST:event_btnUsuariosActionPerformed
 
@@ -2170,7 +2170,7 @@ this.btnUsuarios.setBackground(new Color(122, 163, 177));
                 || "".equals(txtCantidadProducto.getText().trim())) {
             JOptionPane.showMessageDialog(null, "Algunos campos están vacíos");
         } else {
-            
+
             producto.setCodigo(txtCodigoProducto.getText());
             producto.setNombre(txtDescripcionProducto.getText());
             producto.setProveedor(cbxProveedorProducto.getSelectedItem().toString());
@@ -2392,8 +2392,6 @@ this.btnUsuarios.setBackground(new Color(122, 163, 177));
                 this.registrarVenta();
                 this.registrarDetalleVenta();
                 this.actualizarStock();
-                System.out.println(txtRutEmpresa.getText() +"\n"+ txtNombreEmpresa.getText()+"\n"+
-                        txtTelefonoEmpresa.getText()+"\n"+ txtDireccionEmpresa.getText());
                 this.reporteVentaPDF.pdf(txtRutEmpresa.getText(), txtNombreEmpresa.getText(),
                         txtTelefonoEmpresa.getText(), txtDireccionEmpresa.getText(),
                         txtRazonSocialEmpresa.getText(), txtDniRutVenta.getText(),
@@ -3119,7 +3117,7 @@ this.btnUsuarios.setBackground(new Color(122, 163, 177));
         AutoCompleteDecorator.decorate(cbxProveedorProducto);
         this.productoDAO.consultarProveedor(cbxProveedorProducto);
     }
-    
+
     private void limpiarEstilosBotones(JButton btn1, JButton btn2, JButton btn3, JButton btn4, JButton btn5, JButton btn6) {
         btn1.setBackground(new Color(187, 187, 187));
         btn2.setBackground(new Color(187, 187, 187));
