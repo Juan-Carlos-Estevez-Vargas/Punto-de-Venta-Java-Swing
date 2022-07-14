@@ -66,7 +66,7 @@ public class ReporteVentaPDF {
     
                 PdfWriter.getInstance(documento, archivo);
                 documento.open();
-                Image img = Image.getInstance("src/juan/estevez/sistemaventa/img/logo_pdf.png");
+                Image img = Image.getInstance("src/juan/estevez/sistemaventa/img/logo.png");
 
                 Paragraph fecha = new Paragraph();
                 Font negrita = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD, BaseColor.BLUE);

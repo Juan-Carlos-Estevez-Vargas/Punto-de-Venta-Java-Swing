@@ -1753,7 +1753,7 @@ public final class Sistema extends javax.swing.JFrame {
         jLabel10.setText("TOTAL A PAGAR");
 
         labelTotalVenta.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        labelTotalVenta.setForeground(new java.awt.Color(0, 204, 0));
+        labelTotalVenta.setForeground(new java.awt.Color(0, 102, 0));
         labelTotalVenta.setText("---");
 
         txtDireccionClienteVenta.addActionListener(new java.awt.event.ActionListener() {
