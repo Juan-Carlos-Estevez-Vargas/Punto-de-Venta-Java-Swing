@@ -538,7 +538,8 @@ public final class Sistema extends javax.swing.JFrame {
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel16.setText("RAZÓN SOCIAL :");
 
-        txtDniRutCliente.setBackground(new java.awt.Color(204, 204, 255));
+        txtDniRutCliente.setBackground(new java.awt.Color(153, 204, 255));
+        txtDniRutCliente.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtDniRutCliente.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtDniRutCliente.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -546,7 +547,8 @@ public final class Sistema extends javax.swing.JFrame {
             }
         });
 
-        txtNombreCliente.setBackground(new java.awt.Color(204, 204, 255));
+        txtNombreCliente.setBackground(new java.awt.Color(153, 204, 255));
+        txtNombreCliente.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtNombreCliente.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtNombreCliente.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -554,7 +556,8 @@ public final class Sistema extends javax.swing.JFrame {
             }
         });
 
-        txtTelefonoCliente.setBackground(new java.awt.Color(204, 204, 255));
+        txtTelefonoCliente.setBackground(new java.awt.Color(153, 204, 255));
+        txtTelefonoCliente.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         txtTelefonoCliente.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtTelefonoCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -567,7 +570,8 @@ public final class Sistema extends javax.swing.JFrame {
             }
         });
 
-        txtDireccionCliente.setBackground(new java.awt.Color(204, 204, 255));
+        txtDireccionCliente.setBackground(new java.awt.Color(153, 204, 255));
+        txtDireccionCliente.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtDireccionCliente.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtDireccionCliente.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -575,7 +579,8 @@ public final class Sistema extends javax.swing.JFrame {
             }
         });
 
-        txtRazonSocialCliente.setBackground(new java.awt.Color(204, 204, 255));
+        txtRazonSocialCliente.setBackground(new java.awt.Color(153, 204, 255));
+        txtRazonSocialCliente.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtRazonSocialCliente.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtRazonSocialCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -791,13 +796,16 @@ public final class Sistema extends javax.swing.JFrame {
             }
         });
 
-        txtRazonSocialProveedor.setBackground(new java.awt.Color(204, 204, 255));
+        txtRazonSocialProveedor.setBackground(new java.awt.Color(153, 204, 255));
+        txtRazonSocialProveedor.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtRazonSocialProveedor.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        txtDireccionProveedor.setBackground(new java.awt.Color(204, 204, 255));
+        txtDireccionProveedor.setBackground(new java.awt.Color(153, 204, 255));
+        txtDireccionProveedor.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtDireccionProveedor.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        txtTelefonoProveedor.setBackground(new java.awt.Color(204, 204, 255));
+        txtTelefonoProveedor.setBackground(new java.awt.Color(153, 204, 255));
+        txtTelefonoProveedor.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtTelefonoProveedor.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtTelefonoProveedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -813,7 +821,8 @@ public final class Sistema extends javax.swing.JFrame {
             }
         });
 
-        txtNombreProveedor.setBackground(new java.awt.Color(204, 204, 255));
+        txtNombreProveedor.setBackground(new java.awt.Color(153, 204, 255));
+        txtNombreProveedor.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtNombreProveedor.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtNombreProveedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -826,7 +835,8 @@ public final class Sistema extends javax.swing.JFrame {
             }
         });
 
-        txtDniRutProveedor.setBackground(new java.awt.Color(204, 204, 255));
+        txtDniRutProveedor.setBackground(new java.awt.Color(153, 204, 255));
+        txtDniRutProveedor.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtDniRutProveedor.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtDniRutProveedor.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -1006,7 +1016,8 @@ public final class Sistema extends javax.swing.JFrame {
             }
         });
 
-        txtPrecioProducto.setBackground(new java.awt.Color(204, 204, 255));
+        txtPrecioProducto.setBackground(new java.awt.Color(153, 204, 255));
+        txtPrecioProducto.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtPrecioProducto.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtPrecioProducto.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -1014,7 +1025,8 @@ public final class Sistema extends javax.swing.JFrame {
             }
         });
 
-        txtCantidadProducto.setBackground(new java.awt.Color(204, 204, 255));
+        txtCantidadProducto.setBackground(new java.awt.Color(153, 204, 255));
+        txtCantidadProducto.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtCantidadProducto.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtCantidadProducto.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -1022,10 +1034,12 @@ public final class Sistema extends javax.swing.JFrame {
             }
         });
 
-        txtDescripcionProducto.setBackground(new java.awt.Color(204, 204, 255));
+        txtDescripcionProducto.setBackground(new java.awt.Color(153, 204, 255));
+        txtDescripcionProducto.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtDescripcionProducto.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        txtCodigoProducto.setBackground(new java.awt.Color(204, 204, 255));
+        txtCodigoProducto.setBackground(new java.awt.Color(153, 204, 255));
+        txtCodigoProducto.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtCodigoProducto.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtCodigoProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1062,7 +1076,8 @@ public final class Sistema extends javax.swing.JFrame {
             tableProductos.getColumnModel().getColumn(5).setPreferredWidth(50);
         }
 
-        cbxProveedorProducto.setBackground(new java.awt.Color(204, 204, 255));
+        cbxProveedorProducto.setBackground(new java.awt.Color(153, 204, 255));
+        cbxProveedorProducto.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         cbxProveedorProducto.setForeground(new java.awt.Color(204, 204, 255));
 
         btnExcelProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/excel.png"))); // NOI18N
@@ -1240,7 +1255,8 @@ public final class Sistema extends javax.swing.JFrame {
         jLabel28.setText("NOMBRE");
 
         txtNombreEmpresa.setEditable(false);
-        txtNombreEmpresa.setBackground(new java.awt.Color(204, 204, 255));
+        txtNombreEmpresa.setBackground(new java.awt.Color(153, 204, 255));
+        txtNombreEmpresa.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtNombreEmpresa.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel29.setBackground(new java.awt.Color(204, 204, 204));
@@ -1250,7 +1266,8 @@ public final class Sistema extends javax.swing.JFrame {
         jLabel29.setText("TELÉFONO");
 
         txtTelefonoEmpresa.setEditable(false);
-        txtTelefonoEmpresa.setBackground(new java.awt.Color(204, 204, 255));
+        txtTelefonoEmpresa.setBackground(new java.awt.Color(153, 204, 255));
+        txtTelefonoEmpresa.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtTelefonoEmpresa.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtTelefonoEmpresa.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -1265,11 +1282,13 @@ public final class Sistema extends javax.swing.JFrame {
         jLabel31.setText("RAZÓN SOCIAL");
 
         txtRazonSocialEmpresa.setEditable(false);
-        txtRazonSocialEmpresa.setBackground(new java.awt.Color(204, 204, 255));
+        txtRazonSocialEmpresa.setBackground(new java.awt.Color(153, 204, 255));
+        txtRazonSocialEmpresa.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtRazonSocialEmpresa.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         txtRutEmpresa.setEditable(false);
-        txtRutEmpresa.setBackground(new java.awt.Color(204, 204, 255));
+        txtRutEmpresa.setBackground(new java.awt.Color(153, 204, 255));
+        txtRutEmpresa.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtRutEmpresa.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtRutEmpresa.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -1278,7 +1297,8 @@ public final class Sistema extends javax.swing.JFrame {
         });
 
         txtDireccionEmpresa.setEditable(false);
-        txtDireccionEmpresa.setBackground(new java.awt.Color(204, 204, 255));
+        txtDireccionEmpresa.setBackground(new java.awt.Color(153, 204, 255));
+        txtDireccionEmpresa.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtDireccionEmpresa.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel27.setBackground(new java.awt.Color(204, 204, 204));
@@ -1398,11 +1418,13 @@ public final class Sistema extends javax.swing.JFrame {
         jLabel38.setText("PASSWORD");
 
         txtNombreUsuarioActualizarPerfil.setEditable(false);
-        txtNombreUsuarioActualizarPerfil.setBackground(new java.awt.Color(204, 204, 255));
+        txtNombreUsuarioActualizarPerfil.setBackground(new java.awt.Color(153, 204, 255));
+        txtNombreUsuarioActualizarPerfil.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtNombreUsuarioActualizarPerfil.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         txtCorreoUsuarioActualizarPerfil.setEditable(false);
-        txtCorreoUsuarioActualizarPerfil.setBackground(new java.awt.Color(204, 204, 255));
+        txtCorreoUsuarioActualizarPerfil.setBackground(new java.awt.Color(153, 204, 255));
+        txtCorreoUsuarioActualizarPerfil.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtCorreoUsuarioActualizarPerfil.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtCorreoUsuarioActualizarPerfil.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -1419,7 +1441,8 @@ public final class Sistema extends javax.swing.JFrame {
             }
         });
 
-        txtPasswordUsuarioActualizarPerfil.setBackground(new java.awt.Color(204, 204, 255));
+        txtPasswordUsuarioActualizarPerfil.setBackground(new java.awt.Color(153, 204, 255));
+        txtPasswordUsuarioActualizarPerfil.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtPasswordUsuarioActualizarPerfil.setText("jPasswordField1");
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
@@ -1614,7 +1637,8 @@ public final class Sistema extends javax.swing.JFrame {
             }
         });
 
-        txtCodigoVenta.setBackground(new java.awt.Color(204, 204, 255));
+        txtCodigoVenta.setBackground(new java.awt.Color(153, 204, 255));
+        txtCodigoVenta.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtCodigoVenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCodigoVentaActionPerformed(evt);
@@ -1629,9 +1653,11 @@ public final class Sistema extends javax.swing.JFrame {
             }
         });
 
-        txtDescripcionVenta.setBackground(new java.awt.Color(204, 204, 255));
+        txtDescripcionVenta.setBackground(new java.awt.Color(153, 204, 255));
+        txtDescripcionVenta.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
-        txtCantidadVenta.setBackground(new java.awt.Color(204, 204, 255));
+        txtCantidadVenta.setBackground(new java.awt.Color(153, 204, 255));
+        txtCantidadVenta.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtCantidadVenta.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtCantidadVentaKeyPressed(evt);
@@ -1642,7 +1668,8 @@ public final class Sistema extends javax.swing.JFrame {
         });
 
         txtPrecioVenta.setEditable(false);
-        txtPrecioVenta.setBackground(new java.awt.Color(204, 204, 255));
+        txtPrecioVenta.setBackground(new java.awt.Color(153, 204, 255));
+        txtPrecioVenta.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtPrecioVenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPrecioVentaActionPerformed(evt);
@@ -1654,7 +1681,8 @@ public final class Sistema extends javax.swing.JFrame {
             }
         });
 
-        txtStockDisponibleVenta.setBackground(new java.awt.Color(204, 204, 255));
+        txtStockDisponibleVenta.setBackground(new java.awt.Color(153, 204, 255));
+        txtStockDisponibleVenta.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtStockDisponibleVenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtStockDisponibleVentaActionPerformed(evt);
@@ -1692,7 +1720,8 @@ public final class Sistema extends javax.swing.JFrame {
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("NOMBRE");
 
-        txtDniRutVenta.setBackground(new java.awt.Color(204, 204, 255));
+        txtDniRutVenta.setBackground(new java.awt.Color(153, 204, 255));
+        txtDniRutVenta.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtDniRutVenta.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtDniRutVentaKeyPressed(evt);
@@ -1703,7 +1732,8 @@ public final class Sistema extends javax.swing.JFrame {
         });
 
         txtNombreClienteVenta.setEditable(false);
-        txtNombreClienteVenta.setBackground(new java.awt.Color(204, 204, 255));
+        txtNombreClienteVenta.setBackground(new java.awt.Color(153, 204, 255));
+        txtNombreClienteVenta.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtNombreClienteVenta.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtNombreClienteVentaKeyTyped(evt);
@@ -1739,6 +1769,7 @@ public final class Sistema extends javax.swing.JFrame {
             }
         });
 
+        jDateChooserVenta.setBackground(new java.awt.Color(153, 204, 255));
         jDateChooserVenta.setForeground(new java.awt.Color(204, 204, 255));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
