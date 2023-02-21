@@ -83,9 +83,13 @@ public class Login extends javax.swing.JFrame {
         labelCorreoElectronico.setForeground(new java.awt.Color(0, 51, 255));
         labelCorreoElectronico.setText("Correo Electrónico");
 
+        txtCorreo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
         labelPassword.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         labelPassword.setForeground(new java.awt.Color(0, 51, 255));
         labelPassword.setText("Password");
+
+        txtPassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         btnIniciar.setBackground(new java.awt.Color(0, 51, 255));
         btnIniciar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N

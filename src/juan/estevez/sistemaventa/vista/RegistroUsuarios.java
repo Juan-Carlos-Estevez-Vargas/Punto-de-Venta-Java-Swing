@@ -85,9 +85,13 @@ public class RegistroUsuarios extends javax.swing.JFrame {
         labelCorreoElectronicoUsuario.setForeground(new java.awt.Color(0, 51, 255));
         labelCorreoElectronicoUsuario.setText("Correo Electrónico");
 
+        txtNombreUsuario.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
         labelPasswordUsuario.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         labelPasswordUsuario.setForeground(new java.awt.Color(0, 51, 255));
         labelPasswordUsuario.setText("Password");
+
+        txtPasswordUsuario.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         btnIniciar.setBackground(new java.awt.Color(0, 51, 255));
         btnIniciar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -102,6 +106,8 @@ public class RegistroUsuarios extends javax.swing.JFrame {
         labelNombreUsuario.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         labelNombreUsuario.setForeground(new java.awt.Color(0, 51, 255));
         labelNombreUsuario.setText("Nombre");
+
+        txtCorreoUsuario.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         labelRlUsuario.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         labelRlUsuario.setForeground(new java.awt.Color(0, 51, 255));
