@@ -1277,8 +1277,9 @@ public final class Sistema extends javax.swing.JFrame {
 
         jPanel10.setBackground(new java.awt.Color(50, 69, 109));
 
-        jLabel32.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel32.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
         jLabel32.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel32.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel32.setText("DATOS DE LA EMPRESA");
 
         jLabel28.setBackground(new java.awt.Color(204, 204, 204));
@@ -1288,7 +1289,7 @@ public final class Sistema extends javax.swing.JFrame {
         jLabel28.setText("NOMBRE");
 
         txtNombreEmpresa.setBackground(new java.awt.Color(153, 204, 255));
-        txtNombreEmpresa.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtNombreEmpresa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtNombreEmpresa.setForeground(new java.awt.Color(255, 255, 255));
         txtNombreEmpresa.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
@@ -1298,9 +1299,8 @@ public final class Sistema extends javax.swing.JFrame {
         jLabel29.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel29.setText("TELÉFONO");
 
-        txtTelefonoEmpresa.setEditable(false);
         txtTelefonoEmpresa.setBackground(new java.awt.Color(153, 204, 255));
-        txtTelefonoEmpresa.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtTelefonoEmpresa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtTelefonoEmpresa.setForeground(new java.awt.Color(255, 255, 255));
         txtTelefonoEmpresa.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtTelefonoEmpresa.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -1315,15 +1315,13 @@ public final class Sistema extends javax.swing.JFrame {
         jLabel31.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel31.setText("RAZÓN SOCIAL");
 
-        txtRazonSocialEmpresa.setEditable(false);
         txtRazonSocialEmpresa.setBackground(new java.awt.Color(153, 204, 255));
-        txtRazonSocialEmpresa.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtRazonSocialEmpresa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtRazonSocialEmpresa.setForeground(new java.awt.Color(255, 255, 255));
         txtRazonSocialEmpresa.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        txtRutEmpresa.setEditable(false);
         txtRutEmpresa.setBackground(new java.awt.Color(153, 204, 255));
-        txtRutEmpresa.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtRutEmpresa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtRutEmpresa.setForeground(new java.awt.Color(255, 255, 255));
         txtRutEmpresa.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtRutEmpresa.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -1332,11 +1330,15 @@ public final class Sistema extends javax.swing.JFrame {
             }
         });
 
-        txtDireccionEmpresa.setEditable(false);
         txtDireccionEmpresa.setBackground(new java.awt.Color(153, 204, 255));
-        txtDireccionEmpresa.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtDireccionEmpresa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtDireccionEmpresa.setForeground(new java.awt.Color(255, 255, 255));
         txtDireccionEmpresa.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtDireccionEmpresa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDireccionEmpresaActionPerformed(evt);
+            }
+        });
 
         jLabel27.setBackground(new java.awt.Color(204, 204, 204));
         jLabel27.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -1368,13 +1370,10 @@ public final class Sistema extends javax.swing.JFrame {
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGap(82, 82, 82)
-                        .addComponent(jLabel32))
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGap(149, 149, 149)
+                        .addGap(151, 151, 151)
                         .addComponent(btnActualizarDatosEmpresa))
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
+                        .addGap(14, 14, 14)
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel10Layout.createSequentialGroup()
                                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -1382,7 +1381,7 @@ public final class Sistema extends javax.swing.JFrame {
                                         .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18))
                                     .addGroup(jPanel10Layout.createSequentialGroup()
-                                        .addComponent(jLabel29, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(19, 19, 19)))
                                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(txtTelefonoEmpresa)
@@ -1391,42 +1390,45 @@ public final class Sistema extends javax.swing.JFrame {
                                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel31, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel30, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtDireccionEmpresa)
                                     .addComponent(txtRazonSocialEmpresa)
-                                    .addComponent(txtRutEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(19, Short.MAX_VALUE))
+                                    .addComponent(txtRutEmpresa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addGap(41, 41, 41)
                 .addComponent(jLabel32)
                 .addGap(27, 27, 27)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel28)
-                    .addComponent(txtNombreEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(txtNombreEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel29)
                     .addComponent(txtTelefonoEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel31)
                     .addComponent(txtRazonSocialEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel30)
                     .addComponent(txtDireccionEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel27)
                     .addComponent(txtRutEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35)
+                .addGap(12, 12, 12)
                 .addComponent(btnActualizarDatosEmpresa)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         jPanel11.setBackground(new java.awt.Color(50, 69, 109));
@@ -1457,14 +1459,12 @@ public final class Sistema extends javax.swing.JFrame {
         jLabel38.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel38.setText("PASSWORD");
 
-        txtNombreUsuarioActualizarPerfil.setEditable(false);
         txtNombreUsuarioActualizarPerfil.setBackground(new java.awt.Color(153, 204, 255));
-        txtNombreUsuarioActualizarPerfil.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtNombreUsuarioActualizarPerfil.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtNombreUsuarioActualizarPerfil.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        txtCorreoUsuarioActualizarPerfil.setEditable(false);
         txtCorreoUsuarioActualizarPerfil.setBackground(new java.awt.Color(153, 204, 255));
-        txtCorreoUsuarioActualizarPerfil.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtCorreoUsuarioActualizarPerfil.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtCorreoUsuarioActualizarPerfil.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtCorreoUsuarioActualizarPerfil.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -1484,7 +1484,8 @@ public final class Sistema extends javax.swing.JFrame {
         });
 
         txtPasswordUsuarioActualizarPerfil.setBackground(new java.awt.Color(153, 204, 255));
-        txtPasswordUsuarioActualizarPerfil.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtPasswordUsuarioActualizarPerfil.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtPasswordUsuarioActualizarPerfil.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtPasswordUsuarioActualizarPerfil.setText("jPasswordField1");
         txtPasswordUsuarioActualizarPerfil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1503,7 +1504,7 @@ public final class Sistema extends javax.swing.JFrame {
                         .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel11Layout.createSequentialGroup()
                                 .addGap(11, 11, 11)
-                                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
@@ -1536,20 +1537,18 @@ public final class Sistema extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel36)
-                    .addComponent(txtNombreUsuarioActualizarPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel11Layout.createSequentialGroup()
-                        .addComponent(txtCorreoUsuarioActualizarPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(2, 2, 2))
-                    .addComponent(jLabel37))
-                .addGap(18, 18, 18)
+                    .addComponent(txtNombreUsuarioActualizarPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel37)
+                    .addComponent(txtCorreoUsuarioActualizarPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(13, 13, 13)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel38)
                     .addComponent(txtPasswordUsuarioActualizarPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnActualizarDatosEmpresa1)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
@@ -1572,7 +1571,7 @@ public final class Sistema extends javax.swing.JFrame {
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("tab6", jPanel7);
@@ -2852,6 +2851,10 @@ public final class Sistema extends javax.swing.JFrame {
     private void txtPasswordUsuarioActualizarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordUsuarioActualizarPerfilActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPasswordUsuarioActualizarPerfilActionPerformed
+
+    private void txtDireccionEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDireccionEmpresaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDireccionEmpresaActionPerformed
 
     /**
      * @param args the command line arguments
