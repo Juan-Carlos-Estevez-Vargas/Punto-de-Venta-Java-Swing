@@ -511,10 +511,10 @@ public final class Sistema extends javax.swing.JFrame {
                 btnCerrarSesiónActionPerformed(evt);
             }
         });
-        getContentPane().add(btnCerrarSesión, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 120, 140, 37));
+        getContentPane().add(btnCerrarSesión, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 120, 140, 37));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/encabezado.png"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 0, 1070, 150));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 0, 1070, 180));
 
         jPanel3.setBackground(new java.awt.Color(115, 135, 181));
 
@@ -2701,9 +2701,18 @@ public final class Sistema extends javax.swing.JFrame {
      */
     private void btnPdfVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPdfVentasActionPerformed
         try {
-            int idVenta = Integer.parseInt(txtIdVenta.getText());
-            File file = new File("src/juan/estevez/sistemaventa/reportes/reporteVenta" + idVenta + ".pdf");
-            Desktop.getDesktop().open(file);
+            if (txtIdVenta.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Debes seleccionar un registro", "Reporte venta", JOptionPane.WARNING_MESSAGE);
+            } else {
+                int idVenta = Integer.parseInt(txtIdVenta.getText());
+                File file = new File("src/juan/estevez/sistemaventa/reportes/reporteVenta" + idVenta + ".pdf");
+                if (file.exists()) {
+                    Desktop.getDesktop().open(file);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al intentar obtener la factura de compra", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            
         } catch (IOException ex) {
             Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
         }

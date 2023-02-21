@@ -38,6 +38,8 @@ public class Login extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(null, "Correo y/o Password erróneos");
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "¡Debes ingresar datos!", "Inicio de sesión inválido", JOptionPane.WARNING_MESSAGE);
         }
     }
 
@@ -56,11 +58,12 @@ public class Login extends javax.swing.JFrame {
         txtCorreo = new javax.swing.JTextField();
         labelPassword = new javax.swing.JLabel();
         txtPassword = new javax.swing.JPasswordField();
-        btnIniciar = new javax.swing.JButton();
+        btnRegistro = new javax.swing.JButton();
         panelFacebook = new javax.swing.JPanel();
         labelFacebook = new javax.swing.JLabel();
         panelInstagram = new javax.swing.JPanel();
         labelInstagram = new javax.swing.JLabel();
+        btnIniciar = new javax.swing.JButton();
         Fondo = new javax.swing.JPanel();
         labelLogo = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -91,13 +94,13 @@ public class Login extends javax.swing.JFrame {
 
         txtPassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        btnIniciar.setBackground(new java.awt.Color(0, 51, 255));
-        btnIniciar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnIniciar.setForeground(new java.awt.Color(255, 255, 255));
-        btnIniciar.setText("Iniciar");
-        btnIniciar.addActionListener(new java.awt.event.ActionListener() {
+        btnRegistro.setBackground(new java.awt.Color(0, 102, 255));
+        btnRegistro.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnRegistro.setForeground(new java.awt.Color(255, 255, 255));
+        btnRegistro.setText("Registrarse");
+        btnRegistro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIniciarActionPerformed(evt);
+                btnRegistroActionPerformed(evt);
             }
         });
 
@@ -141,29 +144,41 @@ public class Login extends javax.swing.JFrame {
             .addComponent(labelInstagram, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
         );
 
+        btnIniciar.setBackground(new java.awt.Color(0, 51, 255));
+        btnIniciar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnIniciar.setForeground(new java.awt.Color(255, 255, 255));
+        btnIniciar.setText("Iniciar");
+        btnIniciar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIniciarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelLoginLayout = new javax.swing.GroupLayout(panelLogin);
         panelLogin.setLayout(panelLoginLayout);
         panelLoginLayout.setHorizontalGroup(
             panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLoginLayout.createSequentialGroup()
-                .addContainerGap(110, Short.MAX_VALUE)
-                .addComponent(labelInicio)
-                .addGap(110, 110, 110))
             .addGroup(panelLoginLayout.createSequentialGroup()
-                .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelLoginLayout.createSequentialGroup()
-                        .addGap(118, 118, 118)
-                        .addComponent(btnIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelLoginLayout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(labelPassword)
-                            .addComponent(labelCorreoElectronico)
-                            .addComponent(txtCorreo)
-                            .addComponent(txtPassword)
-                            .addComponent(panelFacebook, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(panelInstagram, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(25, 25, 25)
+                .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(labelPassword)
+                    .addComponent(labelCorreoElectronico)
+                    .addComponent(txtCorreo)
+                    .addComponent(txtPassword)
+                    .addComponent(panelFacebook, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelInstagram, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLoginLayout.createSequentialGroup()
+                .addContainerGap(54, Short.MAX_VALUE)
+                .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLoginLayout.createSequentialGroup()
+                        .addComponent(labelInicio)
+                        .addGap(110, 110, 110))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLoginLayout.createSequentialGroup()
+                        .addComponent(btnIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnRegistro)
+                        .addGap(68, 68, 68))))
         );
         panelLoginLayout.setVerticalGroup(
             panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -178,9 +193,11 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(labelPassword)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(10, 10, 10)
+                .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(14, 14, 14)
                 .addComponent(panelFacebook, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(panelInstagram, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -277,6 +294,12 @@ public class Login extends javax.swing.JFrame {
      *
      * @param evt
      */
+    private void btnRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroActionPerformed
+        RegistroUsuarios registroUsuarios = new RegistroUsuarios();
+        registroUsuarios.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnRegistroActionPerformed
+
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
         this.validar();
     }//GEN-LAST:event_btnIniciarActionPerformed
@@ -313,6 +336,7 @@ public class Login extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Fondo;
     private javax.swing.JButton btnIniciar;
+    private javax.swing.JButton btnRegistro;
     private javax.swing.JLabel imagenFondo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

@@ -1,5 +1,6 @@
 package juan.estevez.sistemaventa.vista;
 
+import javax.swing.JOptionPane;
 import juan.estevez.sistemaventa.daos.LoginDAO;
 import juan.estevez.sistemaventa.modelo.Loginn;
 
@@ -40,6 +41,8 @@ public class RegistroUsuarios extends javax.swing.JFrame {
             Login loginApp = new Login();
             loginApp.setVisible(true);
             dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "¡Debes ingresar datos!", "Registro inválido", JOptionPane.WARNING_MESSAGE);
         }
     }
 

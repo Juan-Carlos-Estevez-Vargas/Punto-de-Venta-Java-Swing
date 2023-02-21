@@ -120,9 +120,9 @@ public class Excel {
             String fileName = "productos";
             String home = System.getProperty("user.home");
             File file = new File(home + "/Documents/" +fileName + ".xlsx");
-            FileOutputStream fileOut = new FileOutputStream(file);
-            book.write(fileOut);
-            fileOut.close();
+            try (FileOutputStream fileOut = new FileOutputStream(file)) {
+                book.write(fileOut);
+            }
             Desktop.getDesktop().open(file);
             JOptionPane.showMessageDialog(null, "Reporte Generado");
 
