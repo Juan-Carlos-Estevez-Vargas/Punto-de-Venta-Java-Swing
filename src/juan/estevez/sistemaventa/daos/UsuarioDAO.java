@@ -54,6 +54,36 @@ public class UsuarioDAO {
     }
     
     /**
+     * Actualiza un usuario directamente de la base de datos.
+     *
+     * @param usuario a actualizar
+     * @return true si se actualizó, false si no se actualizó.
+     */
+    public boolean modificarUsuario(Usuario usuario) {
+        String sql = "UPDATE USUARIO SET NOMBRE = ?, CORREO = ?, password = ? WHERE ID = ?";
+        try {
+            cn = Conexion.conectar();
+            pst = cn.prepareStatement(sql);
+            pst.setString(1, usuario.getNombre());
+            pst.setString(2, usuario.getCorreo());
+            pst.setString(3, usuario.getPassword());
+            pst.setInt(4, usuario.getId());
+            pst.execute();
+            return true;
+        } catch (SQLException e) {
+            System.err.println("Error el modificar usuario en UsuarioDAO " + e.toString());
+            return false;
+        } finally {
+            try {
+                pst.close();
+                cn.close();
+            } catch (SQLException e) {
+                System.err.println("Error al cerrar los objetos en UsuarioDAO " + e.toString());
+            }
+        }
+    }
+    
+    /**
      * Elimina un usuario de la base de datos.
      *
      * @param id por el cual se eliminará el usuario.

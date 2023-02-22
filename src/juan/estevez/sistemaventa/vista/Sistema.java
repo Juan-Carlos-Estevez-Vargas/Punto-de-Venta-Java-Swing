@@ -57,6 +57,7 @@ public final class Sistema extends javax.swing.JFrame {
     DefaultTableModel modeloTemporal = new DefaultTableModel();
     ReporteVentaPDF reporteVentaPDF = new ReporteVentaPDF();
     int item;
+    int idUsuarioLogueado;
     double totalPagar = 0.00;
 
     /**
@@ -94,6 +95,7 @@ public final class Sistema extends javax.swing.JFrame {
             this.txtNombreUsuarioActualizarPerfil.setText(login.getNombre());
             this.txtCorreoUsuarioActualizarPerfil.setText(login.getCorreo());
             this.txtPasswordUsuarioActualizarPerfil.setText(login.getPassword());
+            this.idUsuarioLogueado = login.getId();
         }
     }
 
@@ -2852,18 +2854,18 @@ public final class Sistema extends javax.swing.JFrame {
                 || !"".equals(txtCorreoUsuarioActualizarPerfil.getText())
                 || !"".equals(txtPasswordUsuarioActualizarPerfil.getText())) {
 
-            /*configuracionDatosEmpresa.setId(Integer.parseInt(txtIdEmpresa.getText()));
-            configuracionDatosEmpresa.setRut(Long.parseLong(txtRutEmpresa.getText()));
-            configuracionDatosEmpresa.setNombre(txtNombreEmpresa.getText());
-            configuracionDatosEmpresa.setTelefono(Long.parseLong(txtTelefonoEmpresa.getText()));
-            configuracionDatosEmpresa.setDireccion(txtDireccionEmpresa.getText());
-            configuracionDatosEmpresa.setRazonSocial(txtRazonSocialEmpresa.getText());
+            Usuario usuario = new Usuario();
+            
+            usuario.setId(idUsuarioLogueado);
+            usuario.setNombre(txtNombreUsuarioActualizarPerfil.getText().trim());
+            usuario.setCorreo(txtCorreoUsuarioActualizarPerfil.getText().trim());
+            usuario.setPassword(txtPasswordUsuarioActualizarPerfil.getText().trim());
 
-            configuracionDatosEmpresaDAO.modificarDatosEmpresa(configuracionDatosEmpresa);
+            usuarioDAO.modificarUsuario(usuario);
             JOptionPane.showMessageDialog(null, "Datos Actualizados.");
 
-            this.listarDatosEmpresa();*/
-            JOptionPane.showMessageDialog(null, "Datos Actualizados.");
+            this.labelVendedor.setText(usuario.getNombre());
+ 
         } else {
             JOptionPane.showMessageDialog(null, "Algunos campos están vacíos.");
         }
