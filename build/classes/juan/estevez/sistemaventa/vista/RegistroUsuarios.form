@@ -40,19 +40,6 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace pref="110" max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="labelInicio" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="110" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="btnIniciar" min="-2" pref="87" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="114" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-              </Group>
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -68,6 +55,19 @@
                       <Component id="cmbRolUsuario" alignment="0" min="-2" pref="130" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
+              </Group>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace pref="105" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="labelInicio" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="110" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="btnRegistrarse" min="-2" pref="118" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="97" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
               </Group>
           </Group>
         </DimensionLayout>
@@ -92,9 +92,9 @@
                   <Component id="labelRlUsuario" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="cmbRolUsuario" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="23" max="32767" attributes="0"/>
-                  <Component id="btnIniciar" min="-2" pref="37" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="btnRegistrarse" min="-2" pref="37" max="-2" attributes="0"/>
+                  <EmptySpace pref="22" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -139,7 +139,7 @@
             <Property name="horizontalAlignment" type="int" value="0"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="btnIniciar">
+        <Component class="javax.swing.JButton" name="btnRegistrarse">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="33" red="0" type="rgb"/>
@@ -150,10 +150,10 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Iniciar"/>
+            <Property name="text" type="java.lang.String" value="Registrarse"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnIniciarActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRegistrarseActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="labelNombreUsuario">
@@ -221,18 +221,18 @@
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-                          <Component id="jLabel1" min="-2" pref="160" max="-2" attributes="0"/>
+                          <Component id="labelTituloRegistrarUsuario" min="-2" pref="160" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jLabel6" alignment="0" min="-2" pref="160" max="-2" attributes="0"/>
-                      <Component id="jLabel2" alignment="0" min="-2" pref="160" max="-2" attributes="0"/>
-                      <Component id="jLabel3" alignment="0" min="-2" pref="160" max="-2" attributes="0"/>
+                      <Component id="labelContactoEnRegistrarUsuario" alignment="0" min="-2" pref="160" max="-2" attributes="0"/>
+                      <Component id="labelDesarrolladoPorEnRegistrarUsuario" alignment="0" min="-2" pref="160" max="-2" attributes="0"/>
+                      <Component id="labelNombreDesarrolladorEnRegistrarUsuario" alignment="0" min="-2" pref="160" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                          <Component id="labelTituloVersionEnRegistrarUsuario" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="jLabel5" min="-2" pref="90" max="-2" attributes="0"/>
+                          <Component id="labelNumeroVersionEnRegistrarUsuario" min="-2" pref="90" max="-2" attributes="0"/>
                       </Group>
                       <Component id="labelLogo" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel7" alignment="0" max="32767" attributes="0"/>
+                      <Component id="labelEmailDesarrolladorRegistrarUsuario" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace pref="165" max="32767" attributes="0"/>
               </Group>
@@ -244,20 +244,20 @@
                   <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                   <Component id="labelLogo" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="31" max="32767" attributes="0"/>
-                  <Component id="jLabel1" min="-2" pref="26" max="-2" attributes="0"/>
+                  <Component id="labelTituloRegistrarUsuario" min="-2" pref="26" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                  <Component id="jLabel2" min="-2" pref="26" max="-2" attributes="0"/>
+                  <Component id="labelDesarrolladoPorEnRegistrarUsuario" min="-2" pref="26" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                  <Component id="labelNombreDesarrolladorEnRegistrarUsuario" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabel4" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
-                      <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelTituloVersionEnRegistrarUsuario" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                      <Component id="labelNumeroVersionEnRegistrarUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabel6" min="-2" pref="26" max="-2" attributes="0"/>
+                  <Component id="labelContactoEnRegistrarUsuario" min="-2" pref="26" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                  <Component id="labelEmailDesarrolladorRegistrarUsuario" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -271,7 +271,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel1">
+        <Component class="javax.swing.JLabel" name="labelTituloRegistrarUsuario">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="18" style="1"/>
@@ -282,7 +282,7 @@
             <Property name="text" type="java.lang.String" value="Punto de Venta"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel2">
+        <Component class="javax.swing.JLabel" name="labelDesarrolladoPorEnRegistrarUsuario">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
@@ -293,7 +293,7 @@
             <Property name="text" type="java.lang.String" value="Desarrollado por :"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel3">
+        <Component class="javax.swing.JLabel" name="labelNombreDesarrolladorEnRegistrarUsuario">
           <Properties>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="cc" red="cc" type="rgb"/>
@@ -301,7 +301,7 @@
             <Property name="text" type="java.lang.String" value="Juan Carlos Estevez Vargas"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel4">
+        <Component class="javax.swing.JLabel" name="labelTituloVersionEnRegistrarUsuario">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
@@ -312,7 +312,7 @@
             <Property name="text" type="java.lang.String" value="Versi&#xf3;n :"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel5">
+        <Component class="javax.swing.JLabel" name="labelNumeroVersionEnRegistrarUsuario">
           <Properties>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="cc" red="cc" type="rgb"/>
@@ -320,7 +320,7 @@
             <Property name="text" type="java.lang.String" value="1.0 "/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel6">
+        <Component class="javax.swing.JLabel" name="labelContactoEnRegistrarUsuario">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
@@ -331,7 +331,7 @@
             <Property name="text" type="java.lang.String" value="Contacto :"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel7">
+        <Component class="javax.swing.JLabel" name="labelEmailDesarrolladorRegistrarUsuario">
           <Properties>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="cc" red="cc" type="rgb"/>

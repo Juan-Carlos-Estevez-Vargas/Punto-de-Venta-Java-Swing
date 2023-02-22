@@ -61,20 +61,20 @@ public class RegistroUsuarios extends javax.swing.JFrame {
         txtNombreUsuario = new javax.swing.JTextField();
         labelPasswordUsuario = new javax.swing.JLabel();
         txtPasswordUsuario = new javax.swing.JPasswordField();
-        btnIniciar = new javax.swing.JButton();
+        btnRegistrarse = new javax.swing.JButton();
         labelNombreUsuario = new javax.swing.JLabel();
         txtCorreoUsuario = new javax.swing.JTextField();
         labelRlUsuario = new javax.swing.JLabel();
         cmbRolUsuario = new javax.swing.JComboBox<>();
         Fondo = new javax.swing.JPanel();
         labelLogo = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        labelTituloRegistrarUsuario = new javax.swing.JLabel();
+        labelDesarrolladoPorEnRegistrarUsuario = new javax.swing.JLabel();
+        labelNombreDesarrolladorEnRegistrarUsuario = new javax.swing.JLabel();
+        labelTituloVersionEnRegistrarUsuario = new javax.swing.JLabel();
+        labelNumeroVersionEnRegistrarUsuario = new javax.swing.JLabel();
+        labelContactoEnRegistrarUsuario = new javax.swing.JLabel();
+        labelEmailDesarrolladorRegistrarUsuario = new javax.swing.JLabel();
         imagenFondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -96,13 +96,13 @@ public class RegistroUsuarios extends javax.swing.JFrame {
 
         txtPasswordUsuario.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        btnIniciar.setBackground(new java.awt.Color(0, 51, 255));
-        btnIniciar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnIniciar.setForeground(new java.awt.Color(255, 255, 255));
-        btnIniciar.setText("Iniciar");
-        btnIniciar.addActionListener(new java.awt.event.ActionListener() {
+        btnRegistrarse.setBackground(new java.awt.Color(0, 51, 255));
+        btnRegistrarse.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnRegistrarse.setForeground(new java.awt.Color(255, 255, 255));
+        btnRegistrarse.setText("Registrarse");
+        btnRegistrarse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIniciarActionPerformed(evt);
+                btnRegistrarseActionPerformed(evt);
             }
         });
 
@@ -127,15 +127,6 @@ public class RegistroUsuarios extends javax.swing.JFrame {
         panelLogin.setLayout(panelLoginLayout);
         panelLoginLayout.setHorizontalGroup(
             panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLoginLayout.createSequentialGroup()
-                .addContainerGap(110, Short.MAX_VALUE)
-                .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLoginLayout.createSequentialGroup()
-                        .addComponent(labelInicio)
-                        .addGap(110, 110, 110))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLoginLayout.createSequentialGroup()
-                        .addComponent(btnIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(114, 114, 114))))
             .addGroup(panelLoginLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -149,6 +140,15 @@ public class RegistroUsuarios extends javax.swing.JFrame {
                         .addComponent(txtCorreoUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE))
                     .addComponent(cmbRolUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLoginLayout.createSequentialGroup()
+                .addContainerGap(105, Short.MAX_VALUE)
+                .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLoginLayout.createSequentialGroup()
+                        .addComponent(labelInicio)
+                        .addGap(110, 110, 110))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLoginLayout.createSequentialGroup()
+                        .addComponent(btnRegistrarse, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(97, 97, 97))))
         );
         panelLoginLayout.setVerticalGroup(
             panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,9 +171,9 @@ public class RegistroUsuarios extends javax.swing.JFrame {
                 .addComponent(labelRlUsuario)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cmbRolUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
-                .addComponent(btnIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17))
+                .addGap(18, 18, 18)
+                .addComponent(btnRegistrarse, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         getContentPane().add(panelLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 10, 320, 410));
@@ -182,30 +182,30 @@ public class RegistroUsuarios extends javax.swing.JFrame {
 
         labelLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/logo.png"))); // NOI18N
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel1.setText("Punto de Venta");
+        labelTituloRegistrarUsuario.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        labelTituloRegistrarUsuario.setForeground(new java.awt.Color(204, 204, 204));
+        labelTituloRegistrarUsuario.setText("Punto de Venta");
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel2.setText("Desarrollado por :");
+        labelDesarrolladoPorEnRegistrarUsuario.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        labelDesarrolladoPorEnRegistrarUsuario.setForeground(new java.awt.Color(204, 204, 204));
+        labelDesarrolladoPorEnRegistrarUsuario.setText("Desarrollado por :");
 
-        jLabel3.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel3.setText("Juan Carlos Estevez Vargas");
+        labelNombreDesarrolladorEnRegistrarUsuario.setForeground(new java.awt.Color(204, 204, 204));
+        labelNombreDesarrolladorEnRegistrarUsuario.setText("Juan Carlos Estevez Vargas");
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel4.setText("Versión :");
+        labelTituloVersionEnRegistrarUsuario.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        labelTituloVersionEnRegistrarUsuario.setForeground(new java.awt.Color(204, 204, 204));
+        labelTituloVersionEnRegistrarUsuario.setText("Versión :");
 
-        jLabel5.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel5.setText("1.0 ");
+        labelNumeroVersionEnRegistrarUsuario.setForeground(new java.awt.Color(204, 204, 204));
+        labelNumeroVersionEnRegistrarUsuario.setText("1.0 ");
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel6.setText("Contacto :");
+        labelContactoEnRegistrarUsuario.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        labelContactoEnRegistrarUsuario.setForeground(new java.awt.Color(204, 204, 204));
+        labelContactoEnRegistrarUsuario.setText("Contacto :");
 
-        jLabel7.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel7.setText("juank2001estevez@gmail.com");
+        labelEmailDesarrolladorRegistrarUsuario.setForeground(new java.awt.Color(204, 204, 204));
+        labelEmailDesarrolladorRegistrarUsuario.setText("juank2001estevez@gmail.com");
 
         javax.swing.GroupLayout FondoLayout = new javax.swing.GroupLayout(Fondo);
         Fondo.setLayout(FondoLayout);
@@ -216,16 +216,16 @@ public class RegistroUsuarios extends javax.swing.JFrame {
                 .addGroup(FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(FondoLayout.createSequentialGroup()
                         .addGap(8, 8, 8)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(labelTituloRegistrarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(labelContactoEnRegistrarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelDesarrolladoPorEnRegistrarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelNombreDesarrolladorEnRegistrarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(FondoLayout.createSequentialGroup()
-                        .addComponent(jLabel4)
+                        .addComponent(labelTituloVersionEnRegistrarUsuario)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(labelNumeroVersionEnRegistrarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(labelLogo)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(labelEmailDesarrolladorRegistrarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(165, Short.MAX_VALUE))
         );
         FondoLayout.setVerticalGroup(
@@ -234,19 +234,19 @@ public class RegistroUsuarios extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addComponent(labelLogo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(labelTituloRegistrarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(labelDesarrolladoPorEnRegistrarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
+                .addComponent(labelNombreDesarrolladorEnRegistrarUsuario)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
+                    .addComponent(labelTituloVersionEnRegistrarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelNumeroVersionEnRegistrarUsuario))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(labelContactoEnRegistrarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel7)
+                .addComponent(labelEmailDesarrolladorRegistrarUsuario)
                 .addGap(26, 26, 26))
         );
 
@@ -258,9 +258,9 @@ public class RegistroUsuarios extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
+    private void btnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarseActionPerformed
         this.validar();
-    }//GEN-LAST:event_btnIniciarActionPerformed
+    }//GEN-LAST:event_btnRegistrarseActionPerformed
 
     private void cmbRolUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRolUsuarioActionPerformed
         // TODO add your handling code here:
@@ -299,22 +299,22 @@ public class RegistroUsuarios extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Fondo;
-    private javax.swing.JButton btnIniciar;
+    private javax.swing.JButton btnRegistrarse;
     private javax.swing.JComboBox<String> cmbRolUsuario;
     private javax.swing.JLabel imagenFondo;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel labelContactoEnRegistrarUsuario;
     private javax.swing.JLabel labelCorreoElectronicoUsuario;
+    private javax.swing.JLabel labelDesarrolladoPorEnRegistrarUsuario;
+    private javax.swing.JLabel labelEmailDesarrolladorRegistrarUsuario;
     private javax.swing.JLabel labelInicio;
     private javax.swing.JLabel labelLogo;
+    private javax.swing.JLabel labelNombreDesarrolladorEnRegistrarUsuario;
     private javax.swing.JLabel labelNombreUsuario;
+    private javax.swing.JLabel labelNumeroVersionEnRegistrarUsuario;
     private javax.swing.JLabel labelPasswordUsuario;
     private javax.swing.JLabel labelRlUsuario;
+    private javax.swing.JLabel labelTituloRegistrarUsuario;
+    private javax.swing.JLabel labelTituloVersionEnRegistrarUsuario;
     private javax.swing.JPanel panelLogin;
     private javax.swing.JTextField txtCorreoUsuario;
     private javax.swing.JTextField txtNombreUsuario;

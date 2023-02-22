@@ -68,13 +68,13 @@ public class Login extends javax.swing.JFrame {
         btnIniciar = new javax.swing.JButton();
         Fondo = new javax.swing.JPanel();
         labelLogo = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        labelTituloLogin = new javax.swing.JLabel();
+        labelDesarrolladoPorLogin = new javax.swing.JLabel();
+        labelNombreDesarrolladorLogin = new javax.swing.JLabel();
+        labelTituloVersionLogin = new javax.swing.JLabel();
+        labelNumeroVersionLogin = new javax.swing.JLabel();
+        labelContactoLogin = new javax.swing.JLabel();
+        labelEmailDesarrolladorLogin = new javax.swing.JLabel();
         imagenFondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -212,30 +212,30 @@ public class Login extends javax.swing.JFrame {
 
         labelLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/logo.png"))); // NOI18N
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel1.setText("Punto de Venta");
+        labelTituloLogin.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        labelTituloLogin.setForeground(new java.awt.Color(204, 204, 204));
+        labelTituloLogin.setText("Punto de Venta");
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel2.setText("Desarrollado por :");
+        labelDesarrolladoPorLogin.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        labelDesarrolladoPorLogin.setForeground(new java.awt.Color(204, 204, 204));
+        labelDesarrolladoPorLogin.setText("Desarrollado por :");
 
-        jLabel3.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel3.setText("Juan Carlos Estevez Vargas");
+        labelNombreDesarrolladorLogin.setForeground(new java.awt.Color(204, 204, 204));
+        labelNombreDesarrolladorLogin.setText("Juan Carlos Estevez Vargas");
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel4.setText("Versión :");
+        labelTituloVersionLogin.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        labelTituloVersionLogin.setForeground(new java.awt.Color(204, 204, 204));
+        labelTituloVersionLogin.setText("Versión :");
 
-        jLabel5.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel5.setText("1.0 ");
+        labelNumeroVersionLogin.setForeground(new java.awt.Color(204, 204, 204));
+        labelNumeroVersionLogin.setText("1.0 ");
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel6.setText("Contacto :");
+        labelContactoLogin.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        labelContactoLogin.setForeground(new java.awt.Color(204, 204, 204));
+        labelContactoLogin.setText("Contacto :");
 
-        jLabel7.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel7.setText("juank2001estevez@gmail.com");
+        labelEmailDesarrolladorLogin.setForeground(new java.awt.Color(204, 204, 204));
+        labelEmailDesarrolladorLogin.setText("juank2001estevez@gmail.com");
 
         javax.swing.GroupLayout FondoLayout = new javax.swing.GroupLayout(Fondo);
         Fondo.setLayout(FondoLayout);
@@ -245,20 +245,20 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(FondoLayout.createSequentialGroup()
                         .addGap(35, 35, 35)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(labelTituloLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(FondoLayout.createSequentialGroup()
                         .addGap(27, 27, 27)
                         .addGroup(FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelContactoLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(labelDesarrolladoPorLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(labelLogo)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(labelNombreDesarrolladorLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(FondoLayout.createSequentialGroup()
-                                    .addComponent(jLabel4)
+                                    .addComponent(labelTituloVersionLogin)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(labelNumeroVersionLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(labelEmailDesarrolladorLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(134, Short.MAX_VALUE))
         );
         FondoLayout.setVerticalGroup(
@@ -267,19 +267,19 @@ public class Login extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addComponent(labelLogo)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(labelTituloLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(labelDesarrolladoPorLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
+                .addComponent(labelNombreDesarrolladorLogin)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
+                    .addComponent(labelTituloVersionLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelNumeroVersionLogin))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(labelContactoLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel7)
+                .addComponent(labelEmailDesarrolladorLogin)
                 .addContainerGap(39, Short.MAX_VALUE))
         );
 
@@ -340,19 +340,19 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton btnIniciar;
     private javax.swing.JButton btnRegistro;
     private javax.swing.JLabel imagenFondo;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel labelContactoLogin;
     private javax.swing.JLabel labelCorreoElectronico;
+    private javax.swing.JLabel labelDesarrolladoPorLogin;
+    private javax.swing.JLabel labelEmailDesarrolladorLogin;
     private javax.swing.JLabel labelFacebook;
     private javax.swing.JLabel labelInicio;
     private javax.swing.JLabel labelInstagram;
     private javax.swing.JLabel labelLogo;
+    private javax.swing.JLabel labelNombreDesarrolladorLogin;
+    private javax.swing.JLabel labelNumeroVersionLogin;
     private javax.swing.JLabel labelPassword;
+    private javax.swing.JLabel labelTituloLogin;
+    private javax.swing.JLabel labelTituloVersionLogin;
     private javax.swing.JPanel panelFacebook;
     private javax.swing.JPanel panelInstagram;
     private javax.swing.JPanel panelLogin;
