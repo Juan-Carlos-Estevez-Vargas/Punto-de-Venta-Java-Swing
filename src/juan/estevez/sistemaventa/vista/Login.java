@@ -2,7 +2,9 @@ package juan.estevez.sistemaventa.vista;
 
 import javax.swing.JOptionPane;
 import juan.estevez.sistemaventa.daos.LoginDAO;
+import juan.estevez.sistemaventa.daos.UsuarioDAO;
 import juan.estevez.sistemaventa.modelo.Loginn;
+import juan.estevez.sistemaventa.modelo.Usuario;
 
 /**
  *

@@ -89,8 +89,11 @@ public final class Sistema extends javax.swing.JFrame {
             this.btnConfiguracion.setEnabled(false);
             this.txtIdUsuario.setEnabled(false);
             labelVendedor.setText(login.getNombre());
-        } else {
+        } else if(login.getRol().equals("Administrador")) {
             labelVendedor.setText(login.getNombre());
+            this.txtNombreUsuarioActualizarPerfil.setText(login.getNombre());
+            this.txtCorreoUsuarioActualizarPerfil.setText(login.getCorreo());
+            this.txtPasswordUsuarioActualizarPerfil.setText(login.getPassword());
         }
     }
 
@@ -318,8 +321,8 @@ public final class Sistema extends javax.swing.JFrame {
         jLabel38 = new javax.swing.JLabel();
         txtNombreUsuarioActualizarPerfil = new javax.swing.JTextField();
         txtCorreoUsuarioActualizarPerfil = new javax.swing.JTextField();
-        btnActualizarDatosEmpresa1 = new javax.swing.JButton();
         txtPasswordUsuarioActualizarPerfil = new javax.swing.JPasswordField();
+        btnActualizarDatosPerfil = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         tableUsuarios = new javax.swing.JTable();
@@ -1370,19 +1373,13 @@ public final class Sistema extends javax.swing.JFrame {
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGap(151, 151, 151)
-                        .addComponent(btnActualizarDatosEmpresa))
-                    .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGap(14, 14, 14)
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel10Layout.createSequentialGroup()
                                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel10Layout.createSequentialGroup()
-                                        .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18))
-                                    .addGroup(jPanel10Layout.createSequentialGroup()
-                                        .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(19, 19, 19)))
+                                    .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
                                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(txtTelefonoEmpresa)
                                     .addComponent(txtNombreEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -1395,7 +1392,8 @@ public final class Sistema extends javax.swing.JFrame {
                                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtDireccionEmpresa)
                                     .addComponent(txtRazonSocialEmpresa)
-                                    .addComponent(txtRutEmpresa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(txtRutEmpresa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btnActualizarDatosEmpresa, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGap(37, 37, 37)
                         .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -1428,7 +1426,7 @@ public final class Sistema extends javax.swing.JFrame {
                     .addComponent(txtRutEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12)
                 .addComponent(btnActualizarDatosEmpresa)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         jPanel11.setBackground(new java.awt.Color(50, 69, 109));
@@ -1472,24 +1470,23 @@ public final class Sistema extends javax.swing.JFrame {
             }
         });
 
-        btnActualizarDatosEmpresa1.setBackground(new java.awt.Color(0, 204, 51));
-        btnActualizarDatosEmpresa1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnActualizarDatosEmpresa1.setForeground(new java.awt.Color(255, 255, 255));
-        btnActualizarDatosEmpresa1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/Actualizar (2).png"))); // NOI18N
-        btnActualizarDatosEmpresa1.setText("Actualizar");
-        btnActualizarDatosEmpresa1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActualizarDatosEmpresa1ActionPerformed(evt);
-            }
-        });
-
         txtPasswordUsuarioActualizarPerfil.setBackground(new java.awt.Color(153, 204, 255));
         txtPasswordUsuarioActualizarPerfil.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtPasswordUsuarioActualizarPerfil.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtPasswordUsuarioActualizarPerfil.setText("jPasswordField1");
         txtPasswordUsuarioActualizarPerfil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPasswordUsuarioActualizarPerfilActionPerformed(evt);
+            }
+        });
+
+        btnActualizarDatosPerfil.setBackground(new java.awt.Color(0, 204, 51));
+        btnActualizarDatosPerfil.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnActualizarDatosPerfil.setForeground(new java.awt.Color(255, 255, 255));
+        btnActualizarDatosPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juan/estevez/sistemaventa/img/Actualizar (2).png"))); // NOI18N
+        btnActualizarDatosPerfil.setText("Actualizar");
+        btnActualizarDatosPerfil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarDatosPerfilActionPerformed(evt);
             }
         });
 
@@ -1498,30 +1495,27 @@ public final class Sistema extends javax.swing.JFrame {
         jPanel11Layout.setHorizontalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel11Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel11Layout.createSequentialGroup()
-                                .addGap(11, 11, 11)
-                                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtCorreoUsuarioActualizarPerfil)
-                                    .addComponent(txtNombreUsuarioActualizarPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel11Layout.createSequentialGroup()
-                                .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel11Layout.createSequentialGroup()
-                                .addComponent(jLabel38, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtPasswordUsuarioActualizarPerfil))))
-                    .addGroup(jPanel11Layout.createSequentialGroup()
-                        .addGap(159, 159, 159)
-                        .addComponent(btnActualizarDatosEmpresa1)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnActualizarDatosPerfil)
+                    .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel11Layout.createSequentialGroup()
+                            .addGap(11, 11, 11)
+                            .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(18, 18, 18)
+                            .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtCorreoUsuarioActualizarPerfil)
+                                .addComponent(txtNombreUsuarioActualizarPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel11Layout.createSequentialGroup()
+                            .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel11Layout.createSequentialGroup()
+                            .addComponent(jLabel38, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(txtPasswordUsuarioActualizarPerfil))))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
@@ -1546,9 +1540,9 @@ public final class Sistema extends javax.swing.JFrame {
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel38)
                     .addComponent(txtPasswordUsuarioActualizarPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnActualizarDatosEmpresa1)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btnActualizarDatosPerfil)
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
@@ -1556,22 +1550,23 @@ public final class Sistema extends javax.swing.JFrame {
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
+                .addGap(17, 17, 17)
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(66, 66, 66))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(28, Short.MAX_VALUE))
+                        .addGap(41, 41, 41)
+                        .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("tab6", jPanel7);
@@ -2844,10 +2839,6 @@ public final class Sistema extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCorreoUsuarioActualizarPerfilKeyTyped
 
-    private void btnActualizarDatosEmpresa1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarDatosEmpresa1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnActualizarDatosEmpresa1ActionPerformed
-
     private void txtPasswordUsuarioActualizarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordUsuarioActualizarPerfilActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPasswordUsuarioActualizarPerfilActionPerformed
@@ -2855,6 +2846,28 @@ public final class Sistema extends javax.swing.JFrame {
     private void txtDireccionEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDireccionEmpresaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDireccionEmpresaActionPerformed
+
+    private void btnActualizarDatosPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarDatosPerfilActionPerformed
+        if (!"".equals(txtNombreUsuarioActualizarPerfil.getText())
+                || !"".equals(txtCorreoUsuarioActualizarPerfil.getText())
+                || !"".equals(txtPasswordUsuarioActualizarPerfil.getText())) {
+
+            /*configuracionDatosEmpresa.setId(Integer.parseInt(txtIdEmpresa.getText()));
+            configuracionDatosEmpresa.setRut(Long.parseLong(txtRutEmpresa.getText()));
+            configuracionDatosEmpresa.setNombre(txtNombreEmpresa.getText());
+            configuracionDatosEmpresa.setTelefono(Long.parseLong(txtTelefonoEmpresa.getText()));
+            configuracionDatosEmpresa.setDireccion(txtDireccionEmpresa.getText());
+            configuracionDatosEmpresa.setRazonSocial(txtRazonSocialEmpresa.getText());
+
+            configuracionDatosEmpresaDAO.modificarDatosEmpresa(configuracionDatosEmpresa);
+            JOptionPane.showMessageDialog(null, "Datos Actualizados.");
+
+            this.listarDatosEmpresa();*/
+            JOptionPane.showMessageDialog(null, "Datos Actualizados.");
+        } else {
+            JOptionPane.showMessageDialog(null, "Algunos campos están vacíos.");
+        }
+    }//GEN-LAST:event_btnActualizarDatosPerfilActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2884,7 +2897,7 @@ public final class Sistema extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizarDatosEmpresa;
-    private javax.swing.JButton btnActualizarDatosEmpresa1;
+    private javax.swing.JButton btnActualizarDatosPerfil;
     private javax.swing.JButton btnCerrarSesión;
     private javax.swing.JButton btnClientes1;
     private javax.swing.JButton btnConfiguracion;

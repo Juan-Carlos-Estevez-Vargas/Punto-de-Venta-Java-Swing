@@ -52,7 +52,7 @@ public class UsuarioDAO {
         }
         return listaUsuarios;
     }
-
+    
     /**
      * Elimina un usuario de la base de datos.
      *
