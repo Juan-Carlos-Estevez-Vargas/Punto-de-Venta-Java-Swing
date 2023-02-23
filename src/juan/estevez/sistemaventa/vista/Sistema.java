@@ -46,7 +46,6 @@ public final class Sistema extends javax.swing.JFrame {
     ProveedorDAO proveedorDAO = new ProveedorDAO();
     Producto producto = new Producto();
     ProductoDAO productoDAO = new ProductoDAO();
-    Usuario usuario = new Usuario();
     UsuarioDAO usuarioDAO = new UsuarioDAO();
     Venta venta = new Venta();
     VentaDAO ventaDao = new VentaDAO();
@@ -2888,7 +2887,7 @@ public final class Sistema extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new Sistema().setVisible(true);
+            new Login().setVisible(true);
         });
     }
 
