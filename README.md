@@ -1,8 +1,6 @@
 # Punto de venta
 Punto de Venta básico desarrollado en el lenguaje de programación Java y una base de datos MySQL;, el sistema emplea una arquitectura MVC y su interfaz gráfica fue realizada con el drag and drop de NetBeans; además, contiene reportes en PDF y excel utilizando la librería itext-pdf.
 
-Para ejecutar correctamente el proyecto es necesario importar la [base de datos](https://github.com/Juan-Carlos-Estevez-Vargas/punto-de-venta-basico-java/tree/master/database) en cualquier servidor como XAMMP, WAMPP, LAMPP, etc.
-
 El sistema en cuestión cuanta con dos Roles:
 
 ### Administrador:
@@ -15,9 +13,27 @@ Este rol en cuestión puede ejecutar todas las operaciones presentes en el siste
 ### Asistente:
 El rol de asistente tiene funciones limitadas y restringidas, ya que será quién brinde apoyo al administrador del punto de venta.
 
-# Mis redes sociales
+## Pasos para ejecutar el programa:
+* Clonar el proyecto en tu máquina local
+* Abrir el proyecto con netbeans
+* Importar la [base de datos](https://github.com/Juan-Carlos-Estevez-Vargas/punto-de-venta-basico-java/tree/master/database) en cualquier gestor de base de datos mysql como puede ser MySQLWorkbench, XAMPP, WAMPP, LAMPP, etc; recordar que si necesitas cambiar algun parámetro de conexión a la base de datos como el usuario o contraseña, o si deseas cambiar de gestor puedes hacerlo modificando el archo de [conexion.](https://github.com/Juan-Carlos-Estevez-Vargas/punto-de-venta-basico-java/blob/master/src/juan/estevez/sistemaventa/modelo/Conexion.java)
+* Luego de haber importado la base de datos y tener el servicio arriba podrás ejecutar la aplicación desde el IDE sin ningún problema.
+* Para iniciar sesión existen dos usuarios predeterminados, uno administrador y otro asistente.
 
- <a href="https://www.youtube.com/channel/UCEUrVWPMTrXIWzn5CwnjYhQ" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/youtube.svg" alt="uceurvwpmtrxiwzn5cwnjyhq" height="30" width="40" /></a> 
-<a href="https://instagram.com/juankestevez" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="juankestevez" height="30" width="40" /></a>
- <a href="https://linkedin.com/in/juan-carlos-estevez-vargas-4abb8b14a/" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="juan-carlos-estevez-vargas-4abb8b14a/" height="30" width="40" /></a> 
- <a href="https://codepen.io/juan-carlos-estevez-vargas" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/codepen.svg" alt="juan-carlos-estevez-vargas" height="30" width="40" /></a>
+### Credenciales de acceso:
+``` batch
+ Administrador:
+ 
+ Usuario  ->  juan@example.com
+ Contraseña  ->  1234
+ 
+ Asistente:
+ 
+ Usuario  ->  prueba@mail.com
+ Contraseña  ->  1234
+```
+
+Adicional a ello, se anexa el archivo .jar y el [instalador](https://github.com/Juan-Carlos-Estevez-Vargas/punto-de-venta-basico-java/tree/master/Sistema%20Ventas) de la aplicación, tenga en cuenta que al momento de instalar la aplicación en un dispositivo cliente es necesario instalar la base de datos y dejarla como servicio del sistema operativo.
+
+## 🌐 Socials:
+[![Facebook](https://img.shields.io/badge/Facebook-%231877F2.svg?logo=Facebook&logoColor=white)](https://facebook.com/juancarlos.estevezvargas.98) [![Instagram](https://img.shields.io/badge/Instagram-%23E4405F.svg?logo=Instagram&logoColor=white)](https://instagram.com/juankestevez) [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://linkedin.com/in/juan-carlos-estevez-vargas) [![YouTube](https://img.shields.io/badge/YouTube-%23FF0000.svg?logo=YouTube&logoColor=white)](https://youtube.com/@JuanCarlosEstevezVargas) 
