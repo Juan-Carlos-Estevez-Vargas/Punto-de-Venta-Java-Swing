@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-03-2022 a las 23:13:22
--- Versión del servidor: 10.4.22-MariaDB
--- Versión de PHP: 8.1.2
+-- Tiempo de generación: 27-02-2023 a las 01:55:59
+-- Versión del servidor: 10.4.24-MariaDB
+-- Versión de PHP: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -46,8 +46,8 @@ CREATE TABLE `clientes` (
 INSERT INTO `clientes` (`ID`, `DNI`, `NOMBRE`, `TELEFONO`, `DIRECCION`, `RAZON_SOCIAL`, `FECHA`) VALUES
 (1, 1234, 'Juan Estevez', 1238961900, 'Chiquinquirá', '', '2022-02-28 14:39:27'),
 (6, 1001789654, 'Pedro Rosales', 3008765429, 'Fusagasugá', '', '2022-02-28 17:25:02'),
-(10, 1002521678, 'Pedro Correa', 3133887654, 'Manizales', '', '2022-03-11 16:24:01'),
-(11, 1035678900, 'Maluma Baby', 3105809976, 'Medellín', 'N/A', '2022-03-12 11:36:33');
+(11, 1035678900, 'Maluma Baby', 3105809976, 'Medellín', '122334', '2022-03-12 11:36:33'),
+(13, 1234561728, 'Margot Robbie', 3156782343, 'Manizales', '123115', '2023-02-21 15:01:06');
 
 -- --------------------------------------------------------
 
@@ -69,7 +69,7 @@ CREATE TABLE `configuracion` (
 --
 
 INSERT INTO `configuracion` (`ID`, `NOMBRE`, `RUT`, `TELEFONO`, `DIRECCION`, `RAZON_SOCIAL`) VALUES
-(1, 'BAR JAZZ', 1234567890, 3219113202, 'BARBOSA', 'NA');
+(1, 'Empresa XYZ', 1234567890, 3219113222, 'BARBOSA', 'NA');
 
 -- --------------------------------------------------------
 
@@ -117,7 +117,17 @@ INSERT INTO `detalle` (`ID`, `CODIGO_PRODUCTO`, `CANTIDAD`, `PRECIO`, `ID_VENTA`
 (25, '6', 6, '25000.00', 0),
 (26, '', 5, '25000.00', 0),
 (27, '', 5, '25000.00', 0),
-(28, 'e100', 8, '25000.00', 0);
+(28, 'e100', 8, '25000.00', 0),
+(29, 'prueba', 13, '2700.89', 0),
+(30, 't67', 4, '1200.00', 0),
+(31, 't67', 67, '1200.00', 0),
+(32, 't67', 23, '1200.00', 0),
+(33, 't67', 1, '1200.00', 0),
+(34, 'g89', 34, '2000000.00', 0),
+(35, 't67', 3, '1200.00', 0),
+(36, 'g89', 23, '2000000.00', 0),
+(37, 't67', 12, '1200.00', 0),
+(38, 't67', 124, '1200.00', 0);
 
 -- --------------------------------------------------------
 
@@ -140,9 +150,9 @@ CREATE TABLE `producto` (
 --
 
 INSERT INTO `producto` (`ID`, `CODIGO`, `DESCRIPCION`, `PROVEEDOR`, `STOCK`, `PRECIO`, `FECHA`) VALUES
-(2, 't67', 'Jabon Palmolive', 'Margot Robbie', 234, '1200.00', '2022-03-01 17:18:22'),
+(2, 't67', 'Jabon Palmolive', 'Margot Robbie', 115, '1200.00', '2022-03-01 17:18:22'),
 (4, 'e100', 'Silla Rimax', 'Martín Caceres', 492, '25000.00', '2022-03-04 10:39:15'),
-(6, 'g89', 'Computador Compumax', 'Margot Robbie', 200, '2000000.00', '2022-03-11 16:50:40');
+(6, 'g89', 'Computador Compumax', 'Margot Robbie', 143, '2000000.00', '2022-03-11 16:50:40');
 
 -- --------------------------------------------------------
 
@@ -187,8 +197,8 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`ID`, `NOMBRE`, `CORREO`, `PASSWORD`, `ROL`) VALUES
-(1, 'Juan Carlos Estevez Vargas', 'juan@example.com', '1234', 'Administrador'),
-(4, 'Pedro', 'Pedro', '1234', 'Asistente');
+(1, 'Juan Carlos Estevez', 'juan@example.com', '1234', 'Administrador'),
+(11, 'Pedro Prueba', 'prueba@mail.com', '1234', 'Asistente');
 
 -- --------------------------------------------------------
 
@@ -203,36 +213,6 @@ CREATE TABLE `ventas` (
   `TOTAL` decimal(12,2) NOT NULL,
   `FECHA` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `ventas`
---
-
-INSERT INTO `ventas` (`ID`, `CLIENTE`, `VENDEDOR`, `TOTAL`, `FECHA`) VALUES
-(1, 'Juan Estevez', 'Juan Estevez', '75000.00', '2022-03-04 10:51:05'),
-(2, 'Juan Estevez', 'Juan Estevez', '93600.00', '2022-03-05 13:40:03'),
-(3, 'Juan Estevez', 'Juan Estevez', '254800.00', '2022-03-05 16:20:14'),
-(4, 'Juan Estevez', 'Juan Estevez', '2225000.00', '2022-03-05 16:30:33'),
-(5, 'Juan Estevez', 'Juan Estevez', '3075000.00', '2022-03-05 16:32:01'),
-(6, 'Juan Estevez', 'Juan Estevez', '304800.00', '2022-03-05 16:34:09'),
-(7, 'Juan Estevez', 'Juan Estevez', '2500000.00', '2022-03-05 16:34:55'),
-(8, 'Juan Estevez', 'Juan Estevez', '790800.00', '2022-03-06 14:38:21'),
-(9, 'Juan Estevez', 'Juan Estevez', '790800.00', '2022-03-06 14:39:20'),
-(10, 'Blanca Vargas', 'Juan Estevez', '325000.00', '2022-03-07 07:16:14'),
-(11, 'Blanca Vargas', 'Juan Estevez', '102400.00', '2022-03-07 10:58:17'),
-(12, 'Pedro Rosales', 'Juan Estevez', '1400000.00', '2022-03-07 10:59:37'),
-(13, 'Juan Estevez', 'Juan Estevez', '125000.00', '2022-03-07 16:33:29'),
-(14, 'Blanca Vargas', 'Juan Estevez', '114400.00', '2022-03-08 15:37:22'),
-(15, 'Juan Estevez', 'Juan Estevez', '125000.00', '2022-03-09 16:08:09'),
-(16, 'Juan Estevez', 'Juan Estevez', '100000.00', '10/03/2022'),
-(17, 'Pedro Correa', 'Juan Estevez', '8300000.00', '11/03/2022'),
-(18, 'Juan Estevez', 'Juan Estevez', '100000.00', '12/03/2022'),
-(19, 'Juan Estevez', 'Juan Estevez', '25000.00', '12/03/2022'),
-(20, 'Juan Estevez', 'Juan Estevez', '50000.00', '12/03/2022'),
-(21, 'Juan Estevez', 'Juan Estevez', '150000.00', '12/03/2022'),
-(22, 'Juan Estevez', 'Juan Estevez', '125000.00', '12/03/2022'),
-(23, 'Juan Estevez', 'Juan Estevez', '125000.00', '12/03/2022'),
-(24, 'Juan Estevez', 'Juan Estevez', '200000.00', '12/03/2022');
 
 --
 -- Índices para tablas volcadas
@@ -288,7 +268,7 @@ ALTER TABLE `ventas`
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `configuracion`
@@ -300,31 +280,31 @@ ALTER TABLE `configuracion`
 -- AUTO_INCREMENT de la tabla `detalle`
 --
 ALTER TABLE `detalle`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedor`
 --
 ALTER TABLE `proveedor`
-  MODIFY `ID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `ventas`
 --
 ALTER TABLE `ventas`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
