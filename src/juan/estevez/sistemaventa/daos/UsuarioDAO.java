@@ -46,11 +46,9 @@ public class UsuarioDAO {
      * Modifica los datos de un usuario existente en la base de datos.
      *
      * @param usuario el objeto Usuario con los datos actualizados del usuario.
-     * @return true si se modificaron los datos del usuario correctamente, false
-     * de lo contrario.
      * @throws SQLException si ocurre un error al modificar el usuario.
      */
-    public boolean modificarUsuario(Usuario usuario) throws SQLException {
+    public void modificarUsuario(Usuario usuario) throws SQLException {
         String sql = "UPDATE USUARIO SET NOMBRE = ?, CORREO = ?, PASSWORD = ? WHERE ID = ?";
         try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(sql)) {
             pst.setString(1, usuario.getNombre());
@@ -58,7 +56,6 @@ public class UsuarioDAO {
             pst.setString(3, usuario.getPassword());
             pst.setInt(4, usuario.getId());
             pst.execute();
-            return true;
         } catch (SQLException e) {
             throw new SQLException("Error al modificar usuario", e);
         }
@@ -68,16 +65,13 @@ public class UsuarioDAO {
      * Elimina un usuario de la base de datos.
      *
      * @param id el ID del usuario a eliminar.
-     * @return true si se elimin� el usuario correctamente, false de lo
-     * contrario.
      * @throws SQLException si ocurre un error al eliminar el usuario.
      */
-    public boolean eliminarUsuario(int id) throws SQLException {
+    public void eliminarUsuario(int id) throws SQLException {
         String sql = "DELETE FROM USUARIO WHERE ID = ?";
         try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(sql)) {
             pst.setInt(1, id);
             pst.execute();
-            return true;
         } catch (SQLException e) {
             throw new SQLException("Error al eliminar usuario", e);
         }

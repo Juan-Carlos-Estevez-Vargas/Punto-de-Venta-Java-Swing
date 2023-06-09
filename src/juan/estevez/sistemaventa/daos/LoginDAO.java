@@ -47,11 +47,9 @@ public class LoginDAO {
      *
      * @param login el objeto Loginn que contiene la informaci�n del usuario a
      * registrar.
-     * @return true si el usuario se registr� correctamente, false en caso
-     * contrario.
      * @throws SQLException si ocurre un error al registrar el usuario.
      */
-    public boolean registrarUsuario(Loginn login) throws SQLException {
+    public void registrarUsuario(Loginn login) throws SQLException {
         String sql = "INSERT INTO USUARIO (NOMBRE, CORREO, PASSWORD, ROL) VALUES (?,?,?,?)";
         try (Connection conn = Conexion.conectar(); PreparedStatement pst = conn.prepareStatement(sql)) {
             pst.setString(1, login.getNombre());
@@ -59,7 +57,6 @@ public class LoginDAO {
             pst.setString(3, login.getPassword());
             pst.setString(4, login.getRol());
             pst.execute();
-            return true;
         } catch (SQLException e) {
             throw new SQLException("Error al registrar el usuario en LoginDAO", e);
         }

@@ -7,8 +7,11 @@ package juan.estevez.sistemaventa.modelo;
 public class ConfiguracionDatosEmpresa {
 
     private int id;
-    private long rut, telefono;
-    private String nombre, direccion, razonSocial;
+    private long rut;
+    private long telefono;
+    private String nombre;
+    private String direccion;
+    private String razonSocial;
 
     public ConfiguracionDatosEmpresa() {
     }

@@ -7,7 +7,10 @@ package juan.estevez.sistemaventa.modelo;
 public class Usuario {
 
     private int id;
-    private String correo, password, nombre, rol;
+    private String correo;
+    private String password;
+    private String nombre;
+    private String rol;
 
     public Usuario() {
     }

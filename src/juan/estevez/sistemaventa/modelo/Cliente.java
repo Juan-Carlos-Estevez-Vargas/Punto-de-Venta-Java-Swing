@@ -7,8 +7,11 @@ package juan.estevez.sistemaventa.modelo;
 public class Cliente {
 
     private int id;
-    private long telefono, dni;
-    private String nombre, direccion, razonSocial;
+    private long telefono;
+    private long dni;
+    private String nombre;
+    private String razonSocial;
+    private String direccion;
 
     public Cliente() {
     }

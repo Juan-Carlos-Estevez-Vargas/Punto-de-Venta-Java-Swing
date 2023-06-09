@@ -44,12 +44,10 @@ public class ConfiguracionDatosEmpresaDAO {
      *
      * @param configuracionDatosEmpresa el objeto ConfiguracionDatosEmpresa con
      * los nuevos datos de la empresa a modificar.
-     * @return true si los datos de la empresa se modificaron correctamente,
-     * false en caso contrario.
      * @throws SQLException si ocurre un error al modificar los datos de la
      * empresa en la base de datos.
      */
-    public boolean modificarDatosEmpresa(ConfiguracionDatosEmpresa configuracionDatosEmpresa) throws SQLException {
+    public void modificarDatosEmpresa(ConfiguracionDatosEmpresa configuracionDatosEmpresa) throws SQLException {
         String sql = "UPDATE CONFIGURACION SET RUT = ?, NOMBRE = ?, TELEFONO = ?, DIRECCION = ?, RAZON_SOCIAL = ? WHERE ID = ?";
         try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(sql)) {
             pst.setLong(1, configuracionDatosEmpresa.getRut());
@@ -59,7 +57,6 @@ public class ConfiguracionDatosEmpresaDAO {
             pst.setString(5, configuracionDatosEmpresa.getRazonSocial());
             pst.setInt(6, configuracionDatosEmpresa.getId());
             pst.execute();
-            return true;
         } catch (SQLException e) {
             throw new SQLException("Error al modificar los datos de la empresa en ConfiguracionDatosEmpresaDAO", e);
         }

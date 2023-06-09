@@ -7,7 +7,9 @@ package juan.estevez.sistemaventa.modelo;
 public class Venta {
 
     private int id;
-    private String cliente, vendedor, fecha;
+    private String cliente;
+    private String vendedor;
+    private String fecha;
     private double total;
 
     public Venta() {

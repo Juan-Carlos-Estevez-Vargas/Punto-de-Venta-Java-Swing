@@ -22,6 +22,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 public class Excel {
 
+    private Excel() { }
+
     /**
      * Genera un reporte en formato Excel con informaci�n de productos y lo
      * guarda en un archivo.El reporte incluye el c�digo, descripci�n, precio y
@@ -34,8 +36,8 @@ public class Excel {
      *
      */
     public static void generarReporte() {
-        try {
-            Workbook workbook = new XSSFWorkbook();
+        try (Connection con = Conexion.conectar(); Workbook workbook = new XSSFWorkbook(); PreparedStatement ps = con.prepareStatement("SELECT CODIGO, DESCRIPCION, PRECIO, STOCK FROM PRODUCTO")) {
+
             Sheet sheet = workbook.createSheet("Productos");
 
             CellStyle headerStyle = createHeaderStyle(workbook);
@@ -44,8 +46,6 @@ public class Excel {
             createTitleRow(sheet, headerStyle);
             createHeaderRow(sheet, headerStyle);
 
-            Connection con = Conexion.conectar();
-            PreparedStatement ps = con.prepareStatement("SELECT CODIGO, DESCRIPCION, PRECIO, STOCK FROM PRODUCTO");
             ResultSet rs = ps.executeQuery();
 
             int rowNum = 5;

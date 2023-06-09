@@ -16,6 +16,8 @@ import org.jfree.data.general.DefaultPieDataset;
  */
 public class GraficoVentas {
 
+    private GraficoVentas() { }
+
     /**
      * Genera y muestra un gr�fico de torta a partir de los datos de ventas
      * filtrados por fecha.

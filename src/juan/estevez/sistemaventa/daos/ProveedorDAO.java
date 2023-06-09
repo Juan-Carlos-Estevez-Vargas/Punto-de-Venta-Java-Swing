@@ -16,11 +16,9 @@ public class ProveedorDAO {
      * Registra un proveedor en la base de datos.
      *
      * @param proveedor el proveedor a registrar.
-     * @return true si el proveedor se registra correctamente, false en caso
-     * contrario.
      * @throws SQLException si ocurre un error al registrar el proveedor.
      */
-    public boolean registrarProveedor(Proveedor proveedor) throws SQLException {
+    public void registrarProveedor(Proveedor proveedor) throws SQLException {
         String sql = "INSERT INTO PROVEEDOR (RUT, NOMBRE, TELEFONO, DIRECCION, RAZON_SOCIAL) VALUES (?,?,?,?,?)";
         try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(sql)) {
             pst.setLong(1, proveedor.getRut());
@@ -29,7 +27,6 @@ public class ProveedorDAO {
             pst.setString(4, proveedor.getDireccion());
             pst.setString(5, proveedor.getRazonSocial());
             pst.execute();
-            return true;
         } catch (SQLException e) {
             throw new SQLException("Error al registrar proveedor", e);
         }
@@ -70,17 +67,14 @@ public class ProveedorDAO {
      * Elimina un proveedor de la base de datos dado su ID.
      *
      * @param id el ID del proveedor a eliminar.
-     * @return true si el proveedor se elimin� correctamente, false de lo
-     * contrario.
      * @throws SQLException si ocurre un error al eliminar el proveedor.
      */
-    public boolean eliminarProveedor(int id) throws SQLException {
+    public void eliminarProveedor(int id) throws SQLException {
         String sql = "DELETE FROM PROVEEDOR WHERE ID = ?";
 
         try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(sql)) {
             pst.setInt(1, id);
             pst.execute();
-            return true;
         } catch (SQLException e) {
             throw new SQLException("Error al eliminar proveedor", e);
         }
@@ -90,11 +84,9 @@ public class ProveedorDAO {
      * Modifica los datos de un proveedor en la base de datos.
      *
      * @param proveedor el proveedor con los datos actualizados.
-     * @return true si se modificaron los datos del proveedor correctamente,
-     * false de lo contrario.
      * @throws SQLException si ocurre un error al modificar el proveedor.
      */
-    public boolean modificarProveedor(Proveedor proveedor) throws SQLException {
+    public void modificarProveedor(Proveedor proveedor) throws SQLException {
         String sql = "UPDATE PROVEEDOR SET RUT = ?, NOMBRE = ?, TELEFONO = ?, DIRECCION = ?, RAZON_SOCIAL = ? WHERE ID = ?";
         try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(sql)) {
             pst.setLong(1, proveedor.getRut());
@@ -104,7 +96,6 @@ public class ProveedorDAO {
             pst.setString(5, proveedor.getRazonSocial());
             pst.setInt(6, proveedor.getId());
             pst.execute();
-            return true;
         } catch (SQLException e) {
             throw new SQLException("Error al modificar proveedor", e);
         }

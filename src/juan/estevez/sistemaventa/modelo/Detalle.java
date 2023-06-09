@@ -6,7 +6,9 @@ package juan.estevez.sistemaventa.modelo;
  */
 public class Detalle {
 
-    private int id, cantidad, idVenta;
+    private int id;
+    private int cantidad;
+    private int idVenta;
     private String codigoProducto;
     private double precio;
 
@@ -41,9 +43,7 @@ public class Detalle {
         return idVenta;
     }
 
-    public void setIdVenta(int idVenta) {
-        this.idVenta = idVenta;
-    }
+    public void setIdVenta(int idVenta) { this.idVenta = idVenta; }
 
     public String getCodigoProducto() {
         return codigoProducto;

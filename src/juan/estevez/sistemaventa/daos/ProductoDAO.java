@@ -18,11 +18,9 @@ public class ProductoDAO {
      *
      * @param producto el objeto Producto que contiene la informaci�n del
      * producto a registrar.
-     * @return true si el producto se registr� correctamente, false en caso
-     * contrario.
      * @throws SQLException si ocurre un error al registrar el producto.
      */
-    public boolean registrarProducto(Producto producto) throws SQLException {
+    public void registrarProducto(Producto producto) throws SQLException {
         String sql = "INSERT INTO PRODUCTO (CODIGO, DESCRIPCION, PROVEEDOR, STOCK, PRECIO) VALUES (?,?,?,?,?)";
         try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(sql)) {
             pst.setString(1, producto.getCodigo());
@@ -31,7 +29,6 @@ public class ProductoDAO {
             pst.setInt(4, producto.getStock());
             pst.setDouble(5, producto.getPrecio());
             pst.execute();
-            return true;
         } catch (SQLException e) {
             throw new SQLException("Error al registrar producto", e);
         }
@@ -86,16 +83,13 @@ public class ProductoDAO {
      * Elimina un producto de la base de datos seg�n su identificador.
      *
      * @param id el identificador del producto a eliminar.
-     * @return true si el producto se elimin� correctamente, false de lo
-     * contrario.
      * @throws SQLException si ocurre un error al eliminar el producto.
      */
-    public boolean eliminarProducto(int id) throws SQLException {
+    public void eliminarProducto(int id) throws SQLException {
         String sql = "DELETE FROM PRODUCTO WHERE ID = ?";
         try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(sql)) {
             pst.setInt(1, id);
             pst.execute();
-            return true;
         } catch (SQLException e) {
             throw new SQLException("Error al eliminar producto", e);
         }
@@ -105,11 +99,9 @@ public class ProductoDAO {
      * Modifica un producto en la base de datos.
      *
      * @param producto el producto con los nuevos datos a modificar.
-     * @return true si el producto se modific� correctamente, false de lo
-     * contrario.
      * @throws SQLException si ocurre un error al modificar el producto.
      */
-    public boolean modificarProducto(Producto producto) throws SQLException {
+    public void modificarProducto(Producto producto) throws SQLException {
         String sql = "UPDATE PRODUCTO SET CODIGO = ?, DESCRIPCION = ?, PROVEEDOR = ?, STOCK = ?, PRECIO = ? WHERE ID = ?";
         try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(sql)) {
             pst.setString(1, producto.getCodigo());
@@ -119,7 +111,6 @@ public class ProductoDAO {
             pst.setDouble(5, producto.getPrecio());
             pst.setInt(6, producto.getId());
             pst.execute();
-            return true;
         } catch (SQLException e) {
             throw new SQLException("Error al modificar producto", e);
         }
@@ -156,17 +147,14 @@ public class ProductoDAO {
      *
      * @param cantidad la nueva cantidad de stock del producto.
      * @param codigoProducto el c�digo del producto a actualizar.
-     * @return true si el stock se actualiz� correctamente, false en caso
-     * contrario.
      * @throws SQLException si ocurre un error al actualizar el stock.
      */
-    public boolean actualizarStock(int cantidad, String codigoProducto) throws SQLException {
+    public void actualizarStock(int cantidad, String codigoProducto) throws SQLException {
         String sql = "UPDATE PRODUCTO SET STOCK = ? WHERE CODIGO = ?";
         try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(sql)) {
             pst.setInt(1, cantidad);
             pst.setString(2, codigoProducto);
             pst.execute();
-            return true;
         } catch (SQLException e) {
             throw new SQLException("Error al actualizar stock", e);
         }

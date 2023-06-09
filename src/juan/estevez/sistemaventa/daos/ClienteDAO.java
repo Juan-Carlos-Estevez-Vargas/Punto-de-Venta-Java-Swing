@@ -16,12 +16,10 @@ public class ClienteDAO {
      * Registra un nuevo cliente en la base de datos.
      *
      * @param cliente el objeto Cliente a registrar.
-     * @return true si el cliente se registr� correctamente, false de lo
-     * contrario.
      * @throws RuntimeException si ocurre un error al insertar el cliente en la
      * base de datos.
      */
-    public boolean registrarCliente(Cliente cliente) {
+    public void registrarCliente(Cliente cliente) {
         String sql = "INSERT INTO CLIENTES (DNI, NOMBRE, TELEFONO, DIRECCION, RAZON_SOCIAL) VALUES (?,?,?,?,?)";
         try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(sql)) {
             pst.setLong(1, cliente.getDni());
@@ -30,7 +28,6 @@ public class ClienteDAO {
             pst.setString(4, cliente.getDireccion());
             pst.setString(5, cliente.getRazonSocial());
             pst.execute();
-            return true;
         } catch (SQLException e) {
             throw new RuntimeException("Error al insertar cliente en ClienteDAO", e);
         }
@@ -59,18 +56,15 @@ public class ClienteDAO {
     /**
      * Obtiene una lista de todos los clientes almacenados en la base de datos.
      *
-     * @param id
-     * @return una lista de objetos Cliente que representan a los clientes
-     * almacenados.
+     * @param id id del cliente a eliminar
      * @throws RuntimeException si ocurre un error al listar los clientes en la
      * base de datos.
      */
-    public boolean eliminarCliente(int id) {
+    public void eliminarCliente(int id) {
         String sql = "DELETE FROM CLIENTES WHERE ID = ?";
         try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(sql)) {
             pst.setInt(1, id);
             pst.execute();
-            return true;
         } catch (SQLException e) {
             throw new RuntimeException("Error al eliminar cliente en ClienteDAO", e);
         }
@@ -80,12 +74,10 @@ public class ClienteDAO {
      * Modifica los datos de un cliente existente en la base de datos.
      *
      * @param cliente el objeto Cliente con los nuevos datos a actualizar.
-     * @return true si se realiz� la modificaci�n correctamente, false en caso
-     * contrario.
      * @throws RuntimeException si ocurre un error al modificar el cliente en la
      * base de datos.
      */
-    public boolean modificarCliente(Cliente cliente) {
+    public void modificarCliente(Cliente cliente) {
         String sql = "UPDATE CLIENTES SET DNI = ?, NOMBRE = ?, TELEFONO = ?, DIRECCION = ?, RAZON_SOCIAL = ? WHERE ID = ?";
         try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(sql)) {
             pst.setLong(1, cliente.getDni());
@@ -95,7 +87,6 @@ public class ClienteDAO {
             pst.setString(5, cliente.getRazonSocial());
             pst.setInt(6, cliente.getId());
             pst.execute();
-            return true;
         } catch (SQLException e) {
             throw new RuntimeException("Error al modificar cliente en ClienteDAO", e);
         }

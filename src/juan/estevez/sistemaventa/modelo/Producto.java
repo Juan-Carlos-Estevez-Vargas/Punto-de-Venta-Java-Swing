@@ -6,8 +6,11 @@ package juan.estevez.sistemaventa.modelo;
  */
 public class Producto {
 
-    private int id, stock;
-    private String codigo, nombre, proveedor;
+    private int id;
+    private int stock;
+    private String codigo;
+    private String nombre;
+    private String proveedor;
     private double precio;
 
     public Producto() {

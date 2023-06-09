@@ -6,11 +6,11 @@ package juan.estevez.sistemaventa.modelo;
  */
 public class Loginn {
 
-    int id;
-    String nombre;
-    String correo;
-    String password;
-    String rol;
+    private int id;
+    private String nombre;
+    private String correo;
+    private String password;
+    private String rol;
 
     public Loginn() {
     }
