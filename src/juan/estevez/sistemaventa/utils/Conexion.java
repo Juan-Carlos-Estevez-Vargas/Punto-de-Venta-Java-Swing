@@ -1,4 +1,4 @@
-package juan.estevez.sistemaventa.modelo;
+package juan.estevez.sistemaventa.utils;
 
 import java.sql.*;
 

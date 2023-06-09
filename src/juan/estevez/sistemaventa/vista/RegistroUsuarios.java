@@ -1,5 +1,8 @@
 package juan.estevez.sistemaventa.vista;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import juan.estevez.sistemaventa.daos.LoginDAO;
 import juan.estevez.sistemaventa.modelo.Loginn;
@@ -22,9 +25,12 @@ public class RegistroUsuarios extends javax.swing.JFrame {
     }
 
     /**
-     * Se encarga de validar y registrar el usuario y redirigirlo al login principal.
+     * Se encarga de validar y registrar el usuario y redirigirlo al login
+     * principal.
+     *
+     * @throws java.sql.SQLException
      */
-    public void validar() {
+    public void validar() throws SQLException {
         String correo = txtCorreoUsuario.getText();
         String password = String.valueOf(txtPasswordUsuario.getPassword());
         String nombre = txtNombreUsuario.getText();
@@ -259,7 +265,11 @@ public class RegistroUsuarios extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarseActionPerformed
-        this.validar();
+        try {
+            this.validar();
+        } catch (SQLException ex) {
+            Logger.getLogger(RegistroUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnRegistrarseActionPerformed
 
     private void cmbRolUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRolUsuarioActionPerformed

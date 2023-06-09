@@ -1,10 +1,11 @@
 package juan.estevez.sistemaventa.vista;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import juan.estevez.sistemaventa.daos.LoginDAO;
-import juan.estevez.sistemaventa.daos.UsuarioDAO;
 import juan.estevez.sistemaventa.modelo.Loginn;
-import juan.estevez.sistemaventa.modelo.Usuario;
 
 /**
  *
@@ -25,13 +26,15 @@ public class Login extends javax.swing.JFrame {
 
     /**
      * Se encarga de validar el correo y contraseña del login e iniciar sesión.
+     *
+     * @throws java.sql.SQLException
      */
-    public void validar() {
+    public void validar() throws SQLException {
         String correo = txtCorreo.getText();
         String password = String.valueOf(txtPassword.getPassword());
 
         if (!"".equals(correo) || !"".equals(password)) {
-            login = loginDAO.log(correo, password);
+            login = loginDAO.login(correo, password);
 
             if (login.getCorreo() != null && login.getPassword() != null) {
                 Sistema sistema = new Sistema(login);
@@ -303,7 +306,11 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistroActionPerformed
 
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
-        this.validar();
+        try {
+            this.validar();
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnIniciarActionPerformed
 
     /**
@@ -326,7 +333,7 @@ public class Login extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         //</editor-fold>
 
         /* Create and display the form */
