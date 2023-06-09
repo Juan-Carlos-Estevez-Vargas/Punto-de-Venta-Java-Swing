@@ -10,103 +10,74 @@ import juan.estevez.sistemaventa.modelo.Conexion;
 import juan.estevez.sistemaventa.modelo.Usuario;
 
 /**
- *
+ * DAO para operaciones relacionadas con Usuarios.
  * @author Juan Carlos Estevez Vargas.
  */
 public class UsuarioDAO {
 
-    Connection cn;
-    PreparedStatement pst;
-    ResultSet rs;
+	/**
+	 * Obtiene una lista de todos los usuarios registrados en la base de datos.
+	 *
+	 * @return una lista de objetos Usuario que representan a los usuarios registrados.
+	 * @throws SQLException si ocurre un error al listar los usuarios.
+	 */
+	public List<Usuario> listarUsuarios() throws SQLException {
+		List<Usuario> listaUsuarios = new ArrayList<>();
+		String sql = "SELECT * FROM USUARIO";
+		try (Connection cn = Conexion.conectar();
+				PreparedStatement pst = cn.prepareStatement(sql);
+				ResultSet rs = pst.executeQuery()) {
 
-    /**
-     * Obtiene los usuario almacenados en la base de datos.
-     *
-     * @return lista con todos los usuarios obtenidos de la base de datos.
-     */
-    public List listarUsuarios() {
-        List<Usuario> listaUsuarios = new ArrayList<>();
-        String sql = "SELECT * FROM USUARIO";
-        try {
-            cn = Conexion.conectar();
-            pst = cn.prepareStatement(sql);
-            rs = pst.executeQuery();
-            while (rs.next()) {
-                Usuario usuario = new Usuario();
-                usuario.setId(rs.getInt("ID"));
-                usuario.setNombre(rs.getString("NOMBRE"));
-                usuario.setCorreo(rs.getString("CORREO"));
-                usuario.setRol(rs.getString("ROL"));
-                listaUsuarios.add(usuario);
-            }
-        } catch (SQLException e) {
-            System.err.println("Error al listar usuarios en UsuarioDAO " + e.toString());
-        } finally {
-            try {
-                rs.close();
-                pst.close();
-                cn.close();
-            } catch (SQLException e) {
-                System.err.println("Error al cerrar los objetos en UsuarioDAO " + e.toString());
-            }
-        }
-        return listaUsuarios;
-    }
-    
-    /**
-     * Actualiza un usuario directamente de la base de datos.
-     *
-     * @param usuario a actualizar
-     * @return true si se actualizó, false si no se actualizó.
-     */
-    public boolean modificarUsuario(Usuario usuario) {
-        String sql = "UPDATE USUARIO SET NOMBRE = ?, CORREO = ?, password = ? WHERE ID = ?";
-        try {
-            cn = Conexion.conectar();
-            pst = cn.prepareStatement(sql);
-            pst.setString(1, usuario.getNombre());
-            pst.setString(2, usuario.getCorreo());
-            pst.setString(3, usuario.getPassword());
-            pst.setInt(4, usuario.getId());
-            pst.execute();
-            return true;
-        } catch (SQLException e) {
-            System.err.println("Error el modificar usuario en UsuarioDAO " + e.toString());
-            return false;
-        } finally {
-            try {
-                pst.close();
-                cn.close();
-            } catch (SQLException e) {
-                System.err.println("Error al cerrar los objetos en UsuarioDAO " + e.toString());
-            }
-        }
-    }
-    
-    /**
-     * Elimina un usuario de la base de datos.
-     *
-     * @param id por el cual se eliminará el usuario.
-     * @return true si se eliminó el usuario y false si no se eliminó.
-     */
-    public boolean eliminarUsuario(int id) {
-        String sql = "DELETE FROM USUARIO WHERE ID = ?";
-        try {
-            cn = Conexion.conectar();
-            pst = cn.prepareStatement(sql);
-            pst.setInt(1, id);
-            pst.execute();
-            return true;
-        } catch (SQLException e) {
-            System.err.println("Error el eliminar usuario en UsuarioDAO " + e.toString());
-            return false;
-        } finally {
-            try {
-                pst.close();
-                cn.close();
-            } catch (SQLException e) {
-                System.err.println("Error al cerrar los objetos en UsuarioDAO " + e.toString());
-            }
-        }
-    }
+			while (rs.next()) {
+				Usuario usuario = new Usuario();
+				usuario.setId(rs.getInt("ID"));
+				usuario.setNombre(rs.getString("NOMBRE"));
+				usuario.setCorreo(rs.getString("CORREO"));
+				usuario.setRol(rs.getString("ROL"));
+				listaUsuarios.add(usuario);
+			}
+		} catch (SQLException e) {
+			throw new SQLException("Error al listar usuarios", e);
+		}
+		return listaUsuarios;
+	}
+
+	/**
+	 * Modifica los datos de un usuario existente en la base de datos.
+	 *
+	 * @param usuario el objeto Usuario con los datos actualizados del usuario.
+	 * @return true si se modificaron los datos del usuario correctamente, false de lo contrario.
+	 * @throws SQLException si ocurre un error al modificar el usuario.
+	 */
+	public boolean modificarUsuario(Usuario usuario) throws SQLException {
+		String sql = "UPDATE USUARIO SET NOMBRE = ?, CORREO = ?, PASSWORD = ? WHERE ID = ?";
+		try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(sql)) {
+			pst.setString(1, usuario.getNombre());
+			pst.setString(2, usuario.getCorreo());
+			pst.setString(3, usuario.getPassword());
+			pst.setInt(4, usuario.getId());
+			pst.execute();
+			return true;
+		} catch (SQLException e) {
+			throw new SQLException("Error al modificar usuario", e);
+		}
+	}
+
+	/**
+	 * Elimina un usuario de la base de datos.
+	 *
+	 * @param id el ID del usuario a eliminar.
+	 * @return true si se elimin� el usuario correctamente, false de lo contrario.
+	 * @throws SQLException si ocurre un error al eliminar el usuario.
+	 */
+	public boolean eliminarUsuario(int id) throws SQLException {
+		String sql = "DELETE FROM USUARIO WHERE ID = ?";
+		try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(sql)) {
+			pst.setInt(1, id);
+			pst.execute();
+			return true;
+		} catch (SQLException e) {
+			throw new SQLException("Error al eliminar usuario", e);
+		}
+	}
 }

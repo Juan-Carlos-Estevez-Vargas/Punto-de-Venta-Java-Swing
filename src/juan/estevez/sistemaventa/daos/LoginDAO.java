@@ -4,79 +4,60 @@ import java.sql.*;
 import juan.estevez.sistemaventa.modelo.*;
 
 /**
+ * DAO para operaciones relacionadas con el inicio de sesión.
  *
  * @author Juan Carlos Estevez Vargas
  */
 public class LoginDAO {
 
-    Connection conn;
-    PreparedStatement pst;
-    ResultSet rs;
+	/**
+	 * Realiza el inicio de sesión de un usuario en la aplicación.
+	 *
+	 * @param correo el correo electrónico del usuario.
+	 * @param password la contraseña del usuario.
+	 * @return un objeto Loginn que representa al usuario que inició sesión, o null si las credenciales son inválidas.
+	 * @throws SQLException si ocurre un error al realizar el inicio de sesión.
+	 */
+	public Loginn login(String correo, String password) throws SQLException {
+		String sql = "SELECT * FROM USUARIO WHERE CORREO = ? AND PASSWORD = ?";
+		try (Connection conn = Conexion.conectar(); PreparedStatement pst = conn.prepareStatement(sql)) {
+			pst.setString(1, correo);
+			pst.setString(2, password);
+			try (ResultSet rs = pst.executeQuery()) {
+				if (rs.next()) {
+					Loginn login = new Loginn();
+					login.setId(rs.getInt("ID"));
+					login.setNombre(rs.getString("NOMBRE"));
+					login.setCorreo(rs.getString("CORREO"));
+					login.setPassword(rs.getString("PASSWORD"));
+					login.setRol(rs.getString("ROL"));
+					return login;
+				}
+			}
+		} catch (SQLException e) {
+			throw new SQLException("Error en el inicio de sesión de la aplicación", e);
+		}
+		return null;
+	}
 
-    /**
-     * Busca un usuario en la base de datos.
-     *
-     * @param correo del usuario que desea iniciar sesiÃ³n
-     * @param password del usuario que desea iniciar sesiÃ³n
-     * @return usuario encontrado
-     */
-    public Loginn log(String correo, String password) {
-        Loginn login = new Loginn();
-        String sql = "SELECT * FROM USUARIO WHERE CORREO = ? AND PASSWORD = ?";
-
-        try {
-            conn = Conexion.conectar();
-            pst = conn.prepareStatement(sql);
-            pst.setString(1, correo);
-            pst.setString(2, password);
-            rs = pst.executeQuery();
-            if (rs.next()) {
-                login.setId(rs.getInt("ID"));
-                login.setNombre(rs.getString("NOMBRE"));
-                login.setCorreo(rs.getString("CORREO"));
-                login.setPassword(rs.getString("PASSWORD"));
-                login.setRol(rs.getString("ROL"));
-            }
-        } catch (SQLException e) {
-            System.err.println("Error en el login de la aplicaciÃ³n " + e.toString());
-        } finally {
-            try {
-                rs.close();
-                pst.close();
-                conn.close();
-            } catch (SQLException e) {
-                System.err.println("Error al cerrar los objetos en LoginDAO " + e.toString());
-            }
-        }
-        return login;
-    }
-
-    /**
-     * Registra un nuevo usuario en la base de datos.
-     *
-     * @param login con los datos del usuario a registrar.
-     * @return true si se registrÃ³ el usuario, false si no se registrÃ³.
-     */
-    public boolean registrarUsuario(Loginn login) {
-        String sql = "INSERT INTO USUARIO (NOMBRE, CORREO, PASSWORD, ROL) VALUES (?,?,?,?)";
-        try {
-            conn = Conexion.conectar();
-            pst = conn.prepareStatement(sql);
-            pst.setString(1, login.getNombre());
-            pst.setString(2, login.getCorreo());
-            pst.setString(3, login.getPassword());
-            pst.setString(4, login.getRol());
-            pst.execute();
-            return true;
-        } catch (SQLException e) {
-            return false;
-        } finally {
-            try {
-                pst.close();
-                conn.close();
-            } catch (SQLException e) {
-                System.err.println("Error al cerrar los objetos en LoginDAO " + e.toString());
-            }
-        }
-    }
+	/**
+	 * Registra un nuevo usuario en la base de datos.
+	 *
+	 * @param login el objeto Loginn que contiene la información del usuario a registrar.
+	 * @return true si el usuario se registró correctamente, false en caso contrario.
+	 * @throws SQLException si ocurre un error al registrar el usuario.
+	 */
+	public boolean registrarUsuario(Loginn login) throws SQLException {
+		String sql = "INSERT INTO USUARIO (NOMBRE, CORREO, PASSWORD, ROL) VALUES (?,?,?,?)";
+		try (Connection conn = Conexion.conectar(); PreparedStatement pst = conn.prepareStatement(sql)) {
+			pst.setString(1, login.getNombre());
+			pst.setString(2, login.getCorreo());
+			pst.setString(3, login.getPassword());
+			pst.setString(4, login.getRol());
+			pst.execute();
+			return true;
+		} catch (SQLException e) {
+			throw new SQLException("Error al registrar el usuario en LoginDAO", e);
+		}
+	}
 }

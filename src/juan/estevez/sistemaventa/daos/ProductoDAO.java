@@ -6,235 +6,165 @@ import javax.swing.*;
 import juan.estevez.sistemaventa.modelo.*;
 
 /**
+ * DAO para operaciones relacionadas con Productos.
  *
  * @author Juan Carlos Estevez Vargas
  */
 public class ProductoDAO {
 
-    Connection cn;
-    PreparedStatement pst;
-    ResultSet rs;
+	/**
+	 * Registra un nuevo producto en la base de datos.
+	 *
+	 * @param producto el objeto Producto que contiene la información del producto a registrar.
+	 * @return true si el producto se registró correctamente, false en caso contrario.
+	 * @throws SQLException si ocurre un error al registrar el producto.
+	 */
+	public boolean registrarProducto(Producto producto) throws SQLException {
+		String sql = "INSERT INTO PRODUCTO (CODIGO, DESCRIPCION, PROVEEDOR, STOCK, PRECIO) VALUES (?,?,?,?,?)";
+		try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(sql)) {
+			pst.setString(1, producto.getCodigo());
+			pst.setString(2, producto.getNombre());
+			pst.setString(3, producto.getProveedor());
+			pst.setInt(4, producto.getStock());
+			pst.setDouble(5, producto.getPrecio());
+			pst.execute();
+			return true;
+		} catch (SQLException e) {
+			throw new SQLException("Error al registrar producto", e);
+		}
+	}
 
-    /**
-     * Registra un producto en la base de datos.
-     *
-     * @param producto a registrar
-     * @return true si se registrÃ³, false si no se registrÃ³
-     */
-    public boolean registrarProducto(Producto producto) {
-        String sql = "INSERT INTO PRODUCTO (CODIGO, DESCRIPCION, PROVEEDOR, STOCK, PRECIO) VALUES (?,?,?,?,?)";
-        try {
-            cn = Conexion.conectar();
-            pst = cn.prepareStatement(sql);
-            pst.setString(1, producto.getCodigo());
-            pst.setString(2, producto.getNombre());
-            pst.setString(3, producto.getProveedor());
-            pst.setInt(4, producto.getStock());
-            pst.setDouble(5, producto.getPrecio());
-            pst.execute();
-            return true;
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al registrar producto " + e.toString());
-            return false;
-        } finally {
-            try {
-                pst.close();
-                cn.close();
-            } catch (SQLException e) {
-                System.err.println("Error al cerras los objetos en ProductoDAO " + e.toString());
-            }
-        }
-    }
+	/**
+	 * Consulta los proveedores de la base de datos y los agrega al JComboBox especificado.
+	 *
+	 * @param proveedor el JComboBox donde se agregarán los nombres de los proveedores.
+	 * @throws SQLException si ocurre un error al consultar los proveedores.
+	 */
+	public void consultarProveedor(JComboBox<String> proveedor) throws SQLException {
+		String sql = "SELECT NOMBRE FROM PROVEEDOR";
+		try (Connection cn = Conexion.conectar();
+				PreparedStatement pst = cn.prepareStatement(sql);
+				ResultSet rs = pst.executeQuery()) {
+			while (rs.next()) {
+				proveedor.addItem(rs.getString("NOMBRE"));
+			}
+		} catch (SQLException e) {
+			throw new SQLException("Error al consultar proveedores", e);
+		}
+	}
 
-    /**
-     * Consulta el nombre de los proveedores de la base de datos.
-     *
-     * @param proveedor de tipo JComboBox al cuÃ¡l se le setearÃ¡ la lista de
-     * proveedores
-     */
-    public void consultarProveedor(JComboBox proveedor) {
-        String sql = "SELECT NOMBRE FROM PROVEEDOR";
-        try {
-            cn = Conexion.conectar();
-            pst = cn.prepareStatement(sql);
-            rs = pst.executeQuery();
+	/**
+	 * Obtiene una lista de productos almacenados en la base de datos.
+	 *
+	 * @return una lista de productos.
+	 * @throws SQLException si ocurre un error al listar los productos.
+	 */
+	public List<Producto> listarProductos() throws SQLException {
+		List<Producto> listaProductos = new ArrayList<>();
+		String sql = "SELECT * FROM PRODUCTO";
+		try (Connection cn = Conexion.conectar();
+				PreparedStatement pst = cn.prepareStatement(sql);
+				ResultSet rs = pst.executeQuery()) {
+			while (rs.next()) {
+				Producto producto = new Producto();
+				producto.setId(rs.getInt("ID"));
+				producto.setCodigo(rs.getString("CODIGO"));
+				producto.setNombre(rs.getString("DESCRIPCION"));
+				producto.setProveedor(rs.getString("PROVEEDOR"));
+				producto.setStock(rs.getInt("STOCK"));
+				producto.setPrecio(rs.getDouble("PRECIO"));
+				listaProductos.add(producto);
+			}
+		} catch (SQLException e) {
+			throw new SQLException("Error al listar los productos", e);
+		}
+		return listaProductos;
+	}
 
-            while (rs.next()) {
-                proveedor.addItem(rs.getString("NOMBRE"));
-            }
-        } catch (SQLException e) {
-            System.err.println("Error al consultar proveedores en ProductoDAO " + e.toString());
-        } finally {
-            try {
-                rs.close();
-                pst.close();
-                cn.close();
-            } catch (SQLException e) {
-                System.err.println("Error al cerras los objetos en ProductoDAO " + e.toString());
-            }
-        }
-    }
+	/**
+	 * Elimina un producto de la base de datos según su identificador.
+	 *
+	 * @param id el identificador del producto a eliminar.
+	 * @return true si el producto se eliminó correctamente, false de lo contrario.
+	 * @throws SQLException si ocurre un error al eliminar el producto.
+	 */
+	public boolean eliminarProducto(int id) throws SQLException {
+		String sql = "DELETE FROM PRODUCTO WHERE ID = ?";
+		try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(sql)) {
+			pst.setInt(1, id);
+			pst.execute();
+			return true;
+		} catch (SQLException e) {
+			throw new SQLException("Error al eliminar producto", e);
+		}
+	}
 
-    /**
-     * Obtiene los productos almacenados en la base de datos.
-     *
-     * @return lista con todos los productos obtenidos de la base de datos.
-     */
-    public List listarProductos() {
-        List<Producto> listaProductos = new ArrayList<>();
-        String sql = "SELECT * FROM PRODUCTO";
+	/**
+	 * Modifica un producto en la base de datos.
+	 *
+	 * @param producto el producto con los nuevos datos a modificar.
+	 * @return true si el producto se modificó correctamente, false de lo contrario.
+	 * @throws SQLException si ocurre un error al modificar el producto.
+	 */
+	public boolean modificarProducto(Producto producto) throws SQLException {
+		String sql = "UPDATE PRODUCTO SET CODIGO = ?, DESCRIPCION = ?, PROVEEDOR = ?, STOCK = ?, PRECIO = ? WHERE ID = ?";
+		try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(sql)) {
+			pst.setString(1, producto.getCodigo());
+			pst.setString(2, producto.getNombre());
+			pst.setString(3, producto.getProveedor());
+			pst.setInt(4, producto.getStock());
+			pst.setDouble(5, producto.getPrecio());
+			pst.setInt(6, producto.getId());
+			pst.execute();
+			return true;
+		} catch (SQLException e) {
+			throw new SQLException("Error al modificar producto", e);
+		}
+	}
 
-        try {
-            cn = Conexion.conectar();
-            pst = cn.prepareStatement(sql);
-            rs = pst.executeQuery();
+	/**
+	 * Busca un producto en la base de datos por su código.
+	 *
+	 * @param codigoProducto el código del producto a buscar.
+	 * @return el objeto Producto correspondiente al código especificado, o un objeto Producto vacío si no se encuentra ningún producto con ese código.
+	 * @throws SQLException si ocurre un error al buscar el producto.
+	 */
+	public Producto buscarProducto(String codigoProducto) throws SQLException {
+		Producto producto = new Producto();
+		String sql = "SELECT * FROM PRODUCTO WHERE CODIGO = ?";
+		try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(sql)) {
+			pst.setString(1, codigoProducto);
+			try (ResultSet rs = pst.executeQuery()) {
+				if (rs.next()) {
+					producto.setNombre(rs.getString("DESCRIPCION"));
+					producto.setPrecio(rs.getDouble("PRECIO"));
+					producto.setStock(rs.getInt("STOCK"));
+				}
+			}
+		} catch (SQLException e) {
+			throw new SQLException("Error al buscar producto", e);
+		}
+		return producto;
+	}
 
-            while (rs.next()) {
-                Producto producto = new Producto();
-                producto.setId(rs.getInt("ID"));
-                producto.setCodigo(rs.getString("CODIGO"));
-                producto.setNombre(rs.getString("DESCRIPCION"));
-                producto.setProveedor(rs.getString("PROVEEDOR"));
-                producto.setStock(rs.getInt("STOCK"));
-                producto.setPrecio(rs.getDouble("PRECIO"));
-                listaProductos.add(producto);
-            }
-
-        } catch (SQLException e) {
-            System.err.println("Error al listar los productos en ProductoDAO " + e.toString());
-        } finally {
-            try {
-                rs.close();
-                pst.close();
-                cn.close();
-            } catch (SQLException e) {
-                System.err.println("Error al cerrar los objetos en ProveedorDAO " + e.toString());
-            }
-        }
-
-        return listaProductos;
-    }
-
-    /**
-     * Elimina un producto de la base de datos.
-     *
-     * @param id por el cual se eliminarÃ¡ el producto.
-     * @return true si se eliminÃ³ el producto y false si no se eliminÃ³.
-     */
-    public boolean eliminarProducto(int id) {
-        String sql = "DELETE FROM PRODUCTO WHERE ID = ?";
-
-        try {
-            cn = Conexion.conectar();
-            pst = cn.prepareStatement(sql);
-            pst.setInt(1, id);
-            pst.execute();
-            return true;
-        } catch (SQLException e) {
-            System.err.println("Error el eliminar producto en productoDAO " + e.toString());
-            return false;
-        } finally {
-            try {
-                pst.close();
-                cn.close();
-            } catch (SQLException e) {
-                System.err.println("Error al cerrar los objetos en productoDAO " + e.toString());
-            }
-        }
-    }
-
-    /**
-     * Actualiza un producto directamente de la base de datos.
-     *
-     * @param producto a actualizar
-     * @return true si se actualizÃ³, false si no se actualizÃ³.
-     */
-    public boolean modificarProducto(Producto producto) {
-        String sql = "UPDATE PRODUCTO SET CODIGO = ?, DESCRIPCION = ?, PROVEEDOR = ?, STOCK = ?, PRECIO = ? WHERE ID = ?";
-        try {
-            cn = Conexion.conectar();
-            pst = cn.prepareStatement(sql);
-            pst.setString(1, producto.getCodigo());
-            pst.setString(2, producto.getNombre());
-            pst.setString(3, producto.getProveedor());
-            pst.setInt(4, producto.getStock());
-            pst.setDouble(5, producto.getPrecio());
-            pst.setInt(6, producto.getId());
-            pst.execute();
-            return true;
-        } catch (SQLException e) {
-            System.err.println("Error el modificar producto en productoDAO " + e.toString());
-            return false;
-        } finally {
-            try {
-                pst.close();
-                cn.close();
-            } catch (SQLException e) {
-                System.err.println("Error al cerrar los objetos en ProductoDAO " + e.toString());
-            }
-        }
-    }
-
-    /**
-     * Busca un producto en especÃ­fico de la base de datos.
-     *
-     * @param codigoProducto por el cual se buscarÃ¡ el producto.
-     * @return producto encontrado.
-     */
-    public Producto buscarProducto(String codigoProducto) {
-        Producto producto = new Producto();
-        String sql = "SELECT * FROM PRODUCTO WHERE CODIGO = ?";
-        try {
-            cn = Conexion.conectar();
-            pst = cn.prepareStatement(sql);
-            pst.setString(1, codigoProducto);
-            rs = pst.executeQuery();
-            if (rs.next()) {
-                producto.setNombre(rs.getString("DESCRIPCION"));
-                producto.setPrecio(rs.getDouble("PRECIO"));
-                producto.setStock(rs.getInt("STOCK"));
-            }
-        } catch (SQLException e) {
-            System.err.println("Error el buscar producto en productoDAO " + e.toString());
-        } finally {
-            try {
-                rs.close();
-                pst.close();
-                cn.close();
-            } catch (SQLException e) {
-                System.err.println("Error al cerrar los objetos en ProductoDAO " + e.toString());
-            }
-        }
-        return producto;
-    }
-
-    /**
-     * Actualiza el stock disponible del producto en la base de datos.
-     *
-     * @param cantidad nueva a setearle al producto.
-     * @param codigoProducto al cuÃ¡l se le actualizarÃ¡ el stock.
-     * @return true si se realizÃ³ la actualizaciÃ³n, false si no.
-     */
-    public boolean actualizarStock(int cantidad, String codigoProducto) {
-        String sql = "UPDATE PRODUCTO SET STOCK = ? WHERE CODIGO = ?";
-        try {
-            cn = Conexion.conectar();
-            pst = cn.prepareStatement(sql);
-            pst.setInt(1, cantidad);
-            pst.setString(2, codigoProducto);
-            pst.execute();
-            return true;
-        } catch (SQLException e) {
-            System.err.println("Error al actualizar Stock en VentaDAO " + e.toString());
-            return false;
-        } finally {
-            try {
-                pst.close();
-                cn.close();
-            } catch (SQLException e) {
-                System.err.println("Error al cerrar los objetos en VentaDAO " + e.toString());
-            }
-        }
-    }
+	/**
+	 * Actualiza el stock de un producto en la base de datos.
+	 *
+	 * @param cantidad       la nueva cantidad de stock del producto.
+	 * @param codigoProducto el código del producto a actualizar.
+	 * @return true si el stock se actualizó correctamente, false en caso contrario.
+	 * @throws SQLException si ocurre un error al actualizar el stock.
+	 */
+	public boolean actualizarStock(int cantidad, String codigoProducto) throws SQLException {
+		String sql = "UPDATE PRODUCTO SET STOCK = ? WHERE CODIGO = ?";
+		try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(sql)) {
+			pst.setInt(1, cantidad);
+			pst.setString(2, codigoProducto);
+			pst.execute();
+			return true;
+		} catch (SQLException e) {
+			throw new SQLException("Error al actualizar stock", e);
+		}
+	}
 
 }
