@@ -20,7 +20,6 @@ import juan.estevez.sistemaventa.daos.VentaDAO;
 import juan.estevez.sistemaventa.modelo.Cliente;
 import juan.estevez.sistemaventa.modelo.ConfiguracionDatosEmpresa;
 import juan.estevez.sistemaventa.modelo.Detalle;
-import juan.estevez.sistemaventa.modelo.Eventos;
 import juan.estevez.sistemaventa.modelo.Loginn;
 import juan.estevez.sistemaventa.modelo.Producto;
 import juan.estevez.sistemaventa.modelo.Proveedor;
@@ -29,6 +28,8 @@ import juan.estevez.sistemaventa.modelo.Venta;
 import juan.estevez.sistemaventa.reportes.Excel;
 import juan.estevez.sistemaventa.reportes.GraficoVentas;
 import juan.estevez.sistemaventa.reportes.ReporteVentaPDF;
+import juan.estevez.sistemaventa.utils.Eventos;
+
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**

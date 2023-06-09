@@ -1,137 +1,177 @@
 package juan.estevez.sistemaventa.reportes;
 
-import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.Desktop;
 import java.io.*;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import juan.estevez.sistemaventa.modelo.Conexion;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.util.IOUtils;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
- *
+ * Clase que genera reportes en formato Excel y PDF.
+ * Se genera un reporte de productos con información de la base de datos.
+ * Los reportes se guardan en el directorio de documentos del usuario y se abren automáticamente.
+ * Utiliza las bibliotecas Apache POI y iTextPDF.
+ * Requiere la clase de conexión a la base de datos "Conexion".
+ * 
  * @author Juan Carlos Estevez Vargas
  */
 public class Excel {
 
-    public static void reporte() {
+	/**
+	 * Genera un reporte en formato Excel con información de productos y lo guarda en un archivo.
+	 * El reporte incluye el código, descripción, precio y stock de los productos.
+	 * El archivo generado se guarda en la carpeta "Documents" del directorio de inicio del usuario.
+	 * Se utiliza la biblioteca Apache POI para manipular el archivo Excel.
+	 * Se muestra una ventana de diálogo con un mensaje de confirmación después de generar el reporte.
+	 * Si ocurren errores durante la generación del reporte, se registran en el registro de eventos.
+	 *
+	 * @throws IOException   si ocurre un error de entrada/salida al escribir el archivo.
+	 * @throws SQLException si ocurre un error al ejecutar la consulta SQL para obtener los datos de los productos.
+	 */
+	public static void generarReporte() {
+		try {
+			Workbook workbook = new XSSFWorkbook();
+			Sheet sheet = workbook.createSheet("Productos");
 
-        Workbook book = new XSSFWorkbook();
-        Sheet sheet = book.createSheet("Productos");
+			CellStyle headerStyle = createHeaderStyle(workbook);
+			CellStyle dataStyle = createDataStyle(workbook);
 
-        try {
-//            InputStream inputStream = new FileInputStream("/juan/estevez/sistemaventa/img/logo.png");
-//            byte[] bytes = IOUtils.toByteArray(inputStream);
-//            int imgIndex = book.addPicture(bytes, Workbook.PICTURE_TYPE_PNG);
-//            inputStream.close();
+			createTitleRow(sheet, headerStyle);
+			createHeaderRow(sheet, headerStyle);
 
-            CreationHelper help = book.getCreationHelper();
-            Drawing draw = sheet.createDrawingPatriarch();
+			Connection con = Conexion.conectar();
+			PreparedStatement ps = con.prepareStatement("SELECT CODIGO, DESCRIPCION, PRECIO, STOCK FROM PRODUCTO");
+			ResultSet rs = ps.executeQuery();
 
-            ClientAnchor anchor = help.createClientAnchor();
-            anchor.setCol1(0);
-            anchor.setRow1(1);
-//            Picture pict = draw.createPicture(anchor, imgIndex);
-//            pict.resize(1, 3);
+			int rowNum = 5;
+			while (rs.next()) {
+				Row row = sheet.createRow(rowNum++);
+				fillDataRow(row, rs, dataStyle);
+			}
 
-            CellStyle tituloEstilo = book.createCellStyle();
-            tituloEstilo.setAlignment(HorizontalAlignment.CENTER);
-            tituloEstilo.setVerticalAlignment(VerticalAlignment.CENTER);
-            Font fuenteTitulo = book.createFont();
-            fuenteTitulo.setFontName("Arial");
-            fuenteTitulo.setBold(true);
-            fuenteTitulo.setFontHeightInPoints((short) 14);
-            tituloEstilo.setFont(fuenteTitulo);
+			autosizeColumns(sheet);
 
-            Row filaTitulo = sheet.createRow(1);
-            Cell celdaTitulo = filaTitulo.createCell(1);
-            celdaTitulo.setCellStyle(tituloEstilo);
-            celdaTitulo.setCellValue("Reporte de Productos");
+			String fileName = "productos.xlsx";
+			String homeDir = System.getProperty("user.home");
+			File file = new File(homeDir, "Documents/" + fileName);
 
-            sheet.addMergedRegion(new CellRangeAddress(1, 2, 1, 3));
+			try (FileOutputStream fileOut = new FileOutputStream(file)) {
+				workbook.write(fileOut);
+			}
 
-            String[] cabecera = new String[]{"CÃ³digo", "Nombre", "Precio", "Existencia"};
+			Desktop.getDesktop().open(file);
+			JOptionPane.showMessageDialog(null, "Reporte generado");
 
-            CellStyle headerStyle = book.createCellStyle();
-            headerStyle.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex());
-            headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-            headerStyle.setBorderBottom(BorderStyle.THIN);
-            headerStyle.setBorderLeft(BorderStyle.THIN);
-            headerStyle.setBorderRight(BorderStyle.THIN);
-            headerStyle.setBorderBottom(BorderStyle.THIN);
+		} catch (IOException | SQLException ex) {
+			Logger.getLogger(Excel.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
 
-            Font font = book.createFont();
-            font.setFontName("Arial");
-            font.setBold(true);
-            font.setColor(IndexedColors.WHITE.getIndex());
-            font.setFontHeightInPoints((short) 12);
-            headerStyle.setFont(font);
+    private static CellStyle createHeaderStyle(Workbook workbook) {
+        CellStyle style = workbook.createCellStyle();
+        style.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex());
+        style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        style.setBorderBottom(BorderStyle.THIN);
+        style.setBorderLeft(BorderStyle.THIN);
+        style.setBorderRight(BorderStyle.THIN);
+        style.setBorderTop(BorderStyle.THIN);
 
-            Row filaEncabezados = sheet.createRow(4);
+        Font font = workbook.createFont();
+        font.setFontName("Arial");
+        font.setBold(true);
+        font.setColor(IndexedColors.WHITE.getIndex());
+        font.setFontHeightInPoints((short) 12);
+        style.setFont(font);
 
-            for (int i = 0; i < cabecera.length; i++) {
-                Cell celdaEnzabezado = filaEncabezados.createCell(i);
-                celdaEnzabezado.setCellStyle(headerStyle);
-                celdaEnzabezado.setCellValue(cabecera[i]);
-            }
+        return style;
+    }
 
-            Connection con = Conexion.conectar();
-            PreparedStatement ps;
-            ResultSet rs;
+    /**
+     * Crea y devuelve un estilo de celda para las celdas de encabezado en el archivo Excel.
+     * El estilo incluye un fondo de color azul claro, bordes delgados y texto en negrita de color blanco.
+     *
+     * @param workbook el libro de trabajo de Excel al que se aplicará el estilo.
+     * @return el estilo de celda creado para las celdas de encabezado.
+     */
+    private static CellStyle createDataStyle(Workbook workbook) {
+        CellStyle style = workbook.createCellStyle();
+        style.setBorderBottom(BorderStyle.THIN);
+        style.setBorderLeft(BorderStyle.THIN);
+        style.setBorderRight(BorderStyle.THIN);
+        style.setBorderTop(BorderStyle.THIN);
 
-            int numFilaDatos = 5;
+        return style;
+    }
 
-            CellStyle datosEstilo = book.createCellStyle();
-            datosEstilo.setBorderBottom(BorderStyle.THIN);
-            datosEstilo.setBorderLeft(BorderStyle.THIN);
-            datosEstilo.setBorderRight(BorderStyle.THIN);
-            datosEstilo.setBorderBottom(BorderStyle.THIN);
+    /**
+     * Crea una fila de título en la hoja de cálculo especificada y establece el estilo de celda proporcionado.
+     * El título se fusiona en un rango de celdas desde la columna 1 hasta la columna 3.
+     *
+     * @param sheet la hoja de cálculo de Excel en la que se creará la fila de título.
+     * @param style el estilo de celda a aplicar a la celda de título.
+     */
+    private static void createTitleRow(Sheet sheet, CellStyle style) {
+        Row titleRow = sheet.createRow(1);
+        Cell titleCell = titleRow.createCell(1);
+        titleCell.setCellStyle(style);
+        titleCell.setCellValue("Reporte de Productos");
 
-            ps = con.prepareStatement("SELECT CODIGO, DESCRIPCION, PRECIO, STOCK FROM PRODUCTO");
-            rs = ps.executeQuery();
+        sheet.addMergedRegion(new CellRangeAddress(1, 2, 1, 3));
+    }
 
-            int numCol = rs.getMetaData().getColumnCount();
+    /**
+     * Crea una fila de encabezado en la hoja de cálculo especificada y establece el estilo de celda proporcionado.
+     * Los encabezados de columna se obtienen del arreglo de cadenas proporcionado.
+     *
+     * @param sheet   la hoja de cálculo de Excel en la que se creará la fila de encabezado.
+     * @param style   el estilo de celda a aplicar a las celdas de encabezado.
+     */
+    private static void createHeaderRow(Sheet sheet, CellStyle style) {
+        String[] headers = new String[]{"Código", "Nombre", "Precio", "Existencia"};
+        Row headerRow = sheet.createRow(4);
 
-            while (rs.next()) {
-                Row filaDatos = sheet.createRow(numFilaDatos);
-
-                for (int a = 0; a < numCol; a++) {
-
-                    Cell CeldaDatos = filaDatos.createCell(a);
-                    CeldaDatos.setCellStyle(datosEstilo);
-                    CeldaDatos.setCellValue(rs.getString(a + 1));
-                }
-
-                numFilaDatos++;
-            }
-            sheet.autoSizeColumn(0);
-            sheet.autoSizeColumn(1);
-            sheet.autoSizeColumn(2);
-            sheet.autoSizeColumn(3);
-            sheet.autoSizeColumn(4);
-
-            sheet.setZoom(150);
-            String fileName = "productos";
-            String home = System.getProperty("user.home");
-            File file = new File(home + "/Documents/" +fileName + ".xlsx");
-            try (FileOutputStream fileOut = new FileOutputStream(file)) {
-                book.write(fileOut);
-            }
-            Desktop.getDesktop().open(file);
-            JOptionPane.showMessageDialog(null, "Reporte Generado");
-
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Excel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException | SQLException ex) {
-            Logger.getLogger(Excel.class.getName()).log(Level.SEVERE, null, ex);
+        for (int i = 0; i < headers.length; i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellStyle(style);
+            cell.setCellValue(headers[i]);
         }
+    }
 
+    /**
+     * Rellena una fila de datos en la hoja de cálculo especificada con los valores obtenidos de un ResultSet.
+     * Cada columna del ResultSet se asigna a una celda en la fila de datos, utilizando el estilo de celda proporcionado.
+     *
+     * @param row    la fila de la hoja de cálculo donde se agregarán los datos.
+     * @param rs     el ResultSet que contiene los valores de las columnas.
+     * @param style  el estilo de celda a aplicar a las celdas de datos.
+     * @throws SQLException si ocurre algún error al acceder a los datos del ResultSet.
+     */
+    private static void fillDataRow(Row row, ResultSet rs, CellStyle style) throws SQLException {
+        int numCols = rs.getMetaData().getColumnCount();
+
+        for (int i = 0; i < numCols; i++) {
+            Cell cell = row.createCell(i);
+            cell.setCellStyle(style);
+            cell.setCellValue(rs.getString(i + 1));
+        }
+    }
+
+    /**
+     * Ajusta automáticamente el ancho de las columnas en la hoja de cálculo para que se ajusten al contenido.
+     * El método recorre todas las columnas de la fila de encabezados (fila 4) y ajusta el ancho de cada columna
+     * para que se ajuste al contenido más ancho presente en esa columna.
+     *
+     * @param sheet la hoja de cálculo en la que se ajustarán las columnas.
+     */
+    private static void autosizeColumns(Sheet sheet) {
+        for (int i = 0; i < sheet.getRow(4).getLastCellNum(); i++) {
+            sheet.autoSizeColumn(i);
+        }
     }
 
 }
