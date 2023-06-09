@@ -8,41 +8,41 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 
 /**
- *
+ * Clase para generar gráficos de ventas utilizando la librería JFreeChart. Los
+ * gráficos se generan a partir de los datos de ventas filtrados por fecha.
+ * Requiere la librería JFreeChart en el classpath.
+ * 
  * @author Juan Carlos Estevez Vargas.
  */
 public class GraficoVentas {
 
-    /**
-     * Grafica el grÃ¡fico de torta usando la librerÃ­a externa JFree.
-     *
-     * @param fecha con la cuÃ¡l se filtrarÃ¡ la informaciÃ³n a graficar.
-     */
-    public static void graficar(String fecha) {
+	/**
+	 * Genera y muestra un gráfico de torta a partir de los datos de ventas
+	 * filtrados por fecha.
+	 * 
+	 * @param fecha la fecha utilizada para filtrar los datos de ventas.
+	 * @throws SQLException si ocurre un error al acceder a la base de datos.
+	 */
+	public static void graficar(String fecha) throws SQLException {
+		String sql = "SELECT TOTAL FROM VENTAS WHERE FECHA = ?";
 
-        Connection cn;
-        PreparedStatement pst;
-        ResultSet rs;
+		try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(sql)) {
+			pst.setString(1, fecha);
+			try (ResultSet rs = pst.executeQuery()) {
+				DefaultPieDataset dataset = new DefaultPieDataset();
 
-        try {
-            String sql = "SELECT TOTAL FROM VENTAS WHERE FECHA = ?";
-            cn = Conexion.conectar();
-            pst = cn.prepareStatement(sql);
-            pst.setString(1, fecha);
-            rs = pst.executeQuery();
-            DefaultPieDataset dataset = new DefaultPieDataset();
+				while (rs.next()) {
+					dataset.setValue(rs.getString("TOTAL"), rs.getDouble("TOTAL"));
+				}
 
-            while (rs.next()) {
-                dataset.setValue(rs.getString("TOTAL"), rs.getDouble("TOTAL"));
-            }
-
-            JFreeChart jfree = ChartFactory.createPieChart("Reporte de Venta", dataset);
-            ChartFrame cf = new ChartFrame("Total de ventas por dÃ­a", jfree);
-            cf.setSize(1000, 500);
-            cf.setLocationRelativeTo(null);
-            cf.setVisible(true);
-        } catch (SQLException e) {
-            System.err.println("Error al realizar el grÃ¡fico de ventas. " + e.toString());
-        }
-    }
+				JFreeChart chart = ChartFactory.createPieChart("Reporte de Venta", dataset);
+				ChartFrame frame = new ChartFrame("Total de ventas por día", chart);
+				frame.setSize(1000, 500);
+				frame.setLocationRelativeTo(null);
+				frame.setVisible(true);
+			}
+		} catch (SQLException e) {
+			throw new SQLException("Error al realizar el gráfico de ventas", e);
+		}
+	}
 }
