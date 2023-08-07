@@ -42,8 +42,8 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 public final class Sistema extends javax.swing.JFrame {
 
     @Serial
-	private static final long serialVersionUID = 1L;
-	Date fechaVenta = new Date();
+    private static final long serialVersionUID = 1L;
+    Date fechaVenta = new Date();
     String fechaActual = new SimpleDateFormat("dd/MM/yyyy").format(fechaVenta);
     Cliente cliente = new Cliente();
     ClienteDAO clienteDAO = new ClienteDAO();
