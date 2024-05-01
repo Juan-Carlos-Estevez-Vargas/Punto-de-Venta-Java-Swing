@@ -1,9 +1,13 @@
 package juan.estevez.sistemaventa.daos;
 
 import juan.estevez.sistemaventa.utils.Conexion;
-import java.sql.*;
-import java.util.*;
-import juan.estevez.sistemaventa.modelo.*;
+import juan.estevez.sistemaventa.modelo.Proveedor;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * DAO para operaciones relacionadas con Proveedores.
@@ -12,6 +16,11 @@ import juan.estevez.sistemaventa.modelo.*;
  */
 public class ProveedorDAO {
 
+    private static final String INSERT_PROVEEDOR_SQL = "INSERT INTO PROVEEDOR (RUT, NOMBRE, TELEFONO, DIRECCION, RAZON_SOCIAL) VALUES (?,?,?,?,?)";
+    private static final String SELECT_ALL_PROVEEDORES_SQL = "SELECT * FROM PROVEEDOR";
+    private static final String DELETE_PROVEEDOR_SQL = "DELETE FROM PROVEEDOR WHERE ID = ?";
+    private static final String UPDATE_PROVEEDOR_SQL = "UPDATE PROVEEDOR SET RUT = ?, NOMBRE = ?, TELEFONO = ?, DIRECCION = ?, RAZON_SOCIAL = ? WHERE ID = ?";
+
     /**
      * Registra un proveedor en la base de datos.
      *
@@ -19,13 +28,8 @@ public class ProveedorDAO {
      * @throws SQLException si ocurre un error al registrar el proveedor.
      */
     public void registrarProveedor(Proveedor proveedor) throws SQLException {
-        String sql = "INSERT INTO PROVEEDOR (RUT, NOMBRE, TELEFONO, DIRECCION, RAZON_SOCIAL) VALUES (?,?,?,?,?)";
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(sql)) {
-            pst.setLong(1, proveedor.getRut());
-            pst.setString(2, proveedor.getNombre());
-            pst.setLong(3, proveedor.getTelefono());
-            pst.setString(4, proveedor.getDireccion());
-            pst.setString(5, proveedor.getRazonSocial());
+        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(INSERT_PROVEEDOR_SQL)) {
+            crearPreparedStatementDesdeProveedor(pst, proveedor);
             pst.execute();
         } catch (SQLException e) {
             throw new SQLException("Error al registrar proveedor", e);
@@ -33,29 +37,16 @@ public class ProveedorDAO {
     }
 
     /**
-     * Obtiene una lista de todos los proveedores registrados en la base de
-     * datos.
+     * Obtiene una lista de todos los proveedores registrados en la base de datos.
      *
-     * @return una lista de objetos Proveedor que representan a los proveedores
-     * registrados.
-     * @throws SQLException si ocurre un error al obtener la lista de
-     * proveedores.
+     * @return una lista de objetos Proveedor que representan a los proveedores registrados.
+     * @throws SQLException si ocurre un error al obtener la lista de proveedores.
      */
     public List<Proveedor> listarProveedores() throws SQLException {
         List<Proveedor> listaProveedores = new ArrayList<>();
-        String sql = "SELECT * FROM PROVEEDOR";
-
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(sql); ResultSet rs = pst.executeQuery()) {
-
+        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(SELECT_ALL_PROVEEDORES_SQL); ResultSet rs = pst.executeQuery()) {
             while (rs.next()) {
-                Proveedor proveedor = new Proveedor();
-                proveedor.setId(rs.getInt("ID"));
-                proveedor.setRut(rs.getLong("RUT"));
-                proveedor.setNombre(rs.getString("NOMBRE"));
-                proveedor.setTelefono(rs.getLong("TELEFONO"));
-                proveedor.setDireccion(rs.getString("DIRECCION"));
-                proveedor.setRazonSocial(rs.getString("RAZON_SOCIAL"));
-                listaProveedores.add(proveedor);
+                listaProveedores.add(crearProveedorDesdeResultSet(rs));
             }
         } catch (SQLException e) {
             throw new SQLException("Error al listar proveedores", e);
@@ -70,9 +61,7 @@ public class ProveedorDAO {
      * @throws SQLException si ocurre un error al eliminar el proveedor.
      */
     public void eliminarProveedor(int id) throws SQLException {
-        String sql = "DELETE FROM PROVEEDOR WHERE ID = ?";
-
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(sql)) {
+        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(DELETE_PROVEEDOR_SQL)) {
             pst.setInt(1, id);
             pst.execute();
         } catch (SQLException e) {
@@ -87,17 +76,46 @@ public class ProveedorDAO {
      * @throws SQLException si ocurre un error al modificar el proveedor.
      */
     public void modificarProveedor(Proveedor proveedor) throws SQLException {
-        String sql = "UPDATE PROVEEDOR SET RUT = ?, NOMBRE = ?, TELEFONO = ?, DIRECCION = ?, RAZON_SOCIAL = ? WHERE ID = ?";
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(sql)) {
-            pst.setLong(1, proveedor.getRut());
-            pst.setString(2, proveedor.getNombre());
-            pst.setLong(3, proveedor.getTelefono());
-            pst.setString(4, proveedor.getDireccion());
-            pst.setString(5, proveedor.getRazonSocial());
+        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(UPDATE_PROVEEDOR_SQL)) {
+            crearPreparedStatementDesdeProveedor(pst, proveedor);
             pst.setInt(6, proveedor.getId());
             pst.execute();
         } catch (SQLException e) {
             throw new SQLException("Error al modificar proveedor", e);
         }
     }
+
+    /**
+     * Crea un objeto de tipo Proveedor con los datos provenientes de la base de datos.
+     *
+     * @param rs ResulSet con la información de la base de datos.
+     * @return objeto de tipo Proveedor con los datos de inicio de sesión.
+     * @throws SQLException en caso de error con la base de datos.
+     */
+    private Proveedor crearProveedorDesdeResultSet(ResultSet rs) throws SQLException {
+        Proveedor proveedor = new Proveedor();
+        proveedor.setId(rs.getInt("ID"));
+        proveedor.setRut(rs.getLong("RUT"));
+        proveedor.setNombre(rs.getString("NOMBRE"));
+        proveedor.setTelefono(rs.getLong("TELEFONO"));
+        proveedor.setDireccion(rs.getString("DIRECCION"));
+        proveedor.setRazonSocial(rs.getString("RAZON_SOCIAL"));
+        return proveedor;
+    }
+
+    /**
+     * Setea los datos del proveedor al objeto encargado de persistirlos en la base de datos.
+     *
+     * @param pst objeto encargado de persistir la data en la base de datos.
+     * @param proveedor objeto con los datos a persistir.
+     * @throws SQLException en caso de error con la base de datos.
+     */
+    private void crearPreparedStatementDesdeProveedor(PreparedStatement pst, Proveedor proveedor) throws SQLException {
+        pst.setLong(1, proveedor.getRut());
+        pst.setString(2, proveedor.getNombre());
+        pst.setLong(3, proveedor.getTelefono());
+        pst.setString(4, proveedor.getDireccion());
+        pst.setString(5, proveedor.getRazonSocial());
+    }
+
 }

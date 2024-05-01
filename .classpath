@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="dist/lib/AbsoluteLayout.jar"/>
+	<classpathentry kind="lib" path="dist/lib/commons-collections4-4.1.jar"/>
+	<classpathentry kind="lib" path="dist/lib/itextpdf-5.5.1.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jcommon-1.0.23.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jfreechart-1.0.19.jar"/>
+	<classpathentry kind="lib" path="dist/lib/mysql-connector-java-8.0.19.jar"/>
+	<classpathentry kind="lib" path="dist/lib/poi-3.16.jar"/>
+	<classpathentry kind="lib" path="dist/lib/poi-ooxml-3.16.jar"/>
+	<classpathentry kind="lib" path="dist/lib/poi-ooxml-schemas-3.16.jar"/>
+	<classpathentry kind="lib" path="dist/lib/swingx-all-1.6.4.jar"/>
+	<classpathentry kind="lib" path="dist/lib/xmlbeans-2.6.0.jar"/>
+	<classpathentry kind="lib" path="dist/PuntoVenta.jar"/>
+	<classpathentry kind="lib" path="librerias/AbsoluteLayout.jar"/>
+	<classpathentry kind="lib" path="librerias/commons-collections4-4.1.jar"/>
+	<classpathentry kind="lib" path="librerias/h2-1.4.200.jar"/>
+	<classpathentry kind="lib" path="librerias/itextpdf-5.5.1.jar"/>
+	<classpathentry kind="lib" path="librerias/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="librerias/jcommon-1.0.23.jar"/>
+	<classpathentry kind="lib" path="librerias/jfreechart-1.0.19.jar"/>
+	<classpathentry kind="lib" path="librerias/mysql-connector-java-8.0.19.jar"/>
+	<classpathentry kind="lib" path="librerias/poi-3.16.jar"/>
+	<classpathentry kind="lib" path="librerias/poi-ooxml-3.16.jar"/>
+	<classpathentry kind="lib" path="librerias/poi-ooxml-schemas-3.16.jar"/>
+	<classpathentry kind="lib" path="librerias/swingx-all-1.6.4.jar"/>
+	<classpathentry kind="lib" path="librerias/xmlbeans-2.6.0.jar"/>
+	<classpathentry kind="lib" path="Sistema Ventas/Sistema de Venta.jar"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>

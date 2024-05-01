@@ -1,39 +1,37 @@
 package juan.estevez.sistemaventa.daos;
 
+import juan.estevez.sistemaventa.modelo.Loginn;
 import juan.estevez.sistemaventa.utils.Conexion;
-import java.sql.*;
-import juan.estevez.sistemaventa.modelo.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
- * DAO para operaciones relacionadas con el inicio de sesi�n.
+ * DAO para operaciones relacionadas con el inicio de sesión.
  *
  * @author Juan Carlos Estevez Vargas
  */
 public class LoginDAO {
+
+    private static final String GET_USUARIO_BY_CORREO_AND_PASSWORD_SQL = "SELECT * FROM USUARIO WHERE CORREO = ? AND PASSWORD = ?";
+    private static final String INSERT_USUARIO_SQL = "INSERT INTO USUARIO (NOMBRE, CORREO, PASSWORD, ROL) VALUES (?,?,?,?)";
 
     /**
      * Realiza el inicio de sesi�n de un usuario en la aplicaci�n.
      *
      * @param correo el correo electr�nico del usuario.
      * @param password la contrase�a del usuario.
-     * @return un objeto Loginn que representa al usuario que inici� sesi�n, o
-     * null si las credenciales son inv�lidas.
+     * @return un objeto Loginn que representa al usuario que inici� sesi�n, o null si las credenciales son inv�lidas.
      * @throws SQLException si ocurre un error al realizar el inicio de sesi�n.
      */
     public Loginn login(String correo, String password) throws SQLException {
-        String sql = "SELECT * FROM USUARIO WHERE CORREO = ? AND PASSWORD = ?";
-        try (Connection conn = Conexion.conectar(); PreparedStatement pst = conn.prepareStatement(sql)) {
+        try (Connection conn = Conexion.conectar(); PreparedStatement pst = conn.prepareStatement(GET_USUARIO_BY_CORREO_AND_PASSWORD_SQL)) {
             pst.setString(1, correo);
             pst.setString(2, password);
             try (ResultSet rs = pst.executeQuery()) {
                 if (rs.next()) {
-                    Loginn login = new Loginn();
-                    login.setId(rs.getInt("ID"));
-                    login.setNombre(rs.getString("NOMBRE"));
-                    login.setCorreo(rs.getString("CORREO"));
-                    login.setPassword(rs.getString("PASSWORD"));
-                    login.setRol(rs.getString("ROL"));
-                    return login;
+                    return crearLoginDesdeResultSet(rs);
                 }
             }
         } catch (SQLException e) {
@@ -45,20 +43,46 @@ public class LoginDAO {
     /**
      * Registra un nuevo usuario en la base de datos.
      *
-     * @param login el objeto Loginn que contiene la informaci�n del usuario a
-     * registrar.
+     * @param login el objeto Loginn que contiene la informaci�n del usuario a registrar.
      * @throws SQLException si ocurre un error al registrar el usuario.
      */
     public void registrarUsuario(Loginn login) throws SQLException {
-        String sql = "INSERT INTO USUARIO (NOMBRE, CORREO, PASSWORD, ROL) VALUES (?,?,?,?)";
-        try (Connection conn = Conexion.conectar(); PreparedStatement pst = conn.prepareStatement(sql)) {
-            pst.setString(1, login.getNombre());
-            pst.setString(2, login.getCorreo());
-            pst.setString(3, login.getPassword());
-            pst.setString(4, login.getRol());
+        try (Connection conn = Conexion.conectar(); PreparedStatement pst = conn.prepareStatement(INSERT_USUARIO_SQL)) {
+            crearPreparedStatementDesdeLogin(pst, login);
             pst.execute();
         } catch (SQLException e) {
             throw new SQLException("Error al registrar el usuario en LoginDAO", e);
         }
+    }
+
+    /**
+     * Crea un objeto de tipo Loginn con los datos provenientes de la base de datos.
+     *
+     * @param rs ResulSet con la información de la base de datos.
+     * @return objeto de tipo Loginn con los datos de inicio de sesión.
+     * @throws SQLException en caso de error con la base de datos.
+     */
+    private Loginn crearLoginDesdeResultSet(ResultSet rs) throws SQLException {
+        Loginn login = new Loginn();
+        login.setId(rs.getInt("ID"));
+        login.setNombre(rs.getString("NOMBRE"));
+        login.setCorreo(rs.getString("CORREO"));
+        login.setPassword(rs.getString("PASSWORD"));
+        login.setRol(rs.getString("ROL"));
+        return login;
+    }
+
+    /**
+     * Setea los datos del login al objeto encargado de persistirlos en la base de datos.
+     *
+     * @param pst objeto encargado de persistir la data en la base de datos.
+     * @param login objeto con los datos a persistir.
+     * @throws SQLException en caso de error con la base de datos.
+     */
+    private void crearPreparedStatementDesdeLogin(PreparedStatement pst, Loginn login) throws SQLException {
+        pst.setString(1, login.getNombre());
+        pst.setString(2, login.getCorreo());
+        pst.setString(3, login.getPassword());
+        pst.setString(4, login.getRol());
     }
 }
