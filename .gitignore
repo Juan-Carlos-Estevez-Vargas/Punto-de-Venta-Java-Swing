@@ -8,7 +8,7 @@ nbactions.xml
 nb-configuration.xml
 
 # Intellij Idea specific # 
-.idea
+*.idea
 
 *.class
 
