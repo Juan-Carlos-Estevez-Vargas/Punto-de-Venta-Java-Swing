@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import juan.estevez.sistemaventa.utils.Conexion;
+import lombok.NoArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -20,9 +21,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  *
  * @author Juan Carlos Estevez Vargas
  */
+@NoArgsConstructor
 public class Excel {
-
-    private Excel() { }
+    
+    private static final String SELECT_PRODUCTOS_SQL = "SELECT CODIGO, DESCRIPCION, PRECIO, STOCK FROM PRODUCTO";
 
     /**
      * Genera un reporte en formato Excel con informaci�n de productos y lo
@@ -36,22 +38,22 @@ public class Excel {
      *
      */
     public static void generarReporte() {
-        try (Connection con = Conexion.conectar(); Workbook workbook = new XSSFWorkbook(); PreparedStatement ps = con.prepareStatement("SELECT CODIGO, DESCRIPCION, PRECIO, STOCK FROM PRODUCTO")) {
-
+        try (Connection con = Conexion.conectar(); Workbook workbook = new XSSFWorkbook()) {
             Sheet sheet = workbook.createSheet("Productos");
-
             CellStyle headerStyle = createHeaderStyle(workbook);
             CellStyle dataStyle = createDataStyle(workbook);
 
             createTitleRow(sheet, headerStyle);
             createHeaderRow(sheet, headerStyle);
 
-            ResultSet rs = ps.executeQuery();
+            try (PreparedStatement ps = con.prepareStatement(SELECT_PRODUCTOS_SQL);
+                    ResultSet rs = ps.executeQuery()) {
 
-            int rowNum = 5;
-            while (rs.next()) {
-                Row row = sheet.createRow(rowNum++);
-                fillDataRow(row, rs, dataStyle);
+                int rowNum = 5;
+                while (rs.next()) {
+                    Row row = sheet.createRow(rowNum++);
+                    fillDataRow(row, rs, dataStyle);
+                }
             }
 
             autosizeColumns(sheet);
@@ -65,10 +67,10 @@ public class Excel {
             }
 
             Desktop.getDesktop().open(file);
-            JOptionPane.showMessageDialog(null, "Reporte generado");
-
+            JOptionPane.showMessageDialog(null, "Reporte generado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (IOException | SQLException ex) {
-            Logger.getLogger(Excel.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error al generar el reporte: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(Excel.class.getName()).log(Level.SEVERE, "Error al generar el reporte", ex);
         }
     }
 
@@ -106,7 +108,6 @@ public class Excel {
         style.setBorderLeft(BorderStyle.THIN);
         style.setBorderRight(BorderStyle.THIN);
         style.setBorderTop(BorderStyle.THIN);
-
         return style;
     }
 
@@ -124,7 +125,6 @@ public class Excel {
         Cell titleCell = titleRow.createCell(1);
         titleCell.setCellStyle(style);
         titleCell.setCellValue("Reporte de Productos");
-
         sheet.addMergedRegion(new CellRangeAddress(1, 2, 1, 3));
     }
 

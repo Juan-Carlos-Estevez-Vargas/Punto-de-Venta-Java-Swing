@@ -2,6 +2,7 @@ package juan.estevez.sistemaventa.reportes;
 
 import java.sql.*;
 import juan.estevez.sistemaventa.utils.Conexion;
+import lombok.NoArgsConstructor;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
@@ -14,9 +15,10 @@ import org.jfree.data.general.DefaultPieDataset;
  *
  * @author Juan Carlos Estevez Vargas.
  */
+@NoArgsConstructor
 public class GraficoVentas {
-
-    private GraficoVentas() { }
+    
+    private static final String SELECT_TOTAL_VENTAS_BY_FECHA = "SELECT TOTAL FROM VENTAS WHERE FECHA = ?";
 
     /**
      * Genera y muestra un gr�fico de torta a partir de los datos de ventas
@@ -26,9 +28,7 @@ public class GraficoVentas {
      * @throws SQLException si ocurre un error al acceder a la base de datos.
      */
     public static void graficar(String fecha) throws SQLException {
-        String sql = "SELECT TOTAL FROM VENTAS WHERE FECHA = ?";
-
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(sql)) {
+        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(SELECT_TOTAL_VENTAS_BY_FECHA)) {
             pst.setString(1, fecha);
             try (ResultSet rs = pst.executeQuery()) {
                 DefaultPieDataset dataset = new DefaultPieDataset();

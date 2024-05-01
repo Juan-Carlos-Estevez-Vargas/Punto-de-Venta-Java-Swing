@@ -34,12 +34,10 @@ public class Eventos {
     }
 
     /**
-     * Filtra el evento para permitir solo n�meros enteros y decimales en un
-     * componente JTextField.
+     * Filtra el evento para permitir solo n�meros enteros y decimales en un componente JTextField.
      *
      * @param evt el evento al que se le aplicar� el filtro.
-     * @param textField el componente JTextField al que se le asignar� el
-     * evento.
+     * @param textField el componente JTextField al que se le asignar� el evento.
      */
     public void numberDecimalKeyPress(KeyEvent evt, JTextField textField) {
         char car = evt.getKeyChar();
