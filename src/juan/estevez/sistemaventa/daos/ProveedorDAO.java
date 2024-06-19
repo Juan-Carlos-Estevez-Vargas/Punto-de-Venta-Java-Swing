@@ -93,14 +93,14 @@ public class ProveedorDAO {
      * @throws SQLException en caso de error con la base de datos.
      */
     private Proveedor crearProveedorDesdeResultSet(ResultSet rs) throws SQLException {
-        Proveedor proveedor = new Proveedor();
-        proveedor.setId(rs.getInt("ID"));
-        proveedor.setRut(rs.getLong("RUT"));
-        proveedor.setNombre(rs.getString("NOMBRE"));
-        proveedor.setTelefono(rs.getLong("TELEFONO"));
-        proveedor.setDireccion(rs.getString("DIRECCION"));
-        proveedor.setRazonSocial(rs.getString("RAZON_SOCIAL"));
-        return proveedor;
+        return Proveedor.builder()
+                .id(rs.getInt("ID"))
+                .rut(rs.getLong("RUT"))
+                .nombre(rs.getString("NOMBRE"))
+                .telefono(rs.getLong("TELEFONO"))
+                .direccion(rs.getString("DIRECCION"))
+                .razonSocial(rs.getString("RAZON_SOCIAL"))
+                .build();
     }
 
     /**

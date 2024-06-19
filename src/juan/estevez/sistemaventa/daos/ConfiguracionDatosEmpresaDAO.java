@@ -57,14 +57,14 @@ public class ConfiguracionDatosEmpresaDAO {
      * @throws SQLException en caso de error con la base de datos.
      */
     private ConfiguracionDatosEmpresa crearDatosEmpresaDesdeResulset(ResultSet rs) throws SQLException {
-        ConfiguracionDatosEmpresa configuracionDatosEmpresa = new ConfiguracionDatosEmpresa();
-        configuracionDatosEmpresa.setId(rs.getInt("ID"));
-        configuracionDatosEmpresa.setRut(rs.getLong("RUT"));
-        configuracionDatosEmpresa.setNombre(rs.getString("NOMBRE"));
-        configuracionDatosEmpresa.setTelefono(rs.getLong("TELEFONO"));
-        configuracionDatosEmpresa.setDireccion(rs.getString("DIRECCION"));
-        configuracionDatosEmpresa.setRazonSocial(rs.getString("RAZON_SOCIAL"));
-        return configuracionDatosEmpresa;
+        return ConfiguracionDatosEmpresa.builder()
+                .id(rs.getInt("ID"))
+                .rut(rs.getLong("RUT"))
+                .nombre(rs.getString("NOMBRE"))
+                .telefono(rs.getLong("TELEFONO"))
+                .direccion(rs.getString("DIRECCION"))
+                .razonSocial(rs.getString("RAZON_SOCIAL"))
+                .build();
     }
 
     /**

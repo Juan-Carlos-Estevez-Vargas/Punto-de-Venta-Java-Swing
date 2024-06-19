@@ -50,8 +50,6 @@ public class LoginDAO {
         try (Connection conn = Conexion.conectar(); PreparedStatement pst = conn.prepareStatement(INSERT_USUARIO_SQL)) {
             crearPreparedStatementDesdeLogin(pst, login);
             pst.execute();
-        } catch (SQLException e) {
-            throw new SQLException("Error al registrar el usuario en LoginDAO", e);
         }
     }
 
@@ -63,13 +61,13 @@ public class LoginDAO {
      * @throws SQLException en caso de error con la base de datos.
      */
     private Loginn crearLoginDesdeResultSet(ResultSet rs) throws SQLException {
-        Loginn login = new Loginn();
-        login.setId(rs.getInt("ID"));
-        login.setNombre(rs.getString("NOMBRE"));
-        login.setCorreo(rs.getString("CORREO"));
-        login.setPassword(rs.getString("PASSWORD"));
-        login.setRol(rs.getString("ROL"));
-        return login;
+        return Loginn.builder()
+                .id(rs.getInt("ID"))
+                .nombre(rs.getString("NOMBRE"))
+                .correo(rs.getString("CORREO"))
+                .password(rs.getString("PASSWORD"))
+                .rol(rs.getString("ROL"))
+                .build();
     }
 
     /**

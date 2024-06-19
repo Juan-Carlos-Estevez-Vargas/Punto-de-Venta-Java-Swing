@@ -76,12 +76,12 @@ public class UsuarioDAO {
      * @throws SQLException en caso de error con la base de datos.
      */
     private Usuario crearUsuarioDesdeResultSet(ResultSet rs) throws SQLException {
-        Usuario usuario = new Usuario();
-        usuario.setId(rs.getInt("ID"));
-        usuario.setNombre(rs.getString("NOMBRE"));
-        usuario.setCorreo(rs.getString("CORREO"));
-        usuario.setRol(rs.getString("ROL"));
-        return usuario;
+        return Usuario.builder()
+                .id(rs.getInt("ID"))
+                .nombre(rs.getString("NOMBRE"))
+                .correo(rs.getString("CORREO"))
+                .rol(rs.getString("ROL"))
+                .build();
     }
 
     /**

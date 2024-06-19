@@ -100,12 +100,12 @@ public class VentaDAO {
      * @throws SQLException en caso de error con la base de datos.
      */
     private Venta crearVentaDesdeResultSet(ResultSet rs) throws SQLException {
-        Venta venta = new Venta();
-        venta.setId(rs.getInt("ID"));
-        venta.setCliente(rs.getString("CLIENTE"));
-        venta.setVendedor(rs.getString("VENDEDOR"));
-        venta.setTotal(rs.getDouble("TOTAL"));
-        return venta;
+        return Venta.builder()
+                .id(rs.getInt("ID"))
+                .cliente(rs.getString("CLIENTE"))
+                .vendedor(rs.getString("VENDEDOR"))
+                .total(rs.getDouble("TOTAL"))
+                .build();
     }
 
     /**

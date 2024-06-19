@@ -26,14 +26,14 @@ public class ClienteDAO {
      * Registra un nuevo cliente en la base de datos.
      *
      * @param cliente el objeto Cliente a registrar.
-     * @throws RuntimeException si ocurre un error al insertar el cliente en la base de datos.
+     * @throws SQLException si ocurre un error al insertar el cliente en la base de datos.
      */
-    public void registrarCliente(Cliente cliente) {
+    public void registrarCliente(Cliente cliente) throws SQLException {
         try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(INSERT_CLIENTE_SQL)) {
             setClienteAPreparedStatement(pst, cliente);
             pst.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Error al insertar cliente en ClienteDAO", e);
+            throw new SQLException("Error al insertar cliente en ClienteDAO", e);
         }
     }
 
@@ -41,8 +41,9 @@ public class ClienteDAO {
      * Lista los clientes presentes en la base de datos.
      *
      * @return listado de clientes encontrados
+     * @throws SQLException si ocurre un error al listar clientes en la base de datos.
      */
-    public List<Cliente> listarClientes() {
+    public List<Cliente> listarClientes() throws SQLException {
         List<Cliente> listaClientes = new ArrayList<>();
         try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(SELECT_ALL_CLIENTES_SQL); ResultSet rs = pst.executeQuery()) {
             while (rs.next()) {
@@ -50,7 +51,7 @@ public class ClienteDAO {
                 listaClientes.add(cliente);
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Error al listar clientes en ClienteDAO", e);
+            throw new SQLException("Error al listar clientes en ClienteDAO", e);
         }
         return listaClientes;
     }
@@ -59,14 +60,14 @@ public class ClienteDAO {
      * Obtiene una lista de todos los clientes almacenados en la base de datos.
      *
      * @param id id del cliente a eliminar
-     * @throws RuntimeException si ocurre un error al listar los clientes en la base de datos.
+     * @throws SQLException si ocurre un error al eliminar un cliente en la base de datos.
      */
-    public void eliminarCliente(int id) {
+    public void eliminarCliente(int id) throws SQLException{
         try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(DELETE_CLIENTE_SQL)) {
             pst.setInt(1, id);
             pst.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Error al eliminar cliente en ClienteDAO", e);
+            throw new SQLException("Error al eliminar cliente en ClienteDAO", e);
         }
     }
 
@@ -74,15 +75,15 @@ public class ClienteDAO {
      * Modifica los datos de un cliente existente en la base de datos.
      *
      * @param cliente el objeto Cliente con los nuevos datos a actualizar.
-     * @throws RuntimeException si ocurre un error al modificar el cliente en la base de datos.
+     * @throws SQLException si ocurre un error al modificar el cliente en la base de datos.
      */
-    public void modificarCliente(Cliente cliente) {
+    public void modificarCliente(Cliente cliente) throws SQLException {
         try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(UPDATE_CLIENTE_SQL)) {
             setClienteAPreparedStatement(pst, cliente);
             pst.setInt(6, cliente.getId());
             pst.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Error al modificar cliente en ClienteDAO", e);
+            throw new SQLException("Error al modificar cliente en ClienteDAO", e);
         }
     }
 
@@ -91,9 +92,9 @@ public class ClienteDAO {
      *
      * @param dni el n�mero de documento del cliente a buscar.
      * @return el objeto Cliente encontrado con el n�mero de documento especificado, o un objeto Cliente vac�o si no se encontr� ning�n cliente.
-     * @throws RuntimeException si ocurre un error al consultar el cliente en la base de datos.
+     * @throws SQLException si ocurre un error al consultar el cliente en la base de datos.
      */
-    public Cliente buscarCliente(int dni) {
+    public Cliente buscarCliente(int dni) throws SQLException {
         Cliente cliente = new Cliente();
         try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(SELECT_CLIENTE_BY_DNI_SQL)) {
             pst.setInt(1, dni);
@@ -103,7 +104,7 @@ public class ClienteDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Error al consultar cliente en ClienteDAO", e);
+            throw new SQLException("Error al consultar cliente en ClienteDAO", e);
         }
         return cliente;
     }
@@ -116,14 +117,14 @@ public class ClienteDAO {
      * @throws SQLException en caso de error con la base de datos
      */
     private Cliente obtenerCliente(ResultSet rs) throws SQLException {
-        Cliente cliente = new Cliente();
-        cliente.setId(rs.getInt("ID"));
-        cliente.setDni(rs.getLong("DNI"));
-        cliente.setNombre(rs.getString("NOMBRE"));
-        cliente.setTelefono(rs.getLong("TELEFONO"));
-        cliente.setDireccion(rs.getString("DIRECCION"));
-        cliente.setRazonSocial(rs.getString("RAZON_SOCIAL"));
-        return cliente;
+        return Cliente.builder()
+                .id(rs.getInt("ID"))
+                .dni(rs.getLong("DNI"))
+                .nombre(rs.getString("NOMBRE"))
+                .telefono(rs.getLong("TELEFONO"))
+                .direccion(rs.getString("DIRECCION"))
+                .razonSocial(rs.getString("RAZON_SOCIAL"))
+                .build();
     }
 
     /**

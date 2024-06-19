@@ -154,14 +154,14 @@ public class ProductoDAO {
      * @throws SQLException en caso de error con la base de datos.
      */
     private Producto crearProductoDesdeResultSet(ResultSet rs) throws SQLException {
-        Producto producto = new Producto();
-        producto.setId(rs.getInt("ID"));
-        producto.setCodigo(rs.getString("CODIGO"));
-        producto.setNombre(rs.getString("DESCRIPCION"));
-        producto.setProveedor(rs.getString("PROVEEDOR"));
-        producto.setStock(rs.getInt("STOCK"));
-        producto.setPrecio(rs.getDouble("PRECIO"));
-        return producto;
+        return Producto.builder()
+                .id(rs.getInt("ID"))
+                .codigo(rs.getString("CODIGO"))
+                .nombre(rs.getString("DESCRIPCION"))
+                .proveedor(rs.getString("PROVEEDOR"))
+                .stock(rs.getInt("STOCK"))
+                .precio(rs.getDouble("PRECIO"))
+                .build();
     }
 
     /**

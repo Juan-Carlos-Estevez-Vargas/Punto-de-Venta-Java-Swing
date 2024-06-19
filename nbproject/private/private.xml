@@ -3,22 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Documents/Programacion/Java/Punto%20de%20Venta%20Basico/src/juan/estevez/sistemaventa/modelo/Detalle.java</file>
-            <file>file:/D:/Documents/Programacion/Java/Punto%20de%20Venta%20Basico/src/juan/estevez/sistemaventa/modelo/Proveedor.java</file>
-            <file>file:/D:/Documents/Programacion/Java/Punto%20de%20Venta%20Basico/src/juan/estevez/sistemaventa/daos/ProveedorDAO.java</file>
-            <file>file:/D:/Documents/Programacion/Java/Punto%20de%20Venta%20Basico/src/juan/estevez/sistemaventa/daos/ProductoDAO.java</file>
+            <file>file:/D:/Documents/Programacion/Java/Punto%20de%20Venta%20Basico/src/juan/estevez/sistemaventa/vista/Login.java</file>
             <file>file:/D:/Documents/Programacion/Java/Punto%20de%20Venta%20Basico/src/juan/estevez/sistemaventa/vista/Sistema.java</file>
-            <file>file:/D:/Documents/Programacion/Java/Punto%20de%20Venta%20Basico/src/juan/estevez/sistemaventa/daos/VentaDAO.java</file>
-            <file>file:/D:/Documents/Programacion/Java/Punto%20de%20Venta%20Basico/src/juan/estevez/sistemaventa/modelo/Cliente.java</file>
-            <file>file:/D:/Documents/Programacion/Java/Punto%20de%20Venta%20Basico/src/juan/estevez/sistemaventa/modelo/Producto.java</file>
-            <file>file:/D:/Documents/Programacion/Java/Punto%20de%20Venta%20Basico/src/juan/estevez/sistemaventa/modelo/Venta.java</file>
-            <file>file:/D:/Documents/Programacion/Java/Punto%20de%20Venta%20Basico/src/juan/estevez/sistemaventa/daos/ClienteDAO.java</file>
-            <file>file:/D:/Documents/Programacion/Java/Punto%20de%20Venta%20Basico/src/juan/estevez/sistemaventa/modelo/Loginn.java</file>
-            <file>file:/D:/Documents/Programacion/Java/Punto%20de%20Venta%20Basico/src/juan/estevez/sistemaventa/modelo/Usuario.java</file>
-            <file>file:/D:/Documents/Programacion/Java/Punto%20de%20Venta%20Basico/src/juan/estevez/sistemaventa/daos/ConfiguracionDatosEmpresaDAO.java</file>
-            <file>file:/D:/Documents/Programacion/Java/Punto%20de%20Venta%20Basico/src/juan/estevez/sistemaventa/daos/LoginDAO.java</file>
-            <file>file:/D:/Documents/Programacion/Java/Punto%20de%20Venta%20Basico/src/juan/estevez/sistemaventa/modelo/ConfiguracionDatosEmpresa.java</file>
-            <file>file:/D:/Documents/Programacion/Java/Punto%20de%20Venta%20Basico/src/juan/estevez/sistemaventa/daos/UsuarioDAO.java</file>
+            <file>file:/D:/Documents/Programacion/Java/Punto%20de%20Venta%20Basico/src/juan/estevez/sistemaventa/recursos/messages.properties</file>
         </group>
     </open-files>
 </project-private>
