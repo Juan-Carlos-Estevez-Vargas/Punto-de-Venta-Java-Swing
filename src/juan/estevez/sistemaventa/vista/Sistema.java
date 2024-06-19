@@ -3001,7 +3001,11 @@ public final class Sistema extends javax.swing.JFrame {
     private void btnConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {
         this.txtIdEmpresa.setVisible(false);
         this.TabbedPane.setSelectedIndex(4);
-        this.listarDatosEmpresa();
+        try {
+            this.listarDatosEmpresa();
+        } catch (SQLException ex) {
+            Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.setActiveButton(btnConfiguracion);
     }
 
