@@ -13,10 +13,21 @@ import java.sql.SQLException;
  * @author Juan Carlos Estevez Vargas
  */
 public class ConfiguracionDatosEmpresaDAO {
+    
+    private static ConfiguracionDatosEmpresaDAO instance;
+    private final Connection connection;
 
     private static final String UPDATE_DATOS_EMPRESA_SQL = "UPDATE CONFIGURACION SET RUT = ?, NOMBRE = ?, TELEFONO = ?, DIRECCION = ?, RAZON_SOCIAL = ? WHERE ID = ?";
     private static final String SELECT_ALL_DATOS_EMPRESA_SQL = "SELECT * FROM CONFIGURACION";
 
+    public static ConfiguracionDatosEmpresaDAO getInstance() {
+        return instance == null ?  new ConfiguracionDatosEmpresaDAO() : instance;
+    }
+    
+    private ConfiguracionDatosEmpresaDAO() {
+        this.connection = Conexion.getInstance().getConnection();
+    }
+    
     /**
      * Busca los datos de la empresa en la base de datos.
      *
@@ -24,7 +35,7 @@ public class ConfiguracionDatosEmpresaDAO {
      * @throws SQLException si ocurre un error al buscar los datos de la empresa en la base de datos.
      */
     public ConfiguracionDatosEmpresa buscarDatosEmpresa() throws SQLException {
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(SELECT_ALL_DATOS_EMPRESA_SQL); ResultSet rs = pst.executeQuery()) {
+        try (PreparedStatement pst = connection.prepareStatement(SELECT_ALL_DATOS_EMPRESA_SQL); ResultSet rs = pst.executeQuery()) {
             if (rs.next()) {
                 return crearDatosEmpresaDesdeResulset(rs);
             }
@@ -41,7 +52,7 @@ public class ConfiguracionDatosEmpresaDAO {
      * @throws SQLException si ocurre un error al modificar los datos de la empresa en la base de datos.
      */
     public void modificarDatosEmpresa(ConfiguracionDatosEmpresa configuracionDatosEmpresa) throws SQLException {
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(UPDATE_DATOS_EMPRESA_SQL)) {
+        try (PreparedStatement pst = connection.prepareStatement(UPDATE_DATOS_EMPRESA_SQL)) {
             crearResultSetConfiguracionDatosEmpresa(pst, configuracionDatosEmpresa);
             pst.execute();
         } catch (SQLException e) {

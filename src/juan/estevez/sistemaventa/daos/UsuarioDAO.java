@@ -15,10 +15,21 @@ import java.util.List;
  * @author Juan Carlos Estevez Vargas.
  */
 public class UsuarioDAO {
+    
+    private static UsuarioDAO instance;
+    private final Connection connection;
 
     private static final String SELECT_ALL_USUARIOS_SQL = "SELECT * FROM USUARIO";
     private static final String DELETE_USUARIO_SQL = "DELETE FROM USUARIO WHERE ID = ?";
     private static final String UPDATE_USUARIO_SQL = "UPDATE USUARIO SET NOMBRE = ?, CORREO = ?, PASSWORD = ? WHERE ID = ?";
+       
+    public static UsuarioDAO getInstance() {
+        return instance == null ?  new UsuarioDAO() : instance;
+    }
+    
+    private UsuarioDAO() {
+        this.connection = Conexion.getInstance().getConnection();
+    }
 
     /**
      * Obtiene una lista de todos los usuarios registrados en la base de datos.
@@ -28,7 +39,7 @@ public class UsuarioDAO {
      */
     public List<Usuario> listarUsuarios() throws SQLException {
         List<Usuario> listaUsuarios = new ArrayList<>();
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(SELECT_ALL_USUARIOS_SQL); ResultSet rs = pst.executeQuery()) {
+        try (PreparedStatement pst = connection.prepareStatement(SELECT_ALL_USUARIOS_SQL); ResultSet rs = pst.executeQuery()) {
             while (rs.next()) {
                 listaUsuarios.add(crearUsuarioDesdeResultSet(rs));
             }
@@ -45,7 +56,7 @@ public class UsuarioDAO {
      * @throws SQLException si ocurre un error al modificar el usuario.
      */
     public void modificarUsuario(Usuario usuario) throws SQLException {
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(UPDATE_USUARIO_SQL)) {
+        try (PreparedStatement pst = connection.prepareStatement(UPDATE_USUARIO_SQL)) {
             crearPreparedStatementDesdeUsuario(pst, usuario);
             pst.execute();
         } catch (SQLException e) {
@@ -60,7 +71,7 @@ public class UsuarioDAO {
      * @throws SQLException si ocurre un error al eliminar el usuario.
      */
     public void eliminarUsuario(int id) throws SQLException {
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(DELETE_USUARIO_SQL)) {
+        try (PreparedStatement pst = connection.prepareStatement(DELETE_USUARIO_SQL)) {
             pst.setInt(1, id);
             pst.execute();
         } catch (SQLException e) {

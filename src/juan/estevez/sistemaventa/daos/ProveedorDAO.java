@@ -15,12 +15,23 @@ import java.util.List;
  * @author Juan Carlos Estevez Vargas
  */
 public class ProveedorDAO {
+    
+    private static ProveedorDAO instance;
+    private final Connection connection;
 
     private static final String INSERT_PROVEEDOR_SQL = "INSERT INTO PROVEEDOR (RUT, NOMBRE, TELEFONO, DIRECCION, RAZON_SOCIAL) VALUES (?,?,?,?,?)";
     private static final String SELECT_ALL_PROVEEDORES_SQL = "SELECT * FROM PROVEEDOR";
     private static final String DELETE_PROVEEDOR_SQL = "DELETE FROM PROVEEDOR WHERE ID = ?";
     private static final String UPDATE_PROVEEDOR_SQL = "UPDATE PROVEEDOR SET RUT = ?, NOMBRE = ?, TELEFONO = ?, DIRECCION = ?, RAZON_SOCIAL = ? WHERE ID = ?";
 
+    public static ProveedorDAO getInstance() {
+        return instance == null ?  new ProveedorDAO() : instance;
+    }
+    
+    private ProveedorDAO() {
+        this.connection = Conexion.getInstance().getConnection();
+    }
+    
     /**
      * Registra un proveedor en la base de datos.
      *
@@ -28,7 +39,7 @@ public class ProveedorDAO {
      * @throws SQLException si ocurre un error al registrar el proveedor.
      */
     public void registrarProveedor(Proveedor proveedor) throws SQLException {
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(INSERT_PROVEEDOR_SQL)) {
+        try (PreparedStatement pst = connection.prepareStatement(INSERT_PROVEEDOR_SQL)) {
             crearPreparedStatementDesdeProveedor(pst, proveedor);
             pst.execute();
         } catch (SQLException e) {
@@ -44,7 +55,7 @@ public class ProveedorDAO {
      */
     public List<Proveedor> listarProveedores() throws SQLException {
         List<Proveedor> listaProveedores = new ArrayList<>();
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(SELECT_ALL_PROVEEDORES_SQL); ResultSet rs = pst.executeQuery()) {
+        try (PreparedStatement pst = connection.prepareStatement(SELECT_ALL_PROVEEDORES_SQL); ResultSet rs = pst.executeQuery()) {
             while (rs.next()) {
                 listaProveedores.add(crearProveedorDesdeResultSet(rs));
             }
@@ -61,7 +72,7 @@ public class ProveedorDAO {
      * @throws SQLException si ocurre un error al eliminar el proveedor.
      */
     public void eliminarProveedor(int id) throws SQLException {
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(DELETE_PROVEEDOR_SQL)) {
+        try (PreparedStatement pst = connection.prepareStatement(DELETE_PROVEEDOR_SQL)) {
             pst.setInt(1, id);
             pst.execute();
         } catch (SQLException e) {
@@ -76,7 +87,7 @@ public class ProveedorDAO {
      * @throws SQLException si ocurre un error al modificar el proveedor.
      */
     public void modificarProveedor(Proveedor proveedor) throws SQLException {
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(UPDATE_PROVEEDOR_SQL)) {
+        try (PreparedStatement pst = connection.prepareStatement(UPDATE_PROVEEDOR_SQL)) {
             crearPreparedStatementDesdeProveedor(pst, proveedor);
             pst.setInt(6, proveedor.getId());
             pst.execute();

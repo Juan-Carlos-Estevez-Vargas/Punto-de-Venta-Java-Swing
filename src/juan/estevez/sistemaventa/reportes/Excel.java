@@ -27,7 +27,7 @@ public class Excel {
      *
      */
     public static void generarReporte() {
-        try (Connection con = Conexion.conectar(); Workbook workbook = new XSSFWorkbook(); PreparedStatement ps = con.prepareStatement(SELECT_PRODUCTOS_SQL); ResultSet rs = ps.executeQuery()) {
+        try (Connection con = Conexion.getInstance().getConnection(); Workbook workbook = new XSSFWorkbook(); PreparedStatement ps = con.prepareStatement(SELECT_PRODUCTOS_SQL); ResultSet rs = ps.executeQuery()) {
 
             Sheet sheet = workbook.createSheet("Productos");
             ExcelBuilder builder = new ExcelBuilder(workbook, sheet);

@@ -16,6 +16,9 @@ import javax.swing.JComboBox;
  * @author Juan Carlos Estevez Vargas
  */
 public class ProductoDAO {
+    
+    private static ProductoDAO instance;
+    private final Connection connection;
 
     private static final String INSERT_PRODUCTO_SQL = "INSERT INTO PRODUCTO (CODIGO, DESCRIPCION, PROVEEDOR, STOCK, PRECIO) VALUES (?,?,?,?,?)";
     private static final String SELECT_NOMBRE_BY_PROVEEDOR_SQL = "SELECT NOMBRE FROM PROVEEDOR";
@@ -24,6 +27,14 @@ public class ProductoDAO {
     private static final String UPDATE_PRODUCTO_SQL = "UPDATE PRODUCTO SET CODIGO = ?, DESCRIPCION = ?, PROVEEDOR = ?, STOCK = ?, PRECIO = ? WHERE ID = ?";
     private static final String SELECT_PRODUCTO_BY_CODIGO = "SELECT * FROM PRODUCTO WHERE CODIGO = ?";
     private static final String UPDATE_STOCK_SQL = "UPDATE PRODUCTO SET STOCK = ? WHERE CODIGO = ?";
+    
+    public static ProductoDAO getInstance() {
+        return instance == null ?  new ProductoDAO() : instance;
+    }
+    
+    private ProductoDAO() {
+        this.connection = Conexion.getInstance().getConnection();
+    }
 
     /**
      * Registra un nuevo producto en la base de datos.
@@ -32,7 +43,7 @@ public class ProductoDAO {
      * @throws SQLException si ocurre un error al registrar el producto.
      */
     public void registrarProducto(Producto producto) throws SQLException {
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(INSERT_PRODUCTO_SQL)) {
+        try (PreparedStatement pst = connection.prepareStatement(INSERT_PRODUCTO_SQL)) {
             crearPreparedStatementDesdeProducto(pst, producto);
             pst.execute();
         } catch (SQLException e) {
@@ -47,7 +58,7 @@ public class ProductoDAO {
      * @throws SQLException si ocurre un error al consultar los proveedores.
      */
     public void consultarProveedor(JComboBox<String> proveedor) throws SQLException {
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(SELECT_NOMBRE_BY_PROVEEDOR_SQL); ResultSet rs = pst.executeQuery()) {
+        try (PreparedStatement pst = connection.prepareStatement(SELECT_NOMBRE_BY_PROVEEDOR_SQL); ResultSet rs = pst.executeQuery()) {
             while (rs.next()) {
                 proveedor.addItem(rs.getString("NOMBRE"));
             }
@@ -64,7 +75,7 @@ public class ProductoDAO {
      */
     public List<Producto> listarProductos() throws SQLException {
         List<Producto> listaProductos = new ArrayList<>();
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(SELECT_ALL_PRODUCTOS_SQL); ResultSet rs = pst.executeQuery()) {
+        try (PreparedStatement pst = connection.prepareStatement(SELECT_ALL_PRODUCTOS_SQL); ResultSet rs = pst.executeQuery()) {
             while (rs.next()) {
                 listaProductos.add(crearProductoDesdeResultSet(rs));
             }
@@ -81,7 +92,7 @@ public class ProductoDAO {
      * @throws SQLException si ocurre un error al eliminar el producto.
      */
     public void eliminarProducto(int id) throws SQLException {
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(DELETE_PRODUCTO_SQL)) {
+        try (PreparedStatement pst = connection.prepareStatement(DELETE_PRODUCTO_SQL)) {
             pst.setInt(1, id);
             pst.execute();
         } catch (SQLException e) {
@@ -96,7 +107,7 @@ public class ProductoDAO {
      * @throws SQLException si ocurre un error al modificar el producto.
      */
     public void modificarProducto(Producto producto) throws SQLException {
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(UPDATE_PRODUCTO_SQL)) {
+        try (PreparedStatement pst = connection.prepareStatement(UPDATE_PRODUCTO_SQL)) {
             crearPreparedStatementDesdeProducto(pst, producto);
             pst.setInt(6, producto.getId());
             pst.execute();
@@ -113,20 +124,21 @@ public class ProductoDAO {
      * @throws SQLException si ocurre un error al buscar el producto.
      */
     public Producto buscarProducto(String codigoProducto) throws SQLException {
-        Producto producto = new Producto();
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(SELECT_PRODUCTO_BY_CODIGO)) {
+        Producto.ProductoBuilder producto = Producto.builder();
+        try (PreparedStatement pst = connection.prepareStatement(SELECT_PRODUCTO_BY_CODIGO)) {
             pst.setString(1, codigoProducto);
             try (ResultSet rs = pst.executeQuery()) {
                 if (rs.next()) {
-                    producto.setNombre(rs.getString("DESCRIPCION"));
-                    producto.setPrecio(rs.getDouble("PRECIO"));
-                    producto.setStock(rs.getInt("STOCK"));
+                    producto
+                            .nombre(rs.getString("DESCRIPCION"))
+                            .precio(rs.getDouble("PRECIO"))
+                            .stock(rs.getInt("STOCK"));
                 }
             }
         } catch (SQLException e) {
             throw new SQLException("Error al buscar producto", e);
         }
-        return producto;
+        return producto.build();
     }
 
     /**
@@ -137,7 +149,7 @@ public class ProductoDAO {
      * @throws SQLException si ocurre un error al actualizar el stock.
      */
     public void actualizarStock(int cantidad, String codigoProducto) throws SQLException {
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(UPDATE_STOCK_SQL)) {
+        try (PreparedStatement pst = connection.prepareStatement(UPDATE_STOCK_SQL)) {
             pst.setInt(1, cantidad);
             pst.setString(2, codigoProducto);
             pst.execute();

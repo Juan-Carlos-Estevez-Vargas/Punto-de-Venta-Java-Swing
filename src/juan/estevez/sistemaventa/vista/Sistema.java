@@ -36,7 +36,6 @@ public final class Sistema extends javax.swing.JFrame {
     Cliente cliente = new Cliente();
     DefaultTableModel modelo = new DefaultTableModel();
     Producto producto = new Producto();
-    Venta venta = new Venta();
     DetalleVentaServicio detalleVentaServicio = new DetalleVentaServicio();
     ProductoServicio productoServicio = new ProductoServicio();
     ClienteServicio clienteServicio = new ClienteServicio();
@@ -827,6 +826,211 @@ public final class Sistema extends javax.swing.JFrame {
                 .stock(Integer.parseInt(txtCantidadProducto.getText().trim()))
                 .precio(Double.parseDouble(txtPrecioProducto.getText()))
                 .build();
+    }
+    
+    private void btnExcelProductoActionPerformed(java.awt.event.ActionEvent evt) {
+        Excel.generarReporte();
+    }
+
+    private void btnConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {
+        this.txtIdEmpresa.setVisible(false);
+        this.TabbedPane.setSelectedIndex(4);
+        try {
+            this.listarDatosEmpresa();
+        } catch (SQLException ex) {
+            Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setActiveButton(btnConfiguracion);
+    }
+
+    private void btnActualizarDatosEmpresaActionPerformed(java.awt.event.ActionEvent evt) {
+        if (!"".equals(txtRutEmpresa.getText())
+                || !"".equals(txtNombreEmpresa.getText())
+                || !"".equals(txtTelefonoEmpresa.getText())
+                || !"".equals(txtDireccionEmpresa.getText())) {
+
+            try {
+                configuracionDatosEmpresa.setId(Integer.parseInt(txtIdEmpresa.getText()));
+                configuracionDatosEmpresa.setRut(Long.parseLong(txtRutEmpresa.getText()));
+                configuracionDatosEmpresa.setNombre(txtNombreEmpresa.getText());
+                configuracionDatosEmpresa.setTelefono(Long.parseLong(txtTelefonoEmpresa.getText()));
+                configuracionDatosEmpresa.setDireccion(txtDireccionEmpresa.getText());
+                configuracionDatosEmpresa.setRazonSocial(txtRazonSocialEmpresa.getText());
+
+                configuracionDatosEmpresaServicio.modificarDatosEmpresa(configuracionDatosEmpresa);
+                JOptionPane.showMessageDialog(null, "Datos Actualizados.");
+
+                this.listarDatosEmpresa();
+
+            } catch (SQLException ex) {
+                Logger.getLogger(Sistema.class
+                        .getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Algunos campos están vacíos.");
+        }
+    }
+
+    private void tableVentasMouseClicked(java.awt.event.MouseEvent evt) {
+        int filaSeleccionada = tableVentas.rowAtPoint(evt.getPoint());
+        txtIdVenta.setText(tableVentas.getValueAt(filaSeleccionada, 0).toString());
+    }
+
+    private void btnPdfVentasActionPerformed(java.awt.event.ActionEvent evt) {
+        try {
+            if (txtIdVenta.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Debes seleccionar un registro", "Reporte venta",
+                        JOptionPane.WARNING_MESSAGE);
+            } else {
+                int idVenta = Integer.parseInt(txtIdVenta.getText());
+                File file = new File("src/juan/estevez/sistemaventa/reportes/reporteVenta" + idVenta + ".pdf");
+                if (file.exists()) {
+                    Desktop.getDesktop().open(file);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al intentar obtener la factura de compra", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+
+                }
+            }
+
+        } catch (IOException ex) {
+            Logger.getLogger(Sistema.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void btnGraficaVentasActionPerformed(java.awt.event.ActionEvent evt) {
+        try {
+            String fechaReporte = new SimpleDateFormat("dd/MM/yyyy").format(jDateChooserVenta.getDate());
+            GraficoVentas.graficar(fechaReporte);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Sistema.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void btnNuevoProductoActionPerformed(java.awt.event.ActionEvent evt) {
+        this.limpiarProducto();
+    }
+
+    private void tableUsuariosMouseClicked(java.awt.event.MouseEvent evt) {
+        int fila = tableUsuarios.rowAtPoint(evt.getPoint());
+        txtIdUsuario.setText(tableUsuarios.getValueAt(fila, 0).toString());
+    }
+
+    private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {
+        int pregunta = JOptionPane.showConfirmDialog(null, "¿Seguro que quiere salir?");
+        if (pregunta == 0) {
+            Login login = new Login();
+            login.setVisible(true);
+            this.dispose();
+        }
+    }
+
+    private void btnEliminarVenta1ActionPerformed(java.awt.event.ActionEvent evt) {
+        if (!"".equals(txtIdUsuario.getText())) {
+            int pregunta = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar el registro?");
+            if (pregunta == 0) {
+                try {
+                    usuarioServicio.eliminarUsuario(Integer.parseInt(txtIdUsuario.getText()));
+
+                    this.limpiarTabla();
+                    this.listarUsuarios();
+
+                } catch (SQLException ex) {
+                    Logger.getLogger(Sistema.class
+                            .getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "El usuario no está registrado.");
+        }
+
+    }
+
+    private void btnRegistrarUsuario1ActionPerformed(java.awt.event.ActionEvent evt) {
+        RegistroUsuarios registrarUsuario = new RegistroUsuarios();
+        registrarUsuario.setVisible(true);
+        this.dispose();
+    }
+
+    private void btnActualizarDatosPerfilActionPerformed(java.awt.event.ActionEvent evt) {
+        if (!"".equals(Arrays.toString(txtPasswordUsuarioActualizarPerfil.getPassword()))
+                || !"".equals(txtNombreUsuarioActualizarPerfil.getText())
+                || !"".equals(txtCorreoUsuarioActualizarPerfil.getText())) {
+
+            try {
+                Usuario usuario = new Usuario();
+
+                usuario.setId(idUsuarioLogueado);
+                usuario.setNombre(txtNombreUsuarioActualizarPerfil.getText().trim());
+                usuario.setCorreo(txtCorreoUsuarioActualizarPerfil.getText().trim());
+                usuario.setPassword(Arrays.toString(txtPasswordUsuarioActualizarPerfil.getPassword()).trim());
+
+                usuarioServicio.modificarUsuario(usuario);
+                JOptionPane.showMessageDialog(null, "Datos Actualizados.");
+
+                this.labelVendedor.setText(usuario.getNombre());
+
+            } catch (SQLException ex) {
+                Logger.getLogger(Sistema.class
+                        .getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Algunos campos están vacíos.");
+        }
+    }
+
+    private void totalPagar() {
+        totalPagar = 0.00;
+        int numeroFilas = tableVenta.getRowCount();
+        for (int i = 0; i < numeroFilas; i++) {
+            double calcular = Double.parseDouble(String.valueOf(tableVenta.getModel().getValueAt(i, 4)));
+            totalPagar += calcular;
+        }
+        labelTotalVenta.setText(String.format("%.2f", totalPagar));
+    }
+
+    private void registrarVenta() throws SQLException {
+        String clienteTxt = txtNombreClienteVenta.getText().trim();
+        String vendedor = labelVendedor.getText().trim();
+        ventaServicio.registrarVenta(Venta.builder().cliente(clienteTxt).vendedor(vendedor).total(totalPagar).fecha(fechaActual).build());
+    }
+
+    public void iniciarAplicacion() throws SQLException {
+        initComponents();
+        clientes = clienteServicio.getAllClientes();
+        usuarios = usuarioServicio.getAllUsuarios();
+        proveedores = proveedorServicio.getAllProveedores();
+        productos = productoServicio.getAllProductos();
+        ventas = ventaServicio.getAllVentas();
+        this.setLocationRelativeTo(null);
+        this.txtIdCliente.setVisible(false);
+        this.txtIdProductoVenta.setVisible(false);
+        this.txtTelefonoClienteVenta.setVisible(false);
+        this.txtDireccionClienteVenta.setVisible(false);
+        this.txtRazonSocialClienteVenta.setVisible(false);
+        this.txtIdProveedor.setVisible(false);
+        this.txtIdProducto.setVisible(false);
+        this.txtIdUsuario.setVisible(false);
+        this.txtIdVenta.setVisible(false);
+        AutoCompleteDecorator.decorate(cbxProveedorProducto);
+        this.productoServicio.consultarProveedor(cbxProveedorProducto);
+    }
+
+    private void deshabilitarOpcionesAdministrador() {
+        this.btnUsuarios.setEnabled(false);
+        this.btnEliminarCliente.setEnabled(false);
+        this.btnEliminarProveedor.setEnabled(false);
+        this.txtCodigoProducto.setEnabled(false);
+        this.txtDescripcionProducto.setEnabled(false);
+        this.cbxProveedorProducto.setEnabled(false);
+        this.btnGuardarProducto.setEnabled(false);
+        this.btnEliminarProducto.setEnabled(false);
+        this.btnConfiguracion.setEnabled(false);
+        this.txtIdUsuario.setEnabled(false);
     }
 
     // </editor-fold>
@@ -2993,211 +3197,6 @@ public final class Sistema extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnExcelProductoActionPerformed(java.awt.event.ActionEvent evt) {
-        Excel.generarReporte();
-    }
-
-    private void btnConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {
-        this.txtIdEmpresa.setVisible(false);
-        this.TabbedPane.setSelectedIndex(4);
-        try {
-            this.listarDatosEmpresa();
-        } catch (SQLException ex) {
-            Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        this.setActiveButton(btnConfiguracion);
-    }
-
-    private void btnActualizarDatosEmpresaActionPerformed(java.awt.event.ActionEvent evt) {
-        if (!"".equals(txtRutEmpresa.getText())
-                || !"".equals(txtNombreEmpresa.getText())
-                || !"".equals(txtTelefonoEmpresa.getText())
-                || !"".equals(txtDireccionEmpresa.getText())) {
-
-            try {
-                configuracionDatosEmpresa.setId(Integer.parseInt(txtIdEmpresa.getText()));
-                configuracionDatosEmpresa.setRut(Long.parseLong(txtRutEmpresa.getText()));
-                configuracionDatosEmpresa.setNombre(txtNombreEmpresa.getText());
-                configuracionDatosEmpresa.setTelefono(Long.parseLong(txtTelefonoEmpresa.getText()));
-                configuracionDatosEmpresa.setDireccion(txtDireccionEmpresa.getText());
-                configuracionDatosEmpresa.setRazonSocial(txtRazonSocialEmpresa.getText());
-
-                configuracionDatosEmpresaServicio.modificarDatosEmpresa(configuracionDatosEmpresa);
-                JOptionPane.showMessageDialog(null, "Datos Actualizados.");
-
-                this.listarDatosEmpresa();
-
-            } catch (SQLException ex) {
-                Logger.getLogger(Sistema.class
-                        .getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Algunos campos están vacíos.");
-        }
-    }
-
-    private void tableVentasMouseClicked(java.awt.event.MouseEvent evt) {
-        int filaSeleccionada = tableVentas.rowAtPoint(evt.getPoint());
-        txtIdVenta.setText(tableVentas.getValueAt(filaSeleccionada, 0).toString());
-    }
-
-    private void btnPdfVentasActionPerformed(java.awt.event.ActionEvent evt) {
-        try {
-            if (txtIdVenta.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Debes seleccionar un registro", "Reporte venta",
-                        JOptionPane.WARNING_MESSAGE);
-            } else {
-                int idVenta = Integer.parseInt(txtIdVenta.getText());
-                File file = new File("src/juan/estevez/sistemaventa/reportes/reporteVenta" + idVenta + ".pdf");
-                if (file.exists()) {
-                    Desktop.getDesktop().open(file);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Error al intentar obtener la factura de compra", "Error",
-                            JOptionPane.ERROR_MESSAGE);
-
-                }
-            }
-
-        } catch (IOException ex) {
-            Logger.getLogger(Sistema.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void btnGraficaVentasActionPerformed(java.awt.event.ActionEvent evt) {
-        try {
-            String fechaReporte = new SimpleDateFormat("dd/MM/yyyy").format(jDateChooserVenta.getDate());
-            GraficoVentas.graficar(fechaReporte);
-
-        } catch (SQLException ex) {
-            Logger.getLogger(Sistema.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void btnNuevoProductoActionPerformed(java.awt.event.ActionEvent evt) {
-        this.limpiarProducto();
-    }
-
-    private void tableUsuariosMouseClicked(java.awt.event.MouseEvent evt) {
-        int fila = tableUsuarios.rowAtPoint(evt.getPoint());
-        txtIdUsuario.setText(tableUsuarios.getValueAt(fila, 0).toString());
-    }
-
-    private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {
-        int pregunta = JOptionPane.showConfirmDialog(null, "¿Seguro que quiere salir?");
-        if (pregunta == 0) {
-            Login login = new Login();
-            login.setVisible(true);
-            this.dispose();
-        }
-    }
-
-    private void btnEliminarVenta1ActionPerformed(java.awt.event.ActionEvent evt) {
-        if (!"".equals(txtIdUsuario.getText())) {
-            int pregunta = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar el registro?");
-            if (pregunta == 0) {
-                try {
-                    usuarioServicio.eliminarUsuario(Integer.parseInt(txtIdUsuario.getText()));
-
-                    this.limpiarTabla();
-                    this.listarUsuarios();
-
-                } catch (SQLException ex) {
-                    Logger.getLogger(Sistema.class
-                            .getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "El usuario no está registrado.");
-        }
-
-    }
-
-    private void btnRegistrarUsuario1ActionPerformed(java.awt.event.ActionEvent evt) {
-        RegistroUsuarios registrarUsuario = new RegistroUsuarios();
-        registrarUsuario.setVisible(true);
-        this.dispose();
-    }
-
-    private void btnActualizarDatosPerfilActionPerformed(java.awt.event.ActionEvent evt) {
-        if (!"".equals(Arrays.toString(txtPasswordUsuarioActualizarPerfil.getPassword()))
-                || !"".equals(txtNombreUsuarioActualizarPerfil.getText())
-                || !"".equals(txtCorreoUsuarioActualizarPerfil.getText())) {
-
-            try {
-                Usuario usuario = new Usuario();
-
-                usuario.setId(idUsuarioLogueado);
-                usuario.setNombre(txtNombreUsuarioActualizarPerfil.getText().trim());
-                usuario.setCorreo(txtCorreoUsuarioActualizarPerfil.getText().trim());
-                usuario.setPassword(Arrays.toString(txtPasswordUsuarioActualizarPerfil.getPassword()).trim());
-
-                usuarioServicio.modificarUsuario(usuario);
-                JOptionPane.showMessageDialog(null, "Datos Actualizados.");
-
-                this.labelVendedor.setText(usuario.getNombre());
-
-            } catch (SQLException ex) {
-                Logger.getLogger(Sistema.class
-                        .getName()).log(Level.SEVERE, null, ex);
-            }
-
-        } else {
-            JOptionPane.showMessageDialog(null, "Algunos campos están vacíos.");
-        }
-    }
-
-    private void totalPagar() {
-        totalPagar = 0.00;
-        int numeroFilas = tableVenta.getRowCount();
-        for (int i = 0; i < numeroFilas; i++) {
-            double calcular = Double.parseDouble(String.valueOf(tableVenta.getModel().getValueAt(i, 4)));
-            totalPagar += calcular;
-        }
-        labelTotalVenta.setText(String.format("%.2f", totalPagar));
-    }
-
-    private void registrarVenta() throws SQLException {
-        String clienteTxt = txtNombreClienteVenta.getText().trim();
-        String vendedor = labelVendedor.getText().trim();
-        ventaServicio.registrarVenta(Venta.builder().cliente(clienteTxt).vendedor(vendedor).total(totalPagar).fecha(fechaActual).build());
-    }
-
-    public void iniciarAplicacion() throws SQLException {
-        initComponents();
-        clientes = clienteServicio.getAllClientes();
-        usuarios = usuarioServicio.getAllUsuarios();
-        proveedores = proveedorServicio.getAllProveedores();
-        productos = productoServicio.getAllProductos();
-        ventas = ventaServicio.getAllVentas();
-        this.setLocationRelativeTo(null);
-        this.txtIdCliente.setVisible(false);
-        this.txtIdProductoVenta.setVisible(false);
-        this.txtTelefonoClienteVenta.setVisible(false);
-        this.txtDireccionClienteVenta.setVisible(false);
-        this.txtRazonSocialClienteVenta.setVisible(false);
-        this.txtIdProveedor.setVisible(false);
-        this.txtIdProducto.setVisible(false);
-        this.txtIdUsuario.setVisible(false);
-        this.txtIdVenta.setVisible(false);
-        AutoCompleteDecorator.decorate(cbxProveedorProducto);
-        this.productoServicio.consultarProveedor(cbxProveedorProducto);
-    }
-
-    private void deshabilitarOpcionesAdministrador() {
-        this.btnUsuarios.setEnabled(false);
-        this.btnEliminarCliente.setEnabled(false);
-        this.btnEliminarProveedor.setEnabled(false);
-        this.txtCodigoProducto.setEnabled(false);
-        this.txtDescripcionProducto.setEnabled(false);
-        this.cbxProveedorProducto.setEnabled(false);
-        this.btnGuardarProducto.setEnabled(false);
-        this.btnEliminarProducto.setEnabled(false);
-        this.btnConfiguracion.setEnabled(false);
-        this.txtIdUsuario.setEnabled(false);
-    }
 
     public static void main(String args[]) {
         try {

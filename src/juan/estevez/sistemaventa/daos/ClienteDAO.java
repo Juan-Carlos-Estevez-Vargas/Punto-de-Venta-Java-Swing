@@ -15,6 +15,9 @@ import java.util.List;
  * @author Juan Carlos Estevez Vargas
  */
 public class ClienteDAO {
+    
+    private static ClienteDAO instance;
+    private final Connection connection;
 
     private static final String INSERT_CLIENTE_SQL = "INSERT INTO CLIENTES (DNI, NOMBRE, TELEFONO, DIRECCION, RAZON_SOCIAL) VALUES (?,?,?,?,?)";
     private static final String SELECT_ALL_CLIENTES_SQL = "SELECT * FROM CLIENTES";
@@ -22,6 +25,14 @@ public class ClienteDAO {
     private static final String UPDATE_CLIENTE_SQL = "UPDATE CLIENTES SET DNI = ?, NOMBRE = ?, TELEFONO = ?, DIRECCION = ?, RAZON_SOCIAL = ? WHERE ID = ?";
     private static final String SELECT_CLIENTE_BY_DNI_SQL = "SELECT * FROM CLIENTES WHERE DNI = ?";
 
+    public static ClienteDAO getInstance() {
+        return instance == null ?  new ClienteDAO() : instance;
+    }
+    
+    private ClienteDAO() {
+        this.connection = Conexion.getInstance().getConnection();
+    }
+    
     /**
      * Registra un nuevo cliente en la base de datos.
      *
@@ -29,7 +40,7 @@ public class ClienteDAO {
      * @throws SQLException si ocurre un error al insertar el cliente en la base de datos.
      */
     public void registrarCliente(Cliente cliente) throws SQLException {
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(INSERT_CLIENTE_SQL)) {
+        try (PreparedStatement pst = connection.prepareStatement(INSERT_CLIENTE_SQL)) {
             setClienteAPreparedStatement(pst, cliente);
             pst.executeUpdate();
         } catch (SQLException e) {
@@ -45,7 +56,7 @@ public class ClienteDAO {
      */
     public List<Cliente> listarClientes() throws SQLException {
         List<Cliente> listaClientes = new ArrayList<>();
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(SELECT_ALL_CLIENTES_SQL); ResultSet rs = pst.executeQuery()) {
+        try (PreparedStatement pst = connection.prepareStatement(SELECT_ALL_CLIENTES_SQL); ResultSet rs = pst.executeQuery()) {
             while (rs.next()) {
                 Cliente cliente = obtenerCliente(rs);
                 listaClientes.add(cliente);
@@ -63,7 +74,7 @@ public class ClienteDAO {
      * @throws SQLException si ocurre un error al eliminar un cliente en la base de datos.
      */
     public void eliminarCliente(int id) throws SQLException{
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(DELETE_CLIENTE_SQL)) {
+        try (PreparedStatement pst = connection.prepareStatement(DELETE_CLIENTE_SQL)) {
             pst.setInt(1, id);
             pst.executeUpdate();
         } catch (SQLException e) {
@@ -78,7 +89,7 @@ public class ClienteDAO {
      * @throws SQLException si ocurre un error al modificar el cliente en la base de datos.
      */
     public void modificarCliente(Cliente cliente) throws SQLException {
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(UPDATE_CLIENTE_SQL)) {
+        try (PreparedStatement pst = connection.prepareStatement(UPDATE_CLIENTE_SQL)) {
             setClienteAPreparedStatement(pst, cliente);
             pst.setInt(6, cliente.getId());
             pst.executeUpdate();
@@ -96,7 +107,7 @@ public class ClienteDAO {
      */
     public Cliente buscarCliente(int dni) throws SQLException {
         Cliente cliente = new Cliente();
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(SELECT_CLIENTE_BY_DNI_SQL)) {
+        try (PreparedStatement pst = connection.prepareStatement(SELECT_CLIENTE_BY_DNI_SQL)) {
             pst.setInt(1, dni);
             try (ResultSet rs = pst.executeQuery()) {
                 if (rs.next()) {

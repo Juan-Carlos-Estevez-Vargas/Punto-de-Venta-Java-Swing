@@ -1,6 +1,5 @@
 package juan.estevez.sistemaventa.utils;
 
-import java.awt.Color;
 import java.util.ResourceBundle;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -56,6 +55,10 @@ public class Utilitarios {
         btn4.setBackground(Colors.LIGHT_GRAY.getColor());
         btn5.setBackground(Colors.LIGHT_GRAY.getColor());
         btn6.setBackground(Colors.LIGHT_GRAY.getColor());
+    }
+    
+    public static String eliminarEspaciosEnBlanco(String texto) {
+        return texto.trim();
     }
     
     /**

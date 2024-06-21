@@ -13,10 +13,21 @@ import java.sql.SQLException;
  * @author Juan Carlos Estevez Vargas
  */
 public class LoginDAO {
+    
+    private static LoginDAO instance;
+    private final Connection connection;
 
     private static final String GET_USUARIO_BY_CORREO_AND_PASSWORD_SQL = "SELECT * FROM USUARIO WHERE CORREO = ? AND PASSWORD = ?";
     private static final String INSERT_USUARIO_SQL = "INSERT INTO USUARIO (NOMBRE, CORREO, PASSWORD, ROL) VALUES (?,?,?,?)";
 
+    public static LoginDAO getInstance() {
+        return instance == null ?  new LoginDAO() : instance;
+    }
+    
+    private LoginDAO() {
+        this.connection = Conexion.getInstance().getConnection();
+    }
+    
     /**
      * Realiza el inicio de sesi�n de un usuario en la aplicaci�n.
      *
@@ -26,7 +37,7 @@ public class LoginDAO {
      * @throws SQLException si ocurre un error al realizar el inicio de sesi�n.
      */
     public Loginn login(String correo, String password) throws SQLException {
-        try (Connection conn = Conexion.conectar(); PreparedStatement pst = conn.prepareStatement(GET_USUARIO_BY_CORREO_AND_PASSWORD_SQL)) {
+        try (PreparedStatement pst = connection.prepareStatement(GET_USUARIO_BY_CORREO_AND_PASSWORD_SQL)) {
             pst.setString(1, correo);
             pst.setString(2, password);
             try (ResultSet rs = pst.executeQuery()) {
@@ -47,7 +58,7 @@ public class LoginDAO {
      * @throws SQLException si ocurre un error al registrar el usuario.
      */
     public void registrarUsuario(Loginn login) throws SQLException {
-        try (Connection conn = Conexion.conectar(); PreparedStatement pst = conn.prepareStatement(INSERT_USUARIO_SQL)) {
+        try (PreparedStatement pst = connection.prepareStatement(INSERT_USUARIO_SQL)) {
             crearPreparedStatementDesdeLogin(pst, login);
             pst.execute();
         }

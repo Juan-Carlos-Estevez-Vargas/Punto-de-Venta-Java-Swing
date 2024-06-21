@@ -17,12 +17,23 @@ import juan.estevez.sistemaventa.modelo.Venta;
  * @author Juan Carlos Estevez Vargas.
  */
 public class VentaDAO {
+    
+    private static VentaDAO instance;
+    private final Connection connection;
 
     private static final String INSERT_VENTA_SQL = "INSERT INTO VENTAS (CLIENTE, VENDEDOR, TOTAL, FECHA) VALUES (?,?,?,?)";
     private static final String INSERT_DETALLE_VENTA_SQL = "INSERT INTO DETALLE (CODIGO_PRODUCTO, CANTIDAD, PRECIO, ID_VENTA) VALUES (?,?,?,?)";
     private static final String SELECT_MAX_ID_FROM_VENTAS_SQL = "SELECT MAX(ID) FROM VENTAS";
     private static final String SELECT_ALL_VENTAS_SQL = "SELECT * FROM VENTAS";
 
+    public static VentaDAO getInstance() {
+        return instance == null ?  new VentaDAO() : instance;
+    }
+    
+    private VentaDAO() {
+        this.connection = Conexion.getInstance().getConnection();
+    }
+    
     /**
      * Registra una venta en la base de datos.
      *
@@ -31,7 +42,7 @@ public class VentaDAO {
      * @throws SQLException si ocurre un error al registrar la venta.
      */
     public int registrarVenta(Venta venta) throws SQLException {
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(INSERT_VENTA_SQL)) {
+        try (PreparedStatement pst = connection.prepareStatement(INSERT_VENTA_SQL)) {
             crearPreparedStatementDesdeVenta(pst, venta);
             return pst.executeUpdate();
         } catch (SQLException e) {
@@ -48,7 +59,7 @@ public class VentaDAO {
      * @throws SQLException si ocurre un error al registrar el detalle de la venta.
      */
     public int registrarDetalleVenta(Detalle detalle) throws SQLException {
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(INSERT_DETALLE_VENTA_SQL)) {
+        try (PreparedStatement pst = connection.prepareStatement(INSERT_DETALLE_VENTA_SQL)) {
             crearPreparedStatementDesdeDetalleVenta(pst, detalle);
             return pst.executeUpdate();
         } catch (SQLException e) {
@@ -64,7 +75,7 @@ public class VentaDAO {
      */
     public int obtenerIdVenta() throws SQLException {
         int id = 1;
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(SELECT_MAX_ID_FROM_VENTAS_SQL); ResultSet rs = pst.executeQuery()) {
+        try (PreparedStatement pst = connection.prepareStatement(SELECT_MAX_ID_FROM_VENTAS_SQL); ResultSet rs = pst.executeQuery()) {
             if (rs.next()) {
                 id = rs.getInt(1);
             }
@@ -82,7 +93,7 @@ public class VentaDAO {
      */
     public List<Venta> listarVentas() throws SQLException {
         List<Venta> listaVentas = new ArrayList<>();
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(SELECT_ALL_VENTAS_SQL); ResultSet rs = pst.executeQuery()) {
+        try (PreparedStatement pst = connection.prepareStatement(SELECT_ALL_VENTAS_SQL); ResultSet rs = pst.executeQuery()) {
             while (rs.next()) {
                 listaVentas.add(crearVentaDesdeResultSet(rs));
             }
