@@ -18,7 +18,14 @@ public class RegistroUsuariosControlador {
     private final ResourceBundle messages;
 
     public static RegistroUsuariosControlador getInstance() {
-        return instance == null ? new RegistroUsuariosControlador() : instance;
+        if (instance == null) {
+            synchronized (RegistroUsuariosControlador.class) {
+                if (instance == null) {
+                    instance = new RegistroUsuariosControlador();
+                }
+            }
+        }
+        return instance;
     }
 
     public RegistroUsuariosControlador() {

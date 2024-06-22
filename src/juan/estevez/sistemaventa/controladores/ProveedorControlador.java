@@ -24,7 +24,14 @@ public class ProveedorControlador {
     private final List<Proveedor> proveedores;
 
     public static ProveedorControlador getInstance() {
-        return instance == null ? new ProveedorControlador() : instance;
+        if (instance == null) {
+            synchronized (ProveedorControlador.class) {
+                if (instance == null) {
+                    instance = new ProveedorControlador();
+                }
+            }
+        }
+        return instance;
     }
 
     public ProveedorControlador() {

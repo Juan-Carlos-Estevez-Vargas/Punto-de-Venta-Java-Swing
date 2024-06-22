@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.*;
 import juan.estevez.sistemaventa.controladores.*;
@@ -23,14 +21,14 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
  *
  * @author Juan Carlos Estevez Vargas
  */
-public final class Sistema extends javax.swing.JFrame {
+public class Sistema extends javax.swing.JFrame {
 
-    private ProveedorControlador proveedorControlador;
-    private VentaControlador ventaControlador;
-    private ProductoControlador productoControlador;
-    private UsuarioControlador usuarioControlador;
-    private ClienteControlador clienteControlador;
-    private ConfiguracionDatosEmpresaControlador configuracionDatosEmpresaControlador;
+    private final ProveedorControlador proveedorControlador = ProveedorControlador.getInstance();
+    private final VentaControlador ventaControlador = VentaControlador.getInstance();
+    private final ProductoControlador productoControlador = ProductoControlador.getInstance();
+    private final UsuarioControlador usuarioControlador = UsuarioControlador.getInstance();
+    private final ClienteControlador clienteControlador = ClienteControlador.getInstance();
+    private final ConfiguracionDatosEmpresaControlador configuracionDatosEmpresaControlador = ConfiguracionDatosEmpresaControlador.getInstance();
 
     private final transient ResourceBundle messages = ResourceBundle.getBundle("juan.estevez.sistemaventa.recursos.messages");
 
@@ -40,13 +38,9 @@ public final class Sistema extends javax.swing.JFrame {
     private int idUsuarioLogueado;
 
     public Sistema() {
-        this.clienteControlador = ClienteControlador.getInstance();
-        this.productoControlador = ProductoControlador.getInstance();
-        this.usuarioControlador = UsuarioControlador.getInstance();
-        this.proveedorControlador = ProveedorControlador.getInstance();
-        this.ventaControlador = VentaControlador.getInstance();
         this.iniciarAplicacion();
         this.listarDatosEmpresa();
+        this.productoControlador.consultarProveedor(cbxProveedorProducto);
     }
 
     public Sistema(Loginn login) {
@@ -445,7 +439,7 @@ public final class Sistema extends javax.swing.JFrame {
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Configuracion Datos Empresa">
-    public void listarDatosEmpresa() {
+    private void listarDatosEmpresa() {
         ConfiguracionDatosEmpresa configuracionDatosEmpresa = this.configuracionDatosEmpresaControlador.obtenerDatosEmpresa();
         txtIdEmpresa.setText(String.valueOf(configuracionDatosEmpresa.getId()));
         txtRutEmpresa.setText(String.valueOf(configuracionDatosEmpresa.getRut()));
@@ -867,7 +861,7 @@ public final class Sistema extends javax.swing.JFrame {
         labelTotalVenta.setText(String.format("%.2f", totalPagar));
     }
 
-    public void iniciarAplicacion() {
+    private void iniciarAplicacion() {
         initComponents();
         this.setLocationRelativeTo(null);
         this.txtIdCliente.setVisible(false);
@@ -880,7 +874,6 @@ public final class Sistema extends javax.swing.JFrame {
         this.txtIdUsuario.setVisible(false);
         this.txtIdVenta.setVisible(false);
         AutoCompleteDecorator.decorate(cbxProveedorProducto);
-        this.productoControlador.consultarProveedor(cbxProveedorProducto);
     }
 
     private void deshabilitarOpcionesAdministrador() {

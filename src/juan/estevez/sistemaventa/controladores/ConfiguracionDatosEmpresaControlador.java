@@ -1,8 +1,6 @@
 package juan.estevez.sistemaventa.controladores;
 
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import juan.estevez.sistemaventa.modelo.ConfiguracionDatosEmpresa;
 import juan.estevez.sistemaventa.servicio.ConfiguracionDatosEmpresaServicio;
 import juan.estevez.sistemaventa.utils.Utilitarios;
@@ -17,7 +15,14 @@ public class ConfiguracionDatosEmpresaControlador {
     private final ConfiguracionDatosEmpresaServicio configuracionDatosEmpresaServicio;
 
     public static ConfiguracionDatosEmpresaControlador getInstance() {
-        return instance == null ? new ConfiguracionDatosEmpresaControlador() : instance;
+        if (instance == null) {
+            synchronized (ConfiguracionDatosEmpresaControlador.class) {
+                if (instance == null) {
+                    instance = new ConfiguracionDatosEmpresaControlador();
+                }
+            }
+        }
+        return instance;
     }
     
     public ConfiguracionDatosEmpresaControlador() {

@@ -23,7 +23,14 @@ public class VentaControlador {
     private final List<Venta> ventas;
 
     public static VentaControlador getInstance() {
-        return instance == null ? new VentaControlador() : instance;
+        if (instance == null) {
+            synchronized (VentaControlador.class) {
+                if (instance == null) {
+                    instance = new VentaControlador();
+                }
+            }
+        }
+        return instance;
     }
 
     public VentaControlador() {

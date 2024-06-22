@@ -18,7 +18,14 @@ public class LoginControlador {
     private final ResourceBundle messages;
 
     public static LoginControlador getInstance() {
-        return instance == null ?  new LoginControlador() : instance;
+        if (instance == null) {
+            synchronized (LoginControlador.class) {
+                if (instance == null) {
+                    instance = new LoginControlador();
+                }
+            }
+        }
+        return instance;
     }
     
     public LoginControlador() {

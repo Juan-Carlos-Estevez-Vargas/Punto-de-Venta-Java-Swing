@@ -209,14 +209,14 @@ public class Login extends JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroActionPerformed
-        String correo = Utilitarios.eliminarEspaciosEnBlanco(txtCorreo.getText());
-        String password = Utilitarios.eliminarEspaciosEnBlanco(String.valueOf(txtPassword.getPassword()));
-        loginControlador.validar(correo, password);
+        new RegistroUsuarios().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnRegistroActionPerformed
 
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
-        new RegistroUsuarios().setVisible(true);
-        this.dispose();
+        String correo = Utilitarios.eliminarEspaciosEnBlanco(txtCorreo.getText());
+        String password = Utilitarios.eliminarEspaciosEnBlanco(String.valueOf(txtPassword.getPassword()));
+        loginControlador.validar(correo, password);
     }//GEN-LAST:event_btnIniciarActionPerformed
 
     public static void main(String args[]) {

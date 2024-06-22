@@ -23,7 +23,14 @@ public class UsuarioControlador {
     private final List<Usuario> usuarios;
 
     public static UsuarioControlador getInstance() {
-        return instance == null ? new UsuarioControlador() : instance;
+        if (instance == null) {
+            synchronized (UsuarioControlador.class) {
+                if (instance == null) {
+                    instance = new UsuarioControlador();
+                }
+            }
+        }
+        return instance;
     }
 
     public UsuarioControlador() {

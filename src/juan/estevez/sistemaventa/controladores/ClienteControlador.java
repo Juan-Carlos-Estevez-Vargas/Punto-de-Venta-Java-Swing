@@ -5,8 +5,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import juan.estevez.sistemaventa.modelo.Cliente;
@@ -26,7 +24,14 @@ public class ClienteControlador {
     private final List<Cliente> clientes;
 
     public static ClienteControlador getInstance() {
-        return instance == null ? new ClienteControlador() : instance;
+       if (instance == null) {
+            synchronized (ClienteControlador.class) {
+                if (instance == null) {
+                    instance = new ClienteControlador();
+                }
+            }
+        }
+        return instance;
     }
 
     public ClienteControlador() {

@@ -14,7 +14,7 @@ import juan.estevez.sistemaventa.utils.enums.Colors;
  */
 public class Utilitarios {
 
-    private static final ResourceBundle messages = ResourceBundle.getBundle("messages");
+    private static final ResourceBundle messages = ResourceBundle.getBundle("juan.estevez.sistemaventa.recursos.messages");
     private static final String ERROR = messages.getString("error");
     private static final String EXITO = messages.getString("exito");
     private static final String ADVERTENCIA = messages.getString("advertencia");

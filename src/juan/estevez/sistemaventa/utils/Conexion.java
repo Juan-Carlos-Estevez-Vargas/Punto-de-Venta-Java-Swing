@@ -22,12 +22,12 @@ public class Conexion {
      *
      * @return conección con la base de datos
      */
-    public Connection conectar() {
+    private Connection conectar() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(URL, USER, CLAVE);
+            this.connection = DriverManager.getConnection(URL, USER, CLAVE);
         } catch (ClassNotFoundException | SQLException e) {
-            System.err.println("Error en la clase conexión: " + e.getMessage());
+            Utilitarios.mostrarErrorGenerico(e);
         }
         return connection;
     }
@@ -44,6 +44,7 @@ public class Conexion {
     }
 
     public Connection getConnection() {
+        conectar();
         return connection;
     }
 

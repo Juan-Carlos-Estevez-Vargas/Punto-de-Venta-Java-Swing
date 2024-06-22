@@ -25,7 +25,14 @@ public class ProductoControlador {
     private final List<Producto> productos;
 
     public static ProductoControlador getInstance() {
-        return instance == null ? new ProductoControlador() : instance;
+        if (instance == null) {
+            synchronized (ProductoControlador.class) {
+                if (instance == null) {
+                    instance = new ProductoControlador();
+                }
+            }
+        }
+        return instance;
     }
 
     public ProductoControlador() {

@@ -1,5 +1,6 @@
 package juan.estevez.sistemaventa.modelo;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class ConfiguracionDatosEmpresa {
 
     private int id;
