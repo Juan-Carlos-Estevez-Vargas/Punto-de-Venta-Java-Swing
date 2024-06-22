@@ -28,7 +28,7 @@ public class PdfReportBuilder {
 
     private final Document document;
     private final FileOutputStream outputStream;
-    private final VentaServicio ventaServicio = new VentaServicio();
+    private final VentaServicio ventaServicio = VentaServicio.getInstance();
 
     public PdfReportBuilder(FileOutputStream outputStream) throws DocumentException {
         this.outputStream = outputStream;

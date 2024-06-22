@@ -1,10 +1,6 @@
 package juan.estevez.sistemaventa.vista;
 
-import java.sql.SQLException;
-import java.text.MessageFormat;
-import java.util.ResourceBundle;
-import juan.estevez.sistemaventa.daos.LoginDAO;
-import juan.estevez.sistemaventa.modelo.Loginn;
+import juan.estevez.sistemaventa.controladores.RegistroUsuariosControlador;
 import juan.estevez.sistemaventa.utils.Utilitarios;
 
 /**
@@ -13,46 +9,12 @@ import juan.estevez.sistemaventa.utils.Utilitarios;
  */
 public class RegistroUsuarios extends javax.swing.JFrame {
 
-    private final transient ResourceBundle messages = ResourceBundle.getBundle("juan.estevez.sistemaventa.recursos.messages");
-
-    private final Loginn login = new Loginn();
-    private final LoginDAO loginDAO = new LoginDAO();
+    private final RegistroUsuariosControlador registroUsuariosControlador;
 
     public RegistroUsuarios() {
+        this.registroUsuariosControlador = RegistroUsuariosControlador.getInstance();
         initComponents();
         this.setLocationRelativeTo(null);
-    }
-
-    /**
-     * Se encarga de validar y registrar el usuario y redirigirlo al login principal.
-     */
-    public void validar() {
-        String correo = txtCorreoUsuario.getText();
-        String password = String.valueOf(txtPasswordUsuario.getPassword());
-        String nombre = txtNombreUsuario.getText();
-        String rol = cmbRolUsuario.getSelectedItem().toString();
-
-        if (!"".equals(correo) || !"".equals(password) || !"".equals(nombre)) {
-            login.setNombre(nombre);
-            login.setCorreo(correo);
-            login.setRol(rol);
-            login.setPassword(password);
-
-            try {
-                loginDAO.registrarUsuario(login);
-                Utilitarios.mostrarMensajeExito(messages.getString("mensajeRegistroExitoso"));
-                openLogin();
-            } catch (SQLException ex) {
-                Utilitarios.mostrarMensajeError(MessageFormat.format(messages.getString("errorRegistro"), ex.getMessage()));
-            }
-        } else {
-            Utilitarios.mostrarMensajeAdvertencia(messages.getString("mensajeRegistroInvalido"));
-        }
-    }
-
-    private void openLogin() {
-        new Login().setVisible(true);
-        this.dispose();
     }
 
     /**
@@ -265,7 +227,14 @@ public class RegistroUsuarios extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarseActionPerformed
-        this.validar();
+        String correo = Utilitarios.eliminarEspaciosEnBlanco(txtCorreoUsuario.getText());
+        String password = Utilitarios.eliminarEspaciosEnBlanco(String.valueOf(txtPasswordUsuario.getPassword()));
+        String nombre = Utilitarios.eliminarEspaciosEnBlanco(txtNombreUsuario.getText());
+        String rol = cmbRolUsuario.getSelectedItem().toString();
+
+        if (registroUsuariosControlador.validar(correo, password, nombre, rol)) {
+            this.dispose();
+        }
     }//GEN-LAST:event_btnRegistrarseActionPerformed
 
     private void cmbRolUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRolUsuarioActionPerformed

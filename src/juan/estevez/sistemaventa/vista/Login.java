@@ -15,7 +15,7 @@ public class Login extends JFrame {
     public Login() {
         initComponents();
         this.setLocationRelativeTo(null);
-        this.loginControlador = new LoginControlador();
+        this.loginControlador = LoginControlador.getInstance();
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

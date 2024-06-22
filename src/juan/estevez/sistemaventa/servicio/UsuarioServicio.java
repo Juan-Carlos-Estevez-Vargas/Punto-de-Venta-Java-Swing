@@ -11,7 +11,16 @@ import juan.estevez.sistemaventa.modelo.Usuario;
  */
 public class UsuarioServicio {
 
-    private final UsuarioDAO usuarioDAO = new UsuarioDAO();
+    private static UsuarioServicio instance;
+    private final UsuarioDAO usuarioDAO;
+
+    public static UsuarioServicio getInstance() {
+        return instance == null ? new UsuarioServicio() : instance;
+    }
+
+    private UsuarioServicio() {
+        this.usuarioDAO = UsuarioDAO.getInstance();
+    }
 
     public List<Usuario> getAllUsuarios() throws SQLException{
         return this.usuarioDAO.listarUsuarios();

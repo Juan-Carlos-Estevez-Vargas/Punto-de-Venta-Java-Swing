@@ -1,24 +1,20 @@
 package juan.estevez.sistemaventa.vista;
 
-import juan.estevez.sistemaventa.utils.vista.GUIUtils;
 import com.itextpdf.text.DocumentException;
-import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.HeadlessException;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.*;
+import juan.estevez.sistemaventa.controladores.*;
 import juan.estevez.sistemaventa.modelo.*;
 import juan.estevez.sistemaventa.reportes.*;
-import juan.estevez.sistemaventa.servicio.*;
 import juan.estevez.sistemaventa.utils.*;
 import juan.estevez.sistemaventa.utils.enums.Colors;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
@@ -29,40 +25,31 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
  */
 public final class Sistema extends javax.swing.JFrame {
 
+    private ProveedorControlador proveedorControlador;
+    private VentaControlador ventaControlador;
+    private ProductoControlador productoControlador;
+    private UsuarioControlador usuarioControlador;
+    private ClienteControlador clienteControlador;
+    private ConfiguracionDatosEmpresaControlador configuracionDatosEmpresaControlador;
+
     private final transient ResourceBundle messages = ResourceBundle.getBundle("juan.estevez.sistemaventa.recursos.messages");
 
-    Date fechaVenta = new Date();
-    String fechaActual = new SimpleDateFormat("dd/MM/yyyy").format(fechaVenta);
-    Cliente cliente = new Cliente();
-    DefaultTableModel modelo = new DefaultTableModel();
-    Producto producto = new Producto();
-    DetalleVentaServicio detalleVentaServicio = new DetalleVentaServicio();
-    ProductoServicio productoServicio = new ProductoServicio();
-    ClienteServicio clienteServicio = new ClienteServicio();
-    UsuarioServicio usuarioServicio = new UsuarioServicio();
-    ProveedorServicio proveedorServicio = new ProveedorServicio();
-    ConfiguracionDatosEmpresaServicio configuracionDatosEmpresaServicio = new ConfiguracionDatosEmpresaServicio();
-    VentaServicio ventaServicio = new VentaServicio();
-    Eventos evento = new Eventos();
-    ConfiguracionDatosEmpresa configuracionDatosEmpresa = new ConfiguracionDatosEmpresa();
-    DefaultTableModel modeloTemporal = new DefaultTableModel();
-    ReporteVentaPDF reporteVentaPDF = new ReporteVentaPDF();
+    private DefaultTableModel modelo = new DefaultTableModel();
+    private Eventos evento = new Eventos();
+    private DefaultTableModel modeloTemporal = new DefaultTableModel();
+    private int idUsuarioLogueado;
 
-    private List<Cliente> clientes = new ArrayList<>();
-    private List<Usuario> usuarios = new ArrayList<>();
-    private List<Proveedor> proveedores = new ArrayList<>();
-    private List<Producto> productos = new ArrayList<>();
-    private List<Venta> ventas = new ArrayList<>();
-
-    int idUsuarioLogueado;
-    double totalPagar = 0.00;
-
-    public Sistema() throws SQLException {
+    public Sistema() {
+        this.clienteControlador = ClienteControlador.getInstance();
+        this.productoControlador = ProductoControlador.getInstance();
+        this.usuarioControlador = UsuarioControlador.getInstance();
+        this.proveedorControlador = ProveedorControlador.getInstance();
+        this.ventaControlador = VentaControlador.getInstance();
         this.iniciarAplicacion();
         this.listarDatosEmpresa();
     }
 
-    public Sistema(Loginn login) throws SQLException {
+    public Sistema(Loginn login) {
         this.iniciarAplicacion();
         this.listarDatosEmpresa();
         TabbedPane.setSelectedIndex(6);
@@ -79,21 +66,7 @@ public final class Sistema extends javax.swing.JFrame {
         }
     }
 
-    public void listarDatosEmpresa() throws SQLException {
-        configuracionDatosEmpresa = this.configuracionDatosEmpresaServicio.getDatosEmpresa();
-        txtIdEmpresa.setText(String.valueOf(configuracionDatosEmpresa.getId()));
-        txtRutEmpresa.setText(String.valueOf(configuracionDatosEmpresa.getRut()));
-        txtNombreEmpresa.setText(configuracionDatosEmpresa.getNombre());
-        txtTelefonoEmpresa.setText(String.valueOf(configuracionDatosEmpresa.getTelefono()));
-        txtDireccionEmpresa.setText(configuracionDatosEmpresa.getDireccion());
-        txtRazonSocialEmpresa.setText(configuracionDatosEmpresa.getRazonSocial());
-    }
-
     // <editor-fold defaultstate="collapsed" desc="Productos">
-    public void listarProductos() {
-        tableProductos.setModel(GUIUtils.listarProductos(productos, (DefaultTableModel) tableProductos.getModel()));
-    }
-
     private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {
         TabbedPane.setSelectedIndex(2);
         actualizarVistaProductos();
@@ -106,13 +79,9 @@ public final class Sistema extends javax.swing.JFrame {
             return;
         }
 
-        try {
-            Producto nuevoProducto = crearProductoDesdeFormulario();
-            productoServicio.registrarProducto(nuevoProducto);
-            Utilitarios.mostrarMensajeExito(messages.getString("producto.registrado"));
+        Producto nuevoProducto = crearProductoDesdeFormulario();
+        if (this.productoControlador.guardarProducto(nuevoProducto)) {
             actualizarVistaProductos();
-        } catch (HeadlessException | SQLException e) {
-            mostrarErrorGenerico(e);
         }
     }
 
@@ -125,46 +94,33 @@ public final class Sistema extends javax.swing.JFrame {
     }
 
     private void btnEliminarProductoActionPerformed(java.awt.event.ActionEvent evt) {
-        try {
-            String idProductoStr = txtIdProducto.getText().trim();
-            if (idProductoStr.isEmpty()) {
-                Utilitarios.mostrarMensajeError(messages.getString("seleccione.fila"));
-                return;
-            }
+        String idProductoStr = Utilitarios.eliminarEspaciosEnBlanco(txtIdProducto.getText());
+        if (idProductoStr.isEmpty()) {
+            Utilitarios.mostrarMensajeError(messages.getString("seleccione.fila"));
+            return;
+        }
 
-            int idProducto = Integer.parseInt(idProductoStr);
-            if (confirmarEliminacion()) {
-                productoServicio.eliminarProducto(idProducto);
-                Utilitarios.mostrarMensajeExito(messages.getString("producto.eliminado"));
-                actualizarVistaProductos();
-            }
-        } catch (HeadlessException | SQLException e) {
-            mostrarErrorGenerico(e);
+        int idProducto = Integer.parseInt(idProductoStr);
+        if (this.productoControlador.eliminarProducto(idProducto)) {
+            actualizarVistaProductos();
         }
     }
 
     private void btnEditarProductoActionPerformed(java.awt.event.ActionEvent evt) {
-        try {
-            if (txtIdProducto.getText().trim().isEmpty()) {
-                Utilitarios.mostrarMensajeError(messages.getString("seleccione.fila"));
-                return;
-            }
-
-            int idProducto = Integer.parseInt(txtIdProducto.getText().trim());
-            if (camposProductoVacios()) {
-                Utilitarios.mostrarMensajeError(messages.getString("error.campos.vacios"));
-                return;
-            }
-
-            Producto productoModificar = crearProductoDesdeFormulario();
-            productoModificar.setId(idProducto);
-
-            productoServicio.modificarProducto(productoModificar);
-            Utilitarios.mostrarMensajeExito(messages.getString("producto.actualizado"));
-            actualizarVistaProductos();
-        } catch (HeadlessException | SQLException e) {
-            mostrarErrorGenerico(e);
+        if (Utilitarios.eliminarEspaciosEnBlanco(txtIdProducto.getText()).isEmpty()) {
+            Utilitarios.mostrarMensajeError(messages.getString("seleccione.fila"));
+            return;
         }
+
+        int idProducto = Integer.parseInt(Utilitarios.eliminarEspaciosEnBlanco(txtIdProducto.getText()));
+        if (camposProductoVacios()) {
+            Utilitarios.mostrarMensajeError(messages.getString("error.campos.vacios"));
+            return;
+        }
+
+        Producto productoModificar = crearProductoDesdeFormulario();
+        productoModificar.setId(idProducto);
+        this.productoControlador.editarProducto(productoModificar);
     }
 
     private void cargarProductoDesdeFila(int fila) {
@@ -177,11 +133,11 @@ public final class Sistema extends javax.swing.JFrame {
     }
 
     private void agregarProductoAVenta(int cantidad) {
-        String codigoProducto = txtCodigoVenta.getText();
-        String descripcion = txtDescripcionVenta.getText();
-        double precio = Double.parseDouble(txtPrecioVenta.getText());
+        String codigoProducto = Utilitarios.eliminarEspaciosEnBlanco(txtCodigoVenta.getText());
+        String descripcion = Utilitarios.eliminarEspaciosEnBlanco(txtDescripcionVenta.getText());
+        double precio = Double.parseDouble(Utilitarios.eliminarEspaciosEnBlanco(txtPrecioVenta.getText()));
         double totalVenta = cantidad * precio;
-        int stockDisponible = Integer.parseInt(txtStockDisponibleVenta.getText());
+        int stockDisponible = Integer.parseInt(Utilitarios.eliminarEspaciosEnBlanco(txtStockDisponibleVenta.getText()));
 
         if (stockDisponible >= cantidad) {
             if (productoYaRegistrado(descripcion)) {
@@ -208,12 +164,29 @@ public final class Sistema extends javax.swing.JFrame {
         return false;
     }
 
-    // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="Clientes">
-    public void listarClientes() {
-        tableClientes.setModel(GUIUtils.listarClientes(clientes, (DefaultTableModel) tableClientes.getModel()));
+    private Producto crearProductoDesdeFormulario() {
+        return Producto.builder()
+                .codigo(Utilitarios.eliminarEspaciosEnBlanco(txtCodigoProducto.getText()))
+                .nombre(Utilitarios.eliminarEspaciosEnBlanco(txtDescripcionProducto.getText()))
+                .proveedor(cbxProveedorProducto.getSelectedItem().toString())
+                .stock(Integer.parseInt(Utilitarios.eliminarEspaciosEnBlanco(txtCantidadProducto.getText())))
+                .precio(Double.parseDouble(Utilitarios.eliminarEspaciosEnBlanco(txtPrecioProducto.getText())))
+                .build();
     }
 
+    private void cargarProductoEnFormulario(Producto producto) {
+        txtDescripcionVenta.setText(producto.getNombre());
+        txtPrecioVenta.setText(String.valueOf(producto.getPrecio()));
+        txtStockDisponibleVenta.setText(String.valueOf(producto.getStock()));
+        txtCantidadVenta.requestFocus();
+    }
+
+    private void btnNuevoProductoActionPerformed(java.awt.event.ActionEvent evt) {
+        this.limpiarProducto();
+    }
+
+    // </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="Clientes">
     private void btnClientes1ActionPerformed(java.awt.event.ActionEvent evt) {
         TabbedPane.setSelectedIndex(0);
         actualizarVistaClientes();
@@ -226,15 +199,9 @@ public final class Sistema extends javax.swing.JFrame {
             return;
         }
 
-        try {
-            Cliente nuevoCliente = crearClienteDesdeFormulario();
-            clienteServicio.registrarCliente(nuevoCliente);
-            Utilitarios.mostrarMensajeExito(messages.getString("cliente.registrado"));
+        Cliente nuevoCliente = crearClienteDesdeFormulario();
+        if (this.clienteControlador.guardarCliente(nuevoCliente)) {
             actualizarVistaClientes();
-        } catch (NumberFormatException e) {
-            Utilitarios.mostrarMensajeError(messages.getString("error.dni.telefono.numerico"));
-        } catch (HeadlessException | SQLException e) {
-            mostrarErrorGenerico(e);
         }
     }
 
@@ -247,48 +214,34 @@ public final class Sistema extends javax.swing.JFrame {
     }
 
     private void btnEliminarClienteActionPerformed(java.awt.event.ActionEvent evt) {
-        String idClienteStr = txtIdCliente.getText().trim();
+        String idClienteStr = Utilitarios.eliminarEspaciosEnBlanco(txtIdCliente.getText());
         if (idClienteStr.isEmpty()) {
             Utilitarios.mostrarMensajeError(messages.getString("seleccione.fila"));
             return;
         }
 
-        try {
-            int idCliente = Integer.parseInt(idClienteStr);
-            if (confirmarEliminacion()) {
-                clienteServicio.eliminarCliente(idCliente);
-                Utilitarios.mostrarMensajeExito(messages.getString("cliente.eliminado"));
-                actualizarVistaClientes();
-            }
-        } catch (HeadlessException | SQLException e) {
-            mostrarErrorGenerico(e);
+        int idCliente = Integer.parseInt(idClienteStr);
+        if (this.clienteControlador.eliminarCliente(idCliente)) {
+            actualizarVistaClientes();
         }
     }
 
     private void btnEditarClienteActionPerformed(java.awt.event.ActionEvent evt) {
-        if (txtIdCliente.getText().trim().isEmpty()) {
+        if (Utilitarios.eliminarEspaciosEnBlanco(txtIdCliente.getText()).isEmpty()) {
             Utilitarios.mostrarMensajeError(messages.getString("seleccione.fila"));
             return;
         }
 
-        try {
-            int idCliente = Integer.parseInt(txtIdCliente.getText().trim());
+        int idCliente = Integer.parseInt(Utilitarios.eliminarEspaciosEnBlanco(txtIdCliente.getText()));
+        if (camposClienteVacios()) {
+            Utilitarios.mostrarMensajeError(messages.getString("error.campos.vacios"));
+            return;
+        }
 
-            if (camposClienteVacios()) {
-                Utilitarios.mostrarMensajeError(messages.getString("error.campos.vacios"));
-                return;
-            }
-
-            Cliente clienteModificar = crearClienteDesdeFormulario();
-            clienteModificar.setId(idCliente);
-
-            clienteServicio.modificarCliente(clienteModificar);
-            Utilitarios.mostrarMensajeExito(messages.getString("cliente.actualizado"));
+        Cliente clienteModificar = crearClienteDesdeFormulario();
+        clienteModificar.setId(idCliente);
+        if (this.clienteControlador.editarCliente(clienteModificar)) {
             actualizarVistaClientes();
-        } catch (NumberFormatException e) {
-            Utilitarios.mostrarMensajeError(messages.getString("error.dni.telefono.numerico"));
-        } catch (HeadlessException | SQLException e) {
-            mostrarErrorGenerico(e);
         }
     }
 
@@ -296,39 +249,61 @@ public final class Sistema extends javax.swing.JFrame {
         limpiarCliente();
     }
 
-    // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="Usuarios">
-    public void listarUsuarios() {
-        tableUsuarios.setModel(GUIUtils.listarUsuarios(usuarios, (DefaultTableModel) tableUsuarios.getModel()));
+    private void cargarClienteEnFormulario(Cliente cliente) {
+        txtNombreClienteVenta.setText(cliente.getNombre());
+        txtTelefonoClienteVenta.setText(String.valueOf(cliente.getTelefono()));
+        txtDireccionClienteVenta.setText(cliente.getDireccion());
+        txtRazonSocialClienteVenta.setText(cliente.getRazonSocial());
     }
 
+    private Cliente crearClienteDesdeFormulario() {
+        return Cliente.builder()
+                .dni(Long.parseLong(Utilitarios.eliminarEspaciosEnBlanco(txtDniRutCliente.getText())))
+                .nombre(Utilitarios.eliminarEspaciosEnBlanco(txtNombreCliente.getText()))
+                .telefono(Long.parseLong(Utilitarios.eliminarEspaciosEnBlanco(txtTelefonoCliente.getText())))
+                .direccion(Utilitarios.eliminarEspaciosEnBlanco(txtDireccionCliente.getText()))
+                .razonSocial(Utilitarios.eliminarEspaciosEnBlanco(txtRazonSocialCliente.getText()))
+                .build();
+    }
+
+    private void cargarClienteDesdeFila(int fila) {
+        txtIdCliente.setText(tableClientes.getValueAt(fila, 0).toString());
+        txtDniRutCliente.setText(tableClientes.getValueAt(fila, 1).toString());
+        txtNombreCliente.setText(tableClientes.getValueAt(fila, 2).toString());
+        txtTelefonoCliente.setText(tableClientes.getValueAt(fila, 3).toString());
+        txtDireccionCliente.setText(tableClientes.getValueAt(fila, 4).toString());
+        txtRazonSocialCliente.setText(tableClientes.getValueAt(fila, 5).toString());
+    }
+
+    // </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="Usuarios">
     private void btnUsuariosActionPerformed(java.awt.event.ActionEvent evt) {
         actualizarVistaUsuarios();
         TabbedPane.setSelectedIndex(5);
         setActiveButton(this.btnUsuarios);
     }
 
-    // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="Proveedores">
-    public void listarProveedor() {
-        tableProveedores.setModel(GUIUtils.listarProveedores(proveedores, (DefaultTableModel) tableProveedores.getModel()));
+    private void tableUsuariosMouseClicked(java.awt.event.MouseEvent evt) {
+        int fila = tableUsuarios.rowAtPoint(evt.getPoint());
+        txtIdUsuario.setText(tableUsuarios.getValueAt(fila, 0).toString());
     }
 
+    private void btnRegistrarUsuario1ActionPerformed(java.awt.event.ActionEvent evt) {
+        new RegistroUsuarios().setVisible(true);
+        this.dispose();
+    }
+
+    // </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="Proveedores">
     private void btnGuardarProveedorActionPerformed(java.awt.event.ActionEvent evt) {
         if (camposProveedorVacios()) {
             Utilitarios.mostrarMensajeError(messages.getString("error.campos.vacios"));
             return;
         }
 
-        try {
-            Proveedor nuevoProveedor = crearProveedorDesdeFormulario();
-            proveedorServicio.registrarProveedor(nuevoProveedor);
-            Utilitarios.mostrarMensajeExito(messages.getString("proveedor.registrado"));
+        Proveedor nuevoProveedor = crearProveedorDesdeFormulario();
+        if (this.proveedorControlador.guardarProveedor(nuevoProveedor)) {
             actualizarVistaProveedores();
-        } catch (NumberFormatException e) {
-            Utilitarios.mostrarMensajeError(messages.getString("error.dni.telefono.numerico"));
-        } catch (HeadlessException | SQLException e) {
-            mostrarErrorGenerico(e);
         }
     }
 
@@ -347,47 +322,34 @@ public final class Sistema extends javax.swing.JFrame {
     }
 
     private void btnEliminarProveedorActionPerformed(java.awt.event.ActionEvent evt) {
-        String idProveedorStr = txtIdProveedor.getText().trim();
+        String idProveedorStr = Utilitarios.eliminarEspaciosEnBlanco(txtIdProveedor.getText());
         if (idProveedorStr.isEmpty()) {
             Utilitarios.mostrarMensajeError(messages.getString("seleccione.fila"));
             return;
         }
 
-        try {
-            int idProveedor = Integer.parseInt(idProveedorStr);
-            if (confirmarEliminacion()) {
-                proveedorServicio.eliminarProveedor(idProveedor);
-                Utilitarios.mostrarMensajeExito(messages.getString("proveedor.eliminado"));
-                actualizarVistaProveedores();
-            }
-        } catch (SQLException e) {
-            mostrarErrorGenerico(e);
+        int idProveedor = Integer.parseInt(idProveedorStr);
+        if (proveedorControlador.eliminarProveedor(idProveedor)) {
+            actualizarVistaProveedores();
         }
     }
 
     private void btnEditarProveedorActionPerformed(java.awt.event.ActionEvent evt) {
-        if (txtIdProveedor.getText().trim().isEmpty()) {
+        if (Utilitarios.eliminarEspaciosEnBlanco(txtIdProveedor.getText()).isEmpty()) {
             Utilitarios.mostrarMensajeError(messages.getString("seleccione.fila"));
             return;
         }
 
-        try {
-            int idProveedor = Integer.parseInt(txtIdProveedor.getText().trim());
-            if (camposProveedorVacios()) {
-                Utilitarios.mostrarMensajeError(messages.getString("error.campos.vacios"));
-                return;
-            }
+        int idProveedor = Integer.parseInt(Utilitarios.eliminarEspaciosEnBlanco(txtIdProveedor.getText()));
+        if (camposProveedorVacios()) {
+            Utilitarios.mostrarMensajeError(messages.getString("error.campos.vacios"));
+            return;
+        }
 
-            Proveedor proveedorModificar = crearProveedorDesdeFormulario();
-            proveedorModificar.setId(idProveedor);
-
-            proveedorServicio.modificarProveedor(proveedorModificar);
-            Utilitarios.mostrarMensajeExito(messages.getString("proveedor.actualizado"));
+        Proveedor proveedorModificar = crearProveedorDesdeFormulario();
+        proveedorModificar.setId(idProveedor);
+        if (this.proveedorControlador.editarProveedor(proveedorModificar)) {
             actualizarVistaProveedores();
-        } catch (NumberFormatException e) {
-            Utilitarios.mostrarMensajeError(messages.getString("error.dni.telefono.numerico"));
-        } catch (HeadlessException | SQLException e) {
-            mostrarErrorGenerico(e);
         }
     }
 
@@ -395,12 +357,27 @@ public final class Sistema extends javax.swing.JFrame {
         limpiarProveedor();
     }
 
-    // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="Ventas">
-    public void listarVentas() {
-        tableVentas.setModel(GUIUtils.listarVentas(ventas, (DefaultTableModel) tableVentas.getModel()));
+    private void cargarProveedorDesdeFila(int fila) {
+        txtIdProveedor.setText(tableProveedores.getValueAt(fila, 0).toString());
+        txtDniRutProveedor.setText(tableProveedores.getValueAt(fila, 1).toString());
+        txtNombreProveedor.setText(tableProveedores.getValueAt(fila, 2).toString());
+        txtTelefonoProveedor.setText(tableProveedores.getValueAt(fila, 3).toString());
+        txtDireccionProveedor.setText(tableProveedores.getValueAt(fila, 4).toString());
+        txtRazonSocialProveedor.setText(tableProveedores.getValueAt(fila, 5).toString());
     }
 
+    private Proveedor crearProveedorDesdeFormulario() {
+        return Proveedor.builder()
+                .rut(Long.parseLong(Utilitarios.eliminarEspaciosEnBlanco(txtDniRutProveedor.getText())))
+                .nombre(Utilitarios.eliminarEspaciosEnBlanco(txtNombreProveedor.getText()))
+                .telefono(Long.parseLong(Utilitarios.eliminarEspaciosEnBlanco(txtTelefonoProveedor.getText())))
+                .direccion(Utilitarios.eliminarEspaciosEnBlanco(txtDireccionProveedor.getText()))
+                .razonSocial(Utilitarios.eliminarEspaciosEnBlanco(txtRazonSocialProveedor.getText()))
+                .build();
+    }
+
+    // </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="Ventas">
     private void btnNuevaVentaActionPerformed(java.awt.event.ActionEvent evt) {
         actualizarVistaVentas();
         TabbedPane.setSelectedIndex(6);
@@ -420,15 +397,14 @@ public final class Sistema extends javax.swing.JFrame {
     }
 
     private void btnEliminarVentaActionPerformed(java.awt.event.ActionEvent evt) {
-        modelo = (DefaultTableModel) tableVenta.getModel();
-        modelo.removeRow(tableVenta.getSelectedRow());
+        this.ventaControlador.eliminarVenta(tableVenta);
         this.totalPagar();
         txtCodigoVenta.requestFocus();
     }
 
     private void btnGenerarVentaActionPerformed(java.awt.event.ActionEvent evt) {
         if (tableVenta.getRowCount() > 0) {
-            if ("".equals(txtNombreClienteVenta.getText().trim())) {
+            if (Utilitarios.eliminarEspaciosEnBlanco(txtNombreClienteVenta.getText()).isEmpty()) {
                 Utilitarios.mostrarMensajeAdvertencia(messages.getString("error.ingrese.cliente"));
                 this.txtNombreClienteVenta.requestFocus();
                 return;
@@ -436,25 +412,80 @@ public final class Sistema extends javax.swing.JFrame {
 
             try {
                 this.registrarVenta();
-                this.detalleVentaServicio.registrarDetalleVenta(tableVenta);
-                this.productoServicio.actualizarStock(tableVenta, producto);
-                this.reporteVentaPDF.generarReporteVenta(txtRutEmpresa.getText(), txtNombreEmpresa.getText(),
+                this.ventaControlador.registrarDetalleVenta(tableVenta);
+                this.productoControlador.actualizarStock(tableVenta);
+                new ReporteVentaPDF().generarReporteVenta(txtRutEmpresa.getText(), txtNombreEmpresa.getText(),
                         txtTelefonoEmpresa.getText(), txtDireccionEmpresa.getText(),
                         txtRazonSocialEmpresa.getText(), txtDniRutVenta.getText(),
                         txtNombreClienteVenta.getText(), txtTelefonoClienteVenta.getText(),
-                        txtDireccionClienteVenta.getText(), tableVenta, totalPagar);
+                        txtDireccionClienteVenta.getText(), tableVenta, 0.0);
                 Utilitarios.limpiarTableVenta(modeloTemporal, tableVenta);
                 this.limpiarClienteVenta();
             } catch (HeadlessException | SQLException | DocumentException | IOException e) {
-                mostrarErrorGenerico(e);
+                Utilitarios.mostrarErrorGenerico(e);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Debe ingresar al menos un producto");
             this.txtCodigoVenta.requestFocus();
         }
     }
-    // </editor-fold>
 
+    private void tableVentasMouseClicked(java.awt.event.MouseEvent evt) {
+        int filaSeleccionada = tableVentas.rowAtPoint(evt.getPoint());
+        txtIdVenta.setText(tableVentas.getValueAt(filaSeleccionada, 0).toString());
+    }
+
+    private void registrarVenta() throws SQLException {
+        String clienteTxt = Utilitarios.eliminarEspaciosEnBlanco(txtNombreClienteVenta.getText());
+        String vendedor = Utilitarios.eliminarEspaciosEnBlanco(labelVendedor.getText());
+        Date fechaVenta = new Date();
+        String fechaActual = new SimpleDateFormat("dd/MM/yyyy").format(fechaVenta);
+        this.ventaControlador.registrarVenta(Venta.builder().cliente(clienteTxt).vendedor(vendedor).total(0.0).fecha(fechaActual).build());
+    }
+
+    // </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="Configuracion Datos Empresa">
+    public void listarDatosEmpresa() {
+        ConfiguracionDatosEmpresa configuracionDatosEmpresa = this.configuracionDatosEmpresaControlador.obtenerDatosEmpresa();
+        txtIdEmpresa.setText(String.valueOf(configuracionDatosEmpresa.getId()));
+        txtRutEmpresa.setText(String.valueOf(configuracionDatosEmpresa.getRut()));
+        txtNombreEmpresa.setText(configuracionDatosEmpresa.getNombre());
+        txtTelefonoEmpresa.setText(String.valueOf(configuracionDatosEmpresa.getTelefono()));
+        txtDireccionEmpresa.setText(configuracionDatosEmpresa.getDireccion());
+        txtRazonSocialEmpresa.setText(configuracionDatosEmpresa.getRazonSocial());
+    }
+
+    private void btnConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {
+        this.txtIdEmpresa.setVisible(false);
+        this.TabbedPane.setSelectedIndex(4);
+        this.listarDatosEmpresa();
+        this.setActiveButton(btnConfiguracion);
+    }
+
+    private void btnActualizarDatosEmpresaActionPerformed(java.awt.event.ActionEvent evt) {
+        if (camposConfiguracionDatosEmpresaVacios()) {
+            Utilitarios.mostrarMensajeError(messages.getString("error.campos.vacios"));
+            return;
+        }
+
+        ConfiguracionDatosEmpresa configuracionDatosEmpresa = crearConfiguracionDatosEmpresaDesdeFormulario();
+        this.configuracionDatosEmpresaControlador.modificarDatosEmpresa(configuracionDatosEmpresa);
+        Utilitarios.mostrarMensajeExito("Datos Actualizados");
+        listarDatosEmpresa();
+    }
+
+    private ConfiguracionDatosEmpresa crearConfiguracionDatosEmpresaDesdeFormulario() {
+        return ConfiguracionDatosEmpresa.builder()
+                .id(Integer.parseInt(Utilitarios.eliminarEspaciosEnBlanco(txtIdEmpresa.getText())))
+                .rut(Long.parseLong(Utilitarios.eliminarEspaciosEnBlanco(txtRutEmpresa.getText())))
+                .nombre(Utilitarios.eliminarEspaciosEnBlanco(txtNombreEmpresa.getText()))
+                .telefono(Long.parseLong(Utilitarios.eliminarEspaciosEnBlanco(txtTelefonoEmpresa.getText())))
+                .direccion(Utilitarios.eliminarEspaciosEnBlanco(txtDireccionEmpresa.getText()))
+                .razonSocial(Utilitarios.eliminarEspaciosEnBlanco(txtRazonSocialEmpresa.getText()))
+                .build();
+    }
+
+    // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="KeyEvents">
     private void txtCodigoVentaKeyPressed(java.awt.event.KeyEvent evt) {
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
@@ -482,16 +513,12 @@ public final class Sistema extends javax.swing.JFrame {
             return;
         }
 
-        try {
-            producto = productoServicio.buscarProducto(codigo);
-            if (producto.getNombre() != null) {
-                cargarProductoEnFormulario(producto);
-            } else {
-                limpiarVenta();
-                txtCodigoVenta.requestFocus();
-            }
-        } catch (SQLException ex) {
-            mostrarErrorGenerico(ex);
+        Producto producto = this.productoControlador.buscarProducto(codigo);
+        if (producto != null && producto.getNombre() != null) {
+            cargarProductoEnFormulario(producto);
+        } else {
+            limpiarVenta();
+            txtCodigoVenta.requestFocus();
         }
     }
 
@@ -517,8 +544,8 @@ public final class Sistema extends javax.swing.JFrame {
         }
 
         try {
-            cliente = clienteServicio.buscarCliente(Integer.parseInt(dniRut));
-            if (cliente.getNombre() != null) {
+            Cliente cliente = clienteControlador.buscarCliente(Integer.parseInt(dniRut));
+            if (cliente != null && cliente.getNombre() != null) {
                 cargarClienteEnFormulario(cliente);
             } else {
                 limpiarClienteVenta();
@@ -526,8 +553,6 @@ public final class Sistema extends javax.swing.JFrame {
             }
         } catch (NumberFormatException ex) {
             Utilitarios.mostrarMensajeError(messages.getString("error.dni.invalido"));
-        } catch (SQLException e) {
-            mostrarErrorGenerico(e);
         }
     }
 
@@ -611,30 +636,30 @@ public final class Sistema extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Actualización Vistas">
     private void actualizarVistaClientes() {
         limpiarTabla();
-        listarClientes();
+        this.clienteControlador.listarClientes(tableClientes);
         limpiarCamposCliente();
     }
 
     private void actualizarVistaUsuarios() {
         limpiarTabla();
-        listarUsuarios();
+        this.usuarioControlador.listarUsuarios(tableUsuarios);
     }
 
     private void actualizarVistaProveedores() {
-        limpiarTablaProveedores();
-        listarProveedor();
+        this.proveedorControlador.limpiarTablaProveedores(tableProveedores);
+        this.proveedorControlador.listarProveedores(tableProveedores);
         limpiarCamposProveedor();
     }
 
     private void actualizarVistaProductos() {
-        limpiarTablaProductos();
-        listarProductos();
+        this.productoControlador.limpiarTablaProductos(tableProductos);
+        this.productoControlador.listarProductos(tableProductos);
         limpiarCamposProducto();
     }
 
     private void actualizarVistaVentas() {
         limpiarTabla();
-        listarVentas();
+        this.ventaControlador.listarVentas(tableVenta);
         limpiarVenta();
     }
 
@@ -699,22 +724,12 @@ public final class Sistema extends javax.swing.JFrame {
         txtRazonSocialCliente.setText("");
     }
 
-    private void limpiarTablaProveedores() {
-        DefaultTableModel model = (DefaultTableModel) tableProveedores.getModel();
-        model.setRowCount(0);
-    }
-
     private void limpiarCamposProveedor() {
         txtDniRutProveedor.setText("");
         txtNombreProveedor.setText("");
         txtTelefonoProveedor.setText("");
         txtDireccionProveedor.setText("");
         txtRazonSocialProveedor.setText("");
-    }
-
-    private void limpiarTablaProductos() {
-        DefaultTableModel model = (DefaultTableModel) tableProductos.getModel();
-        model.setRowCount(0);
     }
 
     private void limpiarCamposProducto() {
@@ -727,264 +742,123 @@ public final class Sistema extends javax.swing.JFrame {
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Utilitarios">
-    private void mostrarErrorGenerico(Exception e) {
-        String errorMessage = MessageFormat.format(messages.getString("error.generico"), e.getMessage());
-        Utilitarios.mostrarMensajeError(errorMessage);
-    }
-
     private void setActiveButton(JButton activeButton) {
         activeButton.setBackground(Colors.CADET_BLUE.getColor());
         Utilitarios.limpiarEstilosBotones(this.btnNuevaVenta, this.btnClientes1, this.btnConfiguracion, this.btnProveedor, this.btnUsuarios, this.btnVentas);
     }
 
-    private boolean confirmarEliminacion() {
-        int pregunta = JOptionPane.showConfirmDialog(null, messages.getString("mensaje.confirmacion.eliminacion"));
-        return pregunta == JOptionPane.YES_OPTION;
+    private boolean camposClienteVacios() {
+        return Utilitarios.eliminarEspaciosEnBlanco(txtDireccionCliente.getText()).isEmpty()
+                || Utilitarios.eliminarEspaciosEnBlanco(txtNombreCliente.getText()).isEmpty()
+                || Utilitarios.eliminarEspaciosEnBlanco(txtDniRutCliente.getText()).isEmpty()
+                || Utilitarios.eliminarEspaciosEnBlanco(txtTelefonoCliente.getText()).isEmpty();
     }
 
-    private boolean camposClienteVacios() {
-        return txtDireccionCliente.getText().trim().isEmpty()
-                || txtNombreCliente.getText().trim().isEmpty()
-                || txtDniRutCliente.getText().trim().isEmpty()
-                || txtTelefonoCliente.getText().trim().isEmpty();
+    private boolean camposConfiguracionDatosEmpresaVacios() {
+        return Utilitarios.eliminarEspaciosEnBlanco(txtRutEmpresa.getText()).isEmpty()
+                || Utilitarios.eliminarEspaciosEnBlanco(txtNombreEmpresa.getText()).isEmpty()
+                || Utilitarios.eliminarEspaciosEnBlanco(txtTelefonoEmpresa.getText()).isEmpty()
+                || Utilitarios.eliminarEspaciosEnBlanco(txtDireccionEmpresa.getText()).isEmpty();
     }
 
     private boolean camposProveedorVacios() {
-        return txtDniRutProveedor.getText().trim().isEmpty()
-                || txtNombreProveedor.getText().trim().isEmpty()
-                || txtTelefonoProveedor.getText().trim().isEmpty()
-                || txtDireccionProveedor.getText().trim().isEmpty();
+        return Utilitarios.eliminarEspaciosEnBlanco(txtDniRutProveedor.getText()).isEmpty()
+                || Utilitarios.eliminarEspaciosEnBlanco(txtNombreProveedor.getText()).isEmpty()
+                || Utilitarios.eliminarEspaciosEnBlanco(txtTelefonoProveedor.getText()).isEmpty()
+                || Utilitarios.eliminarEspaciosEnBlanco(txtDireccionProveedor.getText()).isEmpty();
     }
 
     private boolean camposProductoVacios() {
-        return txtCodigoProducto.getText().trim().isEmpty()
-                || txtDescripcionProducto.getText().trim().isEmpty()
-                || txtPrecioProducto.getText().trim().isEmpty()
+        return Utilitarios.eliminarEspaciosEnBlanco(txtCodigoProducto.getText()).isEmpty()
+                || Utilitarios.eliminarEspaciosEnBlanco(txtDescripcionProducto.getText()).isEmpty()
+                || Utilitarios.eliminarEspaciosEnBlanco(txtPrecioProducto.getText()).isEmpty()
                 || cbxProveedorProducto.getSelectedItem().equals("")
-                || txtCantidadProducto.getText().trim().isEmpty();
+                || Utilitarios.eliminarEspaciosEnBlanco(txtCantidadProducto.getText()).isEmpty();
+    }
+
+    private boolean camposPerfilVacios() {
+        return Arrays.toString(txtPasswordUsuarioActualizarPerfil.getPassword()).isEmpty()
+                || Utilitarios.eliminarEspaciosEnBlanco(txtNombreUsuarioActualizarPerfil.getText()).isEmpty()
+                || Utilitarios.eliminarEspaciosEnBlanco(txtCorreoUsuarioActualizarPerfil.getText()).isEmpty();
     }
 
     // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="Creación de Objetos">
-    private void cargarClienteDesdeFila(int fila) {
-        txtIdCliente.setText(tableClientes.getValueAt(fila, 0).toString());
-        txtDniRutCliente.setText(tableClientes.getValueAt(fila, 1).toString());
-        txtNombreCliente.setText(tableClientes.getValueAt(fila, 2).toString());
-        txtTelefonoCliente.setText(tableClientes.getValueAt(fila, 3).toString());
-        txtDireccionCliente.setText(tableClientes.getValueAt(fila, 4).toString());
-        txtRazonSocialCliente.setText(tableClientes.getValueAt(fila, 5).toString());
-    }
-
-    private void cargarProductoEnFormulario(Producto producto) {
-        txtDescripcionVenta.setText(producto.getNombre());
-        txtPrecioVenta.setText(String.valueOf(producto.getPrecio()));
-        txtStockDisponibleVenta.setText(String.valueOf(producto.getStock()));
-        txtCantidadVenta.requestFocus();
-    }
-
-    private void cargarProveedorDesdeFila(int fila) {
-        txtIdProveedor.setText(tableProveedores.getValueAt(fila, 0).toString());
-        txtDniRutProveedor.setText(tableProveedores.getValueAt(fila, 1).toString());
-        txtNombreProveedor.setText(tableProveedores.getValueAt(fila, 2).toString());
-        txtTelefonoProveedor.setText(tableProveedores.getValueAt(fila, 3).toString());
-        txtDireccionProveedor.setText(tableProveedores.getValueAt(fila, 4).toString());
-        txtRazonSocialProveedor.setText(tableProveedores.getValueAt(fila, 5).toString());
-    }
-
-    private void cargarClienteEnFormulario(Cliente cliente) {
-        txtNombreClienteVenta.setText(cliente.getNombre());
-        txtTelefonoClienteVenta.setText(String.valueOf(cliente.getTelefono()));
-        txtDireccionClienteVenta.setText(cliente.getDireccion());
-        txtRazonSocialClienteVenta.setText(cliente.getRazonSocial());
-    }
-
-    private Cliente crearClienteDesdeFormulario() {
-        return Cliente.builder()
-                .dni(Long.parseLong(txtDniRutCliente.getText().trim()))
-                .nombre(txtNombreCliente.getText().trim())
-                .telefono(Long.parseLong(txtTelefonoCliente.getText().trim()))
-                .direccion(txtDireccionCliente.getText().trim())
-                .razonSocial(txtRazonSocialCliente.getText().trim())
-                .build();
-    }
-
-    private Proveedor crearProveedorDesdeFormulario() {
-        return Proveedor.builder()
-                .rut(Long.parseLong(txtDniRutProveedor.getText().trim()))
-                .nombre(txtNombreProveedor.getText().trim())
-                .telefono(Long.parseLong(txtTelefonoProveedor.getText().trim()))
-                .direccion(txtDireccionProveedor.getText().trim())
-                .razonSocial(txtRazonSocialProveedor.getText().trim())
-                .build();
-    }
-
-    private Producto crearProductoDesdeFormulario() {
-        return Producto.builder()
-                .codigo(txtCodigoProducto.getText().trim())
-                .nombre(txtDescripcionProducto.getText().trim())
-                .proveedor(cbxProveedorProducto.getSelectedItem().toString())
-                .stock(Integer.parseInt(txtCantidadProducto.getText().trim()))
-                .precio(Double.parseDouble(txtPrecioProducto.getText()))
-                .build();
-    }
-    
     private void btnExcelProductoActionPerformed(java.awt.event.ActionEvent evt) {
         Excel.generarReporte();
     }
 
-    private void btnConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {
-        this.txtIdEmpresa.setVisible(false);
-        this.TabbedPane.setSelectedIndex(4);
-        try {
-            this.listarDatosEmpresa();
-        } catch (SQLException ex) {
-            Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
+    private void btnPdfVentasActionPerformed(java.awt.event.ActionEvent evt) {
+        String textIdVenta = Utilitarios.eliminarEspaciosEnBlanco((txtIdVenta.getText()));
+        if (textIdVenta.isEmpty()) {
+            Utilitarios.mostrarMensajeAdvertencia(messages.getString("error.campos.vacios"));
+            return;
         }
-        this.setActiveButton(btnConfiguracion);
-    }
 
-    private void btnActualizarDatosEmpresaActionPerformed(java.awt.event.ActionEvent evt) {
-        if (!"".equals(txtRutEmpresa.getText())
-                || !"".equals(txtNombreEmpresa.getText())
-                || !"".equals(txtTelefonoEmpresa.getText())
-                || !"".equals(txtDireccionEmpresa.getText())) {
+        int idVenta = Integer.parseInt(textIdVenta);
+        File file = new File("src/juan/estevez/sistemaventa/reportes/reporteVenta" + idVenta + ".pdf");
 
+        if (file.exists()) {
             try {
-                configuracionDatosEmpresa.setId(Integer.parseInt(txtIdEmpresa.getText()));
-                configuracionDatosEmpresa.setRut(Long.parseLong(txtRutEmpresa.getText()));
-                configuracionDatosEmpresa.setNombre(txtNombreEmpresa.getText());
-                configuracionDatosEmpresa.setTelefono(Long.parseLong(txtTelefonoEmpresa.getText()));
-                configuracionDatosEmpresa.setDireccion(txtDireccionEmpresa.getText());
-                configuracionDatosEmpresa.setRazonSocial(txtRazonSocialEmpresa.getText());
-
-                configuracionDatosEmpresaServicio.modificarDatosEmpresa(configuracionDatosEmpresa);
-                JOptionPane.showMessageDialog(null, "Datos Actualizados.");
-
-                this.listarDatosEmpresa();
-
-            } catch (SQLException ex) {
-                Logger.getLogger(Sistema.class
-                        .getName()).log(Level.SEVERE, null, ex);
+                Desktop.getDesktop().open(file);
+            } catch (IOException ex) {
+                Utilitarios.mostrarErrorGenerico(ex);
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Algunos campos están vacíos.");
-        }
-    }
-
-    private void tableVentasMouseClicked(java.awt.event.MouseEvent evt) {
-        int filaSeleccionada = tableVentas.rowAtPoint(evt.getPoint());
-        txtIdVenta.setText(tableVentas.getValueAt(filaSeleccionada, 0).toString());
-    }
-
-    private void btnPdfVentasActionPerformed(java.awt.event.ActionEvent evt) {
-        try {
-            if (txtIdVenta.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Debes seleccionar un registro", "Reporte venta",
-                        JOptionPane.WARNING_MESSAGE);
-            } else {
-                int idVenta = Integer.parseInt(txtIdVenta.getText());
-                File file = new File("src/juan/estevez/sistemaventa/reportes/reporteVenta" + idVenta + ".pdf");
-                if (file.exists()) {
-                    Desktop.getDesktop().open(file);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Error al intentar obtener la factura de compra", "Error",
-                            JOptionPane.ERROR_MESSAGE);
-
-                }
-            }
-
-        } catch (IOException ex) {
-            Logger.getLogger(Sistema.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Utilitarios.mostrarMensajeError(messages.getString("error.obtencion.factura.compra"));
         }
     }
 
     private void btnGraficaVentasActionPerformed(java.awt.event.ActionEvent evt) {
+        String fechaReporte = new SimpleDateFormat("dd/MM/yyyy").format(jDateChooserVenta.getDate());
         try {
-            String fechaReporte = new SimpleDateFormat("dd/MM/yyyy").format(jDateChooserVenta.getDate());
             GraficoVentas.graficar(fechaReporte);
-
         } catch (SQLException ex) {
-            Logger.getLogger(Sistema.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Utilitarios.mostrarErrorGenerico(ex);
         }
     }
 
-    private void btnNuevoProductoActionPerformed(java.awt.event.ActionEvent evt) {
-        this.limpiarProducto();
-    }
-
-    private void tableUsuariosMouseClicked(java.awt.event.MouseEvent evt) {
-        int fila = tableUsuarios.rowAtPoint(evt.getPoint());
-        txtIdUsuario.setText(tableUsuarios.getValueAt(fila, 0).toString());
-    }
-
     private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {
-        int pregunta = JOptionPane.showConfirmDialog(null, "¿Seguro que quiere salir?");
+        int pregunta = JOptionPane.showConfirmDialog(null, messages.getString("mensaje.cerrar.sesion"));
         if (pregunta == 0) {
-            Login login = new Login();
-            login.setVisible(true);
+            new Login().setVisible(true);
             this.dispose();
         }
     }
 
     private void btnEliminarVenta1ActionPerformed(java.awt.event.ActionEvent evt) {
-        if (!"".equals(txtIdUsuario.getText())) {
-            int pregunta = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar el registro?");
-            if (pregunta == 0) {
-                try {
-                    usuarioServicio.eliminarUsuario(Integer.parseInt(txtIdUsuario.getText()));
-
-                    this.limpiarTabla();
-                    this.listarUsuarios();
-
-                } catch (SQLException ex) {
-                    Logger.getLogger(Sistema.class
-                            .getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "El usuario no está registrado.");
+        String idUsuario = Utilitarios.eliminarEspaciosEnBlanco(txtIdUsuario.getText());
+        if (idUsuario.isEmpty()) {
+            Utilitarios.mostrarMensajeError(messages.getString("error.usuario.no.registrado"));
+            return;
         }
 
-    }
-
-    private void btnRegistrarUsuario1ActionPerformed(java.awt.event.ActionEvent evt) {
-        RegistroUsuarios registrarUsuario = new RegistroUsuarios();
-        registrarUsuario.setVisible(true);
-        this.dispose();
+        if (Utilitarios.confirmarEliminacion()) {
+            this.usuarioControlador.eliminarUsuario(Integer.parseInt(idUsuario));
+            this.limpiarTabla();
+            this.usuarioControlador.listarUsuarios(tableProductos);
+        }
     }
 
     private void btnActualizarDatosPerfilActionPerformed(java.awt.event.ActionEvent evt) {
-        if (!"".equals(Arrays.toString(txtPasswordUsuarioActualizarPerfil.getPassword()))
-                || !"".equals(txtNombreUsuarioActualizarPerfil.getText())
-                || !"".equals(txtCorreoUsuarioActualizarPerfil.getText())) {
-
-            try {
-                Usuario usuario = new Usuario();
-
-                usuario.setId(idUsuarioLogueado);
-                usuario.setNombre(txtNombreUsuarioActualizarPerfil.getText().trim());
-                usuario.setCorreo(txtCorreoUsuarioActualizarPerfil.getText().trim());
-                usuario.setPassword(Arrays.toString(txtPasswordUsuarioActualizarPerfil.getPassword()).trim());
-
-                usuarioServicio.modificarUsuario(usuario);
-                JOptionPane.showMessageDialog(null, "Datos Actualizados.");
-
-                this.labelVendedor.setText(usuario.getNombre());
-
-            } catch (SQLException ex) {
-                Logger.getLogger(Sistema.class
-                        .getName()).log(Level.SEVERE, null, ex);
-            }
-
-        } else {
-            JOptionPane.showMessageDialog(null, "Algunos campos están vacíos.");
+        if (camposPerfilVacios()) {
+            Utilitarios.mostrarMensajeAdvertencia(messages.getString("error.campos.vacios"));
+            return;
         }
+
+        Usuario usuario = Usuario.builder()
+                .id(idUsuarioLogueado)
+                .nombre(Utilitarios.eliminarEspaciosEnBlanco(txtNombreUsuarioActualizarPerfil.getText()))
+                .correo(Utilitarios.eliminarEspaciosEnBlanco(txtCorreoUsuarioActualizarPerfil.getText()))
+                .password(Utilitarios.eliminarEspaciosEnBlanco(Arrays.toString(txtPasswordUsuarioActualizarPerfil.getPassword())))
+                .build();
+
+        this.usuarioControlador.editarUsuario(usuario);
+        Utilitarios.mostrarMensajeExito(messages.getString("datos.actualizados"));
+        this.labelVendedor.setText(usuario.getNombre());
     }
 
     private void totalPagar() {
-        totalPagar = 0.00;
+        Double totalPagar = 0.00;
         int numeroFilas = tableVenta.getRowCount();
         for (int i = 0; i < numeroFilas; i++) {
             double calcular = Double.parseDouble(String.valueOf(tableVenta.getModel().getValueAt(i, 4)));
@@ -993,19 +867,8 @@ public final class Sistema extends javax.swing.JFrame {
         labelTotalVenta.setText(String.format("%.2f", totalPagar));
     }
 
-    private void registrarVenta() throws SQLException {
-        String clienteTxt = txtNombreClienteVenta.getText().trim();
-        String vendedor = labelVendedor.getText().trim();
-        ventaServicio.registrarVenta(Venta.builder().cliente(clienteTxt).vendedor(vendedor).total(totalPagar).fecha(fechaActual).build());
-    }
-
-    public void iniciarAplicacion() throws SQLException {
+    public void iniciarAplicacion() {
         initComponents();
-        clientes = clienteServicio.getAllClientes();
-        usuarios = usuarioServicio.getAllUsuarios();
-        proveedores = proveedorServicio.getAllProveedores();
-        productos = productoServicio.getAllProductos();
-        ventas = ventaServicio.getAllVentas();
         this.setLocationRelativeTo(null);
         this.txtIdCliente.setVisible(false);
         this.txtIdProductoVenta.setVisible(false);
@@ -1017,7 +880,7 @@ public final class Sistema extends javax.swing.JFrame {
         this.txtIdUsuario.setVisible(false);
         this.txtIdVenta.setVisible(false);
         AutoCompleteDecorator.decorate(cbxProveedorProducto);
-        this.productoServicio.consultarProveedor(cbxProveedorProducto);
+        this.productoControlador.consultarProveedor(cbxProveedorProducto);
     }
 
     private void deshabilitarOpcionesAdministrador() {
@@ -1033,7 +896,6 @@ public final class Sistema extends javax.swing.JFrame {
         this.txtIdUsuario.setEnabled(false);
     }
 
-    // </editor-fold>
     /**
      * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The content of this method is always regenerated by the Form Editor.
      */

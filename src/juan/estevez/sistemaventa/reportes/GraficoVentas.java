@@ -26,7 +26,7 @@ public class GraficoVentas {
      * @throws SQLException si ocurre un error al acceder a la base de datos.
      */
     public static void graficar(String fecha) throws SQLException {
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(SELECT_TOTAL_VENTAS_BY_FECHA)) {
+        try (Connection con = Conexion.getInstance().getConnection(); PreparedStatement pst = con.prepareStatement(SELECT_TOTAL_VENTAS_BY_FECHA)) {
 
             pst.setString(1, fecha);
             try (ResultSet rs = pst.executeQuery()) {

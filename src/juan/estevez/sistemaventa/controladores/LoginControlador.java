@@ -13,9 +13,14 @@ import juan.estevez.sistemaventa.vista.Sistema;
  */
 public class LoginControlador {
 
+    private static LoginControlador instance;
     private final LoginDAO loginDAO;
     private final ResourceBundle messages;
 
+    public static LoginControlador getInstance() {
+        return instance == null ?  new LoginControlador() : instance;
+    }
+    
     public LoginControlador() {
         this.loginDAO = LoginDAO.getInstance();
         this.messages = ResourceBundle.getBundle("juan.estevez.sistemaventa.recursos.messages");

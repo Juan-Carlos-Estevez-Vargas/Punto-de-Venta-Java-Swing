@@ -10,7 +10,16 @@ import juan.estevez.sistemaventa.modelo.ConfiguracionDatosEmpresa;
  */
 public class ConfiguracionDatosEmpresaServicio {
     
-    private final ConfiguracionDatosEmpresaDAO configuracionDatosEmpresaDAO = new ConfiguracionDatosEmpresaDAO();
+    private static ConfiguracionDatosEmpresaServicio instance;
+    private final ConfiguracionDatosEmpresaDAO configuracionDatosEmpresaDAO;
+
+    public static ConfiguracionDatosEmpresaServicio getInstance() {
+        return instance == null ? new ConfiguracionDatosEmpresaServicio() : instance;
+    }
+
+    private ConfiguracionDatosEmpresaServicio() {
+        this.configuracionDatosEmpresaDAO = ConfiguracionDatosEmpresaDAO.getInstance();
+    }
     
     public ConfiguracionDatosEmpresa getDatosEmpresa() throws SQLException {
         return this.configuracionDatosEmpresaDAO.buscarDatosEmpresa();
