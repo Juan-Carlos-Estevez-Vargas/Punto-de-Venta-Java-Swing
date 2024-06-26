@@ -21,7 +21,7 @@ public class ProveedorControlador {
     private static ProveedorControlador instance;
     private final ProveedorServicio proveedorServicio;
     private final ResourceBundle messages;
-    private final List<Proveedor> proveedores;
+    private List<Proveedor> proveedores;
 
     public static ProveedorControlador getInstance() {
         if (instance == null) {
@@ -42,7 +42,8 @@ public class ProveedorControlador {
 
     private List<Proveedor> listarProveedores() {
         try {
-            return this.proveedorServicio.getAllProveedores();
+            this.proveedores = this.proveedorServicio.getAllProveedores();
+            return this.proveedores;
         } catch (SQLException ex) {
             Utilitarios.mostrarMensajeError(messages.getString("error"));
         }
@@ -51,6 +52,7 @@ public class ProveedorControlador {
     }
 
     public void listarProveedores(JTable tableProveedor) {
+        this.listarProveedores();
         tableProveedor.setModel(GUIUtils.listarProveedores(proveedores, (DefaultTableModel) tableProveedor.getModel()));
     }
 

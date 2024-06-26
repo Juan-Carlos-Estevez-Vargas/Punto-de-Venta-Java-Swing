@@ -284,7 +284,6 @@ public class Sistema extends javax.swing.JFrame {
 
     private void btnRegistrarUsuario1ActionPerformed(java.awt.event.ActionEvent evt) {
         new RegistroUsuarios().setVisible(true);
-        this.dispose();
     }
 
     // </editor-fold>
