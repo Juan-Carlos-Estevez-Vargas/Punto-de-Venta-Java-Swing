@@ -216,7 +216,9 @@ public class Login extends JFrame {
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
         String correo = Utilitarios.eliminarEspaciosEnBlanco(txtCorreo.getText());
         String password = Utilitarios.eliminarEspaciosEnBlanco(String.valueOf(txtPassword.getPassword()));
-        loginControlador.validar(correo, password);
+        if(loginControlador.validar(correo, password)) {
+            this.dispose();
+        }
     }//GEN-LAST:event_btnIniciarActionPerformed
 
     public static void main(String args[]) {

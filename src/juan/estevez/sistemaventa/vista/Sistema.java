@@ -629,7 +629,7 @@ public class Sistema extends javax.swing.JFrame {
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Actualización Vistas">
     private void actualizarVistaClientes() {
-        limpiarTabla();
+        this.clienteControlador.limpiarTablaClientes(tableClientes);
         this.clienteControlador.listarClientes(tableClientes);
         limpiarCamposCliente();
     }

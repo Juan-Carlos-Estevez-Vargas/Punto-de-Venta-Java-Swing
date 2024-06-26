@@ -33,12 +33,13 @@ public class LoginControlador {
         this.messages = ResourceBundle.getBundle("juan.estevez.sistemaventa.recursos.messages");
     }
 
-    public void validar(String correo, String password) {
+    public boolean validar(String correo, String password) {
         if (!correo.isEmpty() && !password.isEmpty()) {
             try {
                 Loginn loginn = loginDAO.login(correo, password);
                 if (loginn.getCorreo() != null && loginn.getPassword() != null) {
                     iniciarSistema(loginn);
+                    return true;
                 } else {
                     Utilitarios.mostrarMensajeAdvertencia(messages.getString("credencialesErroneas"));
                 }
@@ -48,6 +49,8 @@ public class LoginControlador {
         } else {
             Utilitarios.mostrarMensajeAdvertencia(messages.getString("mensajeRegistroInvalido"));
         }
+        
+        return false;
     }
 
     private void iniciarSistema(Loginn loginn) throws SQLException {

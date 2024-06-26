@@ -21,7 +21,7 @@ public class ClienteControlador {
     private static ClienteControlador instance;
     private final ClienteServicio clienteServicio;
     private final ResourceBundle messages;
-    private final List<Cliente> clientes;
+    private List<Cliente> clientes;
 
     public static ClienteControlador getInstance() {
        if (instance == null) {
@@ -42,15 +42,22 @@ public class ClienteControlador {
 
     private List<Cliente> listarClientes() {
         try {
-            return this.clienteServicio.getAllClientes();
+            this.clientes = this.clienteServicio.getAllClientes();
+            return this.clientes;
         } catch (SQLException ex) {
             Utilitarios.mostrarMensajeError(messages.getString("error"));
         }
 
         return new ArrayList<>();
     }
+    
+    public void limpiarTablaClientes(JTable tableClientes) {
+        DefaultTableModel model = (DefaultTableModel) tableClientes.getModel();
+        model.setRowCount(0);
+    }
 
     public void listarClientes(JTable tableClientes) {
+        this.listarClientes();
         tableClientes.setModel(GUIUtils.listarClientes(clientes, (DefaultTableModel) tableClientes.getModel()));
     }
 
