@@ -845,7 +845,7 @@ public class Sistema extends javax.swing.JFrame {
                 .id(idUsuarioLogueado)
                 .nombre(Utilitarios.eliminarEspaciosEnBlanco(txtNombreUsuarioActualizarPerfil.getText()))
                 .correo(Utilitarios.eliminarEspaciosEnBlanco(txtCorreoUsuarioActualizarPerfil.getText()))
-                .password(Utilitarios.eliminarEspaciosEnBlanco(Arrays.toString(txtPasswordUsuarioActualizarPerfil.getPassword())))
+                .password(Utilitarios.eliminarEspaciosEnBlanco(String.valueOf(txtPasswordUsuarioActualizarPerfil.getPassword())))
                 .build();
 
         this.usuarioControlador.editarUsuario(usuario);
