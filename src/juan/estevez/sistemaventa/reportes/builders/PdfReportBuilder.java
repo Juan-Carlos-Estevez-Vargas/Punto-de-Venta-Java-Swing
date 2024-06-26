@@ -44,7 +44,7 @@ public class PdfReportBuilder {
         Paragraph fecha = new Paragraph();
         fecha.add(Chunk.NEWLINE);
         LocalDate date = LocalDate.now();
-        fecha.add("Factura N°" + ventaServicio.obtenerIdVenta() + "\n" + "Fecha: " + new SimpleDateFormat("dd-MM-yyyy").format(date) + "\n\n");
+        fecha.add("Factura N° " + ventaServicio.obtenerIdVenta() + "\n" + "Fecha: " + date + "\n\n");
 
         PdfPTable encabezado = new PdfPTable(4);
         encabezado.setWidthPercentage(100);

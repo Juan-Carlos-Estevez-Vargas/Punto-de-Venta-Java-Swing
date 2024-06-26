@@ -89,11 +89,7 @@ public class Login extends JFrame {
                         .addGap(25, 25, 25)
                         .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(labelPassword)
-                            .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLoginLayout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(labelInicio))
-                                .addComponent(labelCorreoElectronico))
+                            .addComponent(labelCorreoElectronico)
                             .addComponent(txtCorreo, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
                             .addComponent(txtPassword)))
                     .addGroup(panelLoginLayout.createSequentialGroup()
@@ -102,6 +98,10 @@ public class Login extends JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnRegistro)))
                 .addContainerGap(28, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLoginLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(labelInicio)
+                .addGap(101, 101, 101))
         );
         panelLoginLayout.setVerticalGroup(
             panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -145,7 +145,7 @@ public class Login extends JFrame {
         labelTituloVersionLogin.setText("Versión :");
 
         labelNumeroVersionLogin.setForeground(new java.awt.Color(204, 204, 204));
-        labelNumeroVersionLogin.setText("1.0 ");
+        labelNumeroVersionLogin.setText("1.1 ");
 
         labelContactoLogin.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         labelContactoLogin.setForeground(new java.awt.Color(204, 204, 204));
@@ -209,7 +209,7 @@ public class Login extends JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroActionPerformed
-        new RegistroUsuarios().setVisible(true);
+        new RegistroUsuarios(false).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegistroActionPerformed
 

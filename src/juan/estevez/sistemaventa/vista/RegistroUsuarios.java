@@ -10,11 +10,13 @@ import juan.estevez.sistemaventa.utils.Utilitarios;
 public class RegistroUsuarios extends javax.swing.JFrame {
 
     private final RegistroUsuariosControlador registroUsuariosControlador;
+    private final boolean esRegistroUsuarios;
 
-    public RegistroUsuarios() {
-        this.registroUsuariosControlador = RegistroUsuariosControlador.getInstance();
+    public RegistroUsuarios(boolean esRegistroUusarios) {
+       this.registroUsuariosControlador = RegistroUsuariosControlador.getInstance();
         initComponents();
         this.setLocationRelativeTo(null);
+        this.esRegistroUsuarios =  esRegistroUusarios;
     }
 
     /**
@@ -166,7 +168,7 @@ public class RegistroUsuarios extends javax.swing.JFrame {
         labelTituloVersionEnRegistrarUsuario.setText("Versión :");
 
         labelNumeroVersionEnRegistrarUsuario.setForeground(new java.awt.Color(204, 204, 204));
-        labelNumeroVersionEnRegistrarUsuario.setText("1.0 ");
+        labelNumeroVersionEnRegistrarUsuario.setText("1.1 ");
 
         labelContactoEnRegistrarUsuario.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         labelContactoEnRegistrarUsuario.setForeground(new java.awt.Color(204, 204, 204));
@@ -232,7 +234,7 @@ public class RegistroUsuarios extends javax.swing.JFrame {
         String nombre = Utilitarios.eliminarEspaciosEnBlanco(txtNombreUsuario.getText());
         String rol = cmbRolUsuario.getSelectedItem().toString();
 
-        if (registroUsuariosControlador.validar(correo, password, nombre, rol)) {
+        if (registroUsuariosControlador.validar(correo, password, nombre, rol, esRegistroUsuarios)) {
             this.dispose();
         }
     }//GEN-LAST:event_btnRegistrarseActionPerformed
@@ -256,7 +258,7 @@ public class RegistroUsuarios extends javax.swing.JFrame {
         }
 
         java.awt.EventQueue.invokeLater(() -> {
-            new RegistroUsuarios().setVisible(true);
+            new RegistroUsuarios(false).setVisible(true);
         });
     }
 

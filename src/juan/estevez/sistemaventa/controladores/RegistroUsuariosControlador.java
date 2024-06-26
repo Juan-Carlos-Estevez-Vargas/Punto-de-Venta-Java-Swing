@@ -33,7 +33,7 @@ public class RegistroUsuariosControlador {
         this.messages = ResourceBundle.getBundle("juan.estevez.sistemaventa.recursos.messages");
     }
 
-    public boolean validar(String correo, String password, String nombre, String rol) {
+    public boolean validar(String correo, String password, String nombre, String rol, boolean esRegistroUsuario) {
         if (!correo.isEmpty() && !password.isEmpty() && !nombre.isEmpty() && !rol.isEmpty()) {
             Loginn loginn = Loginn.builder()
                     .nombre(nombre)
@@ -45,7 +45,9 @@ public class RegistroUsuariosControlador {
             try {
                 loginDAO.registrarUsuario(loginn);
                 Utilitarios.mostrarMensajeExito(messages.getString("mensajeRegistroExitoso"));
-                openLogin();
+                if (!esRegistroUsuario) {
+                    openLogin();
+                }
                 return true;
             } catch (SQLException ex) {
                 Utilitarios.mostrarMensajeError(messages.getString("errorConexionDB"));

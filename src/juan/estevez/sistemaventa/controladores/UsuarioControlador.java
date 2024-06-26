@@ -20,7 +20,7 @@ public class UsuarioControlador {
     private static UsuarioControlador instance;
     private final UsuarioServicio usuarioServicio;
     private final ResourceBundle messages;
-    private final List<Usuario> usuarios;
+    private List<Usuario> usuarios;
 
     public static UsuarioControlador getInstance() {
         if (instance == null) {
@@ -41,7 +41,8 @@ public class UsuarioControlador {
 
     private List<Usuario> listarUsuarios() {
         try {
-            return this.usuarioServicio.getAllUsuarios();
+            this.usuarios = this.usuarioServicio.getAllUsuarios();
+            return this.usuarios;
         } catch (SQLException ex) {
             Utilitarios.mostrarMensajeError(messages.getString("error"));
         }
@@ -50,6 +51,7 @@ public class UsuarioControlador {
     }
 
     public void listarUsuarios(JTable tableProductos) {
+        listarUsuarios();
         tableProductos.setModel(GUIUtils.listarUsuarios(usuarios, (DefaultTableModel) tableProductos.getModel()));
     }
     

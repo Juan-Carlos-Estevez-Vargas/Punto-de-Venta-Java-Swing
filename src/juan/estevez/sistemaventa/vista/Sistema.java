@@ -5,6 +5,7 @@ import java.awt.Desktop;
 import java.awt.HeadlessException;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -46,6 +47,7 @@ public class Sistema extends javax.swing.JFrame {
     public Sistema(Loginn login) {
         this.iniciarAplicacion();
         this.listarDatosEmpresa();
+        this.actualizarVistaVentas();
         TabbedPane.setSelectedIndex(6);
 
         if (login.getRol().equals("Asistente")) {
@@ -285,7 +287,8 @@ public class Sistema extends javax.swing.JFrame {
     }
 
     private void btnRegistrarUsuario1ActionPerformed(java.awt.event.ActionEvent evt) {
-        new RegistroUsuarios().setVisible(true);
+        new RegistroUsuarios(true).setVisible(true);
+        this.actualizarVistaUsuarios();
     }
 
     // </editor-fold>
@@ -374,14 +377,14 @@ public class Sistema extends javax.swing.JFrame {
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Ventas">
     private void btnNuevaVentaActionPerformed(java.awt.event.ActionEvent evt) {
-        actualizarVistaVentas();
         TabbedPane.setSelectedIndex(6);
+        actualizarVistaVentas();
         setActiveButton(this.btnNuevaVenta);
     }
 
     private void btnVentasActionPerformed(java.awt.event.ActionEvent evt) {
-        actualizarVistaVentas();
         TabbedPane.setSelectedIndex(3);
+        actualizarVistaVentas();
         setActiveButton(this.btnVentas);
     }
 
@@ -413,7 +416,7 @@ public class Sistema extends javax.swing.JFrame {
                         txtTelefonoEmpresa.getText(), txtDireccionEmpresa.getText(),
                         txtRazonSocialEmpresa.getText(), txtDniRutVenta.getText(),
                         txtNombreClienteVenta.getText(), txtTelefonoClienteVenta.getText(),
-                        txtDireccionClienteVenta.getText(), tableVenta, 0.0);
+                        txtDireccionClienteVenta.getText(), tableVenta, getTotalAPagar().doubleValue());
                 Utilitarios.limpiarTableVenta(modeloTemporal, tableVenta);
                 this.limpiarClienteVenta();
             } catch (HeadlessException | SQLException | DocumentException | IOException e) {
@@ -423,6 +426,16 @@ public class Sistema extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Debe ingresar al menos un producto");
             this.txtCodigoVenta.requestFocus();
         }
+    }
+
+    private BigDecimal getTotalAPagar() {
+        BigDecimal totalAPagar = BigDecimal.ZERO;
+
+        for (int i = 0; i < tableVenta.getRowCount(); i++) {
+            totalAPagar = totalAPagar.add(new BigDecimal(tableVenta.getValueAt(i, 4).toString()));
+        }
+
+        return totalAPagar;
     }
 
     private void tableVentasMouseClicked(java.awt.event.MouseEvent evt) {
@@ -435,7 +448,7 @@ public class Sistema extends javax.swing.JFrame {
         String vendedor = Utilitarios.eliminarEspaciosEnBlanco(labelVendedor.getText());
         Date fechaVenta = new Date();
         String fechaActual = new SimpleDateFormat("dd/MM/yyyy").format(fechaVenta);
-        this.ventaControlador.registrarVenta(Venta.builder().cliente(clienteTxt).vendedor(vendedor).total(0.0).fecha(fechaActual).build());
+        this.ventaControlador.registrarVenta(Venta.builder().cliente(clienteTxt).vendedor(vendedor).total(getTotalAPagar().doubleValue()).fecha(fechaActual).build());
     }
 
     // </editor-fold>
@@ -656,6 +669,7 @@ public class Sistema extends javax.swing.JFrame {
     private void actualizarVistaVentas() {
         limpiarTabla();
         this.ventaControlador.listarVentas(tableVenta);
+        this.ventaControlador.listarVentas(tableVentas);
         limpiarVenta();
     }
 
@@ -805,7 +819,8 @@ public class Sistema extends javax.swing.JFrame {
     }
 
     private void btnGraficaVentasActionPerformed(java.awt.event.ActionEvent evt) {
-        String fechaReporte = new SimpleDateFormat("dd/MM/yyyy").format(jDateChooserVenta.getDate());
+        Date fechaDateChooser = jDateChooserVenta.getDate();
+        String fechaReporte = new SimpleDateFormat("dd/MM/yyyy").format(fechaDateChooser != null ? fechaDateChooser : new Date());
         try {
             GraficoVentas.graficar(fechaReporte);
         } catch (SQLException ex) {
