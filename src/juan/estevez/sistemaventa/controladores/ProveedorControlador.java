@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import juan.estevez.sistemaventa.modelo.Proveedor;
@@ -54,6 +55,10 @@ public class ProveedorControlador {
     public void listarProveedores(JTable tableProveedor) {
         this.listarProveedores();
         tableProveedor.setModel(GUIUtils.listarProveedores(proveedores, (DefaultTableModel) tableProveedor.getModel()));
+    }
+    
+    public void listarProveedores(JComboBox<String> cbxProveedores) {
+        this.proveedores.forEach(proveedor -> cbxProveedores.addItem(proveedor.getNombre()));
     }
 
     public boolean guardarProveedor(Proveedor proveedor) {

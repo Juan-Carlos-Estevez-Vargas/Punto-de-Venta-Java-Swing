@@ -22,7 +22,7 @@ public class ProductoControlador {
     private static ProductoControlador instance;
     private final ProductoServicio productoServicio;
     private final ResourceBundle messages;
-    private final List<Producto> productos;
+    private List<Producto> productos;
 
     public static ProductoControlador getInstance() {
         if (instance == null) {
@@ -43,7 +43,8 @@ public class ProductoControlador {
 
     private List<Producto> listarProductos() {
         try {
-            return this.productoServicio.getAllProductos();
+            this.productos = this.productoServicio.getAllProductos();
+            return this.productos;
         } catch (SQLException ex) {
             Utilitarios.mostrarMensajeError(messages.getString("error"));
         }
@@ -52,6 +53,7 @@ public class ProductoControlador {
     }
 
     public void listarProductos(JTable tableProductos) {
+        listarProductos();
         tableProductos.setModel(GUIUtils.listarProductos(productos, (DefaultTableModel) tableProductos.getModel()));
     }
 

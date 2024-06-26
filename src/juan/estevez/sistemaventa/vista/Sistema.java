@@ -114,7 +114,9 @@ public class Sistema extends javax.swing.JFrame {
 
         Producto productoModificar = crearProductoDesdeFormulario();
         productoModificar.setId(idProducto);
-        this.productoControlador.editarProducto(productoModificar);
+        if (this.productoControlador.editarProducto(productoModificar)) {
+            this.actualizarVistaProductos();
+        }
     }
 
     private void cargarProductoDesdeFila(int fila) {
@@ -647,6 +649,7 @@ public class Sistema extends javax.swing.JFrame {
     private void actualizarVistaProductos() {
         this.productoControlador.limpiarTablaProductos(tableProductos);
         this.productoControlador.listarProductos(tableProductos);
+        this.proveedorControlador.listarProveedores(cbxProveedorProducto);
         limpiarCamposProducto();
     }
 
